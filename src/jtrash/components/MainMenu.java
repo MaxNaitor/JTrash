@@ -1,11 +1,18 @@
 package jtrash.components;
 
-import javafx.collections.FXCollections;
-import javafx.scene.Group;
+import java.util.Arrays;
+
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.FontWeight;
 import jtrash.components.factories.BackgroundFactory;
+import jtrash.components.factories.BoxFactory;
+import jtrash.components.factories.ButtonFactory;
+import jtrash.components.factories.GridPaneFactory;
+import jtrash.components.factories.TextFactory;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
@@ -24,20 +31,21 @@ public class MainMenu {
 		return instance;
 	}
 
-	public BorderPane getMenu() {
-		BorderPane mainMenu = new BorderPane();
+	public GridPane getMenu() {
+		GridPane mainMenu = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
+				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 
-		Group group = new Group();
+		HBox boxTitolo = BoxFactory.generaBoxOrizzontale(
+				Arrays.asList(TextFactory.generaTesto("JTrash", Color.WHITE, FontWeight.BOLD, 75)));
+		HBox boxSottotitolo = BoxFactory.generaBoxOrizzontale(Arrays.asList(
+				TextFactory.generaTesto("Tiziano Massa - Matricola 2067791", Color.WHITE, FontWeight.THIN, 30)));
+		
+		Button tastoGioca = ButtonFactory.generaTasto("Gioca");
 
-		Button startButton = new Button("START");
-		ChoiceBox<String> utentiChoiceBox = new ChoiceBox<String>(
-				FXCollections.observableArrayList("First", "Second", "Third"));
+		VBox boxVerticale = BoxFactory.generaBoxVerticale(Arrays.asList(boxTitolo, boxSottotitolo,tastoGioca));
 
-		group.getChildren().add(startButton);
-		group.getChildren().add(utentiChoiceBox);
+		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
 
-		mainMenu.setBackground(BackgroundFactory
-				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 		return mainMenu;
 	}
 }
