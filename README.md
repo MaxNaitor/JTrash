@@ -1,0 +1,2 @@
+# JTrash
+University JAVA class
