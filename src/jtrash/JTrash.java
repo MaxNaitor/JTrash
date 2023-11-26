@@ -1,9 +1,9 @@
 package jtrash;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jtrash.components.MainMenu;
+import jtrash.components.factories.SceneFactory;
+import jtrash.components.scenes.MainMenu;
 
 public class JTrash extends Application {
 
@@ -14,8 +14,9 @@ public class JTrash extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("JTrash - Tiziano Massa");
-		Scene scene = new Scene(MainMenu.getInstance().getMenu(), 1080, 720);
-		stage.setScene(scene);
+		SceneFactory sceneFactory = SceneFactory.getInstance();
+		sceneFactory.setStagePrimario(stage);
+		stage.setScene(sceneFactory.creaScena(MainMenu.getInstance().getMenu()));
 		stage.show();
 	}
 

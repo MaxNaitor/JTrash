@@ -6,7 +6,7 @@
  *
  */
 module JTrash {
-	requires javafx.graphics;
+	requires transitive javafx.graphics;
 	requires javafx.controls;
 
 	exports jtrash;

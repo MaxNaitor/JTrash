@@ -1,7 +1,8 @@
 package jtrash.enums;
 
 public enum IMAGES_ENUM {
-	SFONDO_PRINCIPALE("Trash.png");
+	SFONDO_PRINCIPALE("Trash.png"),
+	RETRO_CARTE("retro.png");
 
 	private String nomeImmagine;
 

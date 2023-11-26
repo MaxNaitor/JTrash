@@ -2,7 +2,8 @@ package jtrash.enums;
 
 public enum FOLDERS_ENUM {
 	
-	IMMAGINI("resources/immagini/");
+	IMMAGINI("resources/immagini/"),
+	IMMAGINI_CARTE("resources/immagini/carte/");
 
 	private String folderLocation;
 

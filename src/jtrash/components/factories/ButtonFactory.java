@@ -1,5 +1,6 @@
 package jtrash.components.factories;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -8,9 +9,10 @@ import javafx.scene.input.MouseEvent;
 
 public class ButtonFactory {
 
-	public static Button generaTasto(String testo) {
+	public static Button generaTasto(String testo,EventHandler<ActionEvent> azione) {
 		Button button = new Button(testo);
 		aggiungiEffettiMouseHover(button);
+		button.setOnAction(azione);
 		return button;
 	}
 
