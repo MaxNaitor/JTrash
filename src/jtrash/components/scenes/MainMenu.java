@@ -15,11 +15,9 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.objects.Carta;
+import jtrash.components.objects.Mazzo;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
-import jtrash.enums.SEMI_ENUM;
-import jtrash.enums.VALORI_CARTE_ENUM;
 
 public class MainMenu {
 
@@ -45,7 +43,7 @@ public class MainMenu {
 		HBox boxSottotitolo = BoxFactory.generaBoxOrizzontale(Arrays.asList(
 				TextFactory.generaTesto("Tiziano Massa - Matricola 2067791", Color.WHITE, FontWeight.THIN, 30)));
 		
-		Button tastoGioca = ButtonFactory.generaTasto("Gioca",ActionEventFactory.azioneCambioScena(SceneFactory.getInstance().creaScena(new Carta(SEMI_ENUM.CUORI, VALORI_CARTE_ENUM.ASSO))));
+		Button tastoGioca = ButtonFactory.generaTasto("Gioca",ActionEventFactory.azioneCambioScena(SceneFactory.getInstance().creaScena(new Mazzo())));
 
 		VBox boxVerticale = BoxFactory.generaBoxVerticale(Arrays.asList(boxTitolo, boxSottotitolo,tastoGioca));
 
