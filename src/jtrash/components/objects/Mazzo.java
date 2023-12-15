@@ -88,6 +88,32 @@ public class Mazzo extends CartaAbstract {
 			this.immagineCarta = ImagePatternFactory
 					.generaImmagine(FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + nomeImmagineCarta);
 		}
-
 	}
+
+	public List<Carta> distribuisciMano() {
+		// assegna le carte ai giocatori, prendendo le prime 10 e rimuovendole dalla
+		// lista
+		List<Carta> mano = new ArrayList<>();
+		while (mano.size() < 10) {
+			mano.add(pesca(false));
+		}
+		return mano;
+	}
+
+	public List<Carta> getCarteCoperte() {
+		return carteCoperte;
+	}
+
+	public void setCarteCoperte(List<Carta> carteCoperte) {
+		this.carteCoperte = carteCoperte;
+	}
+
+	public List<Carta> getCarteScoperte() {
+		return carteScoperte;
+	}
+
+	public void setCarteScoperte(List<Carta> carteScoperte) {
+		this.carteScoperte = carteScoperte;
+	}
+
 }

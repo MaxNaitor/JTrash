@@ -25,6 +25,30 @@ public abstract class CartaAbstract extends Parent implements ICarta {
 				FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + IMAGES_ENUM.RETRO_CARTE.getNomeImmagine());
 
 		this.cartaShape.setFill(this.retro);
+	}
+
+	public Rectangle getCartaShape() {
+		return cartaShape;
+	}
+
+	public void setCartaShape(Rectangle cartaShape) {
+		this.cartaShape = cartaShape;
+	}
+
+	public ImagePattern getRetro() {
+		return retro;
+	}
+
+	public void setRetro(ImagePattern retro) {
+		this.retro = retro;
+	}
+
+	public ImagePattern getImmagineCarta() {
+		return immagineCarta;
+	}
+
+	public void setImmagineCarta(ImagePattern immagineCarta) {
+		this.immagineCarta = immagineCarta;
 	};
 
 }

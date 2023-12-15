@@ -1,6 +1,7 @@
 package jtrash.components.objects;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.ImagePatternFactory;
 import jtrash.components.objects.abstractions.CartaAbstract;
 import jtrash.enums.FOLDERS_ENUM;
@@ -24,14 +25,14 @@ public class Carta extends CartaAbstract {
 		getChildren().add(this.cartaShape);
 	}
 
-	public void giraCarta() {
+	public Rectangle giraCarta() {
 		boolean cartaIsCoperta = isCoperta.get();
 
 		if (cartaIsCoperta) {
 			if (this.immagineCarta == null) {
 				String nomeImmagineCarta = this.seme + "_" + this.valore;
 				this.immagineCarta = ImagePatternFactory
-						.generaImmagine(FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + nomeImmagineCarta);
+						.generaImmagine(FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + nomeImmagineCarta + ".png");
 			}
 			// se la carta è coperta, la scopro rivelando l'immagine
 			this.cartaShape.setFill(this.immagineCarta);
@@ -41,6 +42,8 @@ public class Carta extends CartaAbstract {
 		}
 		// aggiorno lo stato della carta
 		this.isCoperta.set(!cartaIsCoperta);
+
+		return getCartaShape();
 	}
 
 	public SEMI_ENUM getSeme() {
