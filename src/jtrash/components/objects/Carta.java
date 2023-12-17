@@ -25,6 +25,13 @@ public class Carta extends CartaAbstract {
 		getChildren().add(this.cartaShape);
 	}
 
+	public Carta() {
+		generaCarta();
+
+		// aggiungo la carta come children di Parent per poterla visualizzare
+		getChildren().add(this.cartaShape);
+	}
+
 	public Rectangle giraCarta() {
 		boolean cartaIsCoperta = isCoperta.get();
 

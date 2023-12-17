@@ -25,9 +25,10 @@ public class Player {
 		return Arrays.asList(primaFila,secondaFila);
 	}
 
-	public Player(List<Carta> carte) {
+	public Player(List<Carta> carte,String nome) {
 		super();
 		this.carte = carte;
+		this.nome = nome;
 	}
 
 	public String getNome() {

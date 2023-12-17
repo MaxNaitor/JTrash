@@ -10,33 +10,41 @@ import javafx.scene.layout.VBox;
 import jtrash.components.objects.Carta;
 
 public class BoxFactory {
-
-	public static HBox generaBoxOrizzontaleNodi(List<Node> nodi) {
+	
+	public static HBox generaBoxOrizzontaleBase() {
 		HBox box = new HBox();
 		box.setSpacing(10);
+		return box;
+	}
+
+	public static HBox generaBoxOrizzontaleNodi(List<Node> nodi) {
+		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(nodi);
 		return box;
 	}
 
 	public static HBox generaBoxOrizzontaleCarte(List<Carta> carte) {
 		List<Button> pulsantiCarte = new ArrayList<>();
-		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTasto("", c, ActionEventFactory.azioneGiraCarta(c))));
-		HBox box = new HBox();
-		box.setSpacing(10);
+		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTasto("", c, ActionEventFactory.azioneSelezionaCarta(c))));
+		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(pulsantiCarte);
+		return box;
+	}
+	
+	public static VBox generaBoxVerticaleBase() {
+		VBox box = new VBox();
+		box.setSpacing(10);
 		return box;
 	}
 
 	public static VBox generaBoxVerticaleNodi(List<Node> nodi) {
-		VBox box = new VBox();
-		box.setSpacing(10);
+		VBox box = generaBoxVerticaleBase();
 		box.getChildren().addAll(nodi);
 		return box;
 	}
 	
 	public static VBox generaBoxVerticaleHbox(List<HBox> boxList) {
-		VBox box = new VBox();
-		box.setSpacing(10);
+		VBox box = generaBoxVerticaleBase();
 		box.getChildren().addAll(boxList);
 		return box;
 	}

@@ -3,7 +3,9 @@ package jtrash.components.factories;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
+import jtrash.components.observables.SelezioneCartaObservable;
 
 public class ActionEventFactory {
 
@@ -24,6 +26,17 @@ public class ActionEventFactory {
 			@Override
 			public void handle(ActionEvent arg0) {
 				carta.giraCarta();
+
+			}
+		};
+	}
+	
+	public static EventHandler<ActionEvent> azioneSelezionaCarta(Carta carta) {
+		return new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				SelezioneCartaObservable.getInstance().aggiornaSelezioneCarta(carta);
 
 			}
 		};

@@ -9,7 +9,7 @@ public class TextFactory {
 
 	public static Text generaTesto(String testo, Color colore, FontWeight fontWeight, int dimensione) {
 		Text text = new Text(testo);
-		text.setFont(Font.font("Consolas", fontWeight, dimensione));
+		if (fontWeight != null) text.setFont(Font.font("Consolas", fontWeight, dimensione));
 		text.setFill(colore);
 		return text;
 	}
