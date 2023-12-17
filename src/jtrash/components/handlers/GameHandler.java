@@ -10,7 +10,7 @@ import jtrash.components.factories.PlayerFactory;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Player;
 
-public class GameHandler implements Observer{
+public class GameHandler implements Observer {
 
 	private static GameHandler instance;
 
@@ -43,12 +43,12 @@ public class GameHandler implements Observer{
 	}
 
 	public Carta getCartaSelezionata() {
-		if (cartaSelezionata == null) {
+		if (this.cartaSelezionata == null) {
 			Carta nessunaCarta = new Carta();
 			nessunaCarta.getCartaShape().setFill(Color.WHITE);
 			return nessunaCarta;
 		}
-		return cartaSelezionata;
+		return this.cartaSelezionata;
 	}
 
 	public void setCartaSelezionata(Carta cartaSelezionata) {
@@ -57,7 +57,7 @@ public class GameHandler implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		cartaSelezionata = (Carta) arg;
+		setCartaSelezionata((Carta) arg);
 		System.out.println("Carta selezionata: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
 	}
 

@@ -25,6 +25,7 @@ public class ActionEventFactory {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				System.out.println("Carta da girare: " + carta.getValore() + " " + carta.getSeme());
 				carta.giraCarta();
 
 			}

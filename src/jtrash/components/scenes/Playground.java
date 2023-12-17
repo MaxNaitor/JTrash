@@ -2,13 +2,16 @@ package jtrash.components.scenes;
 
 import java.util.Arrays;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import jtrash.components.factories.ActionEventFactory;
 import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
+import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.factories.TextFactory;
@@ -85,9 +88,13 @@ public class Playground {
 
 		GridPane actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
+		
 
+		Button tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",ActionEventFactory.azioneGiraCarta(GameHandler.getInstance().getCartaSelezionata()));
 		VBox azioniActionGround = BoxFactory
-				.generaBoxVerticaleNodi(Arrays.asList(CartaSelezionataBox.getInstance().getBox()));
+				.generaBoxVerticaleNodi(Arrays.asList(CartaSelezionataBox.getInstance().getBox(),tastoGiraCarta));
+		
+	
 
 		actionground.getChildren().add(azioniActionGround);
 
