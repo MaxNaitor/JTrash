@@ -86,14 +86,16 @@ public class Playground {
 //		GridPane.setRowIndex(player2, 5);
 //		GridPane.setColumnIndex(player2, 0);
 
+		
+		//TODO gestire come componente singolo, servono vari observable e observer
 		GridPane actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 		
 
-		Button tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",ActionEventFactory.azioneGiraCarta(GameHandler.getInstance().getCartaSelezionata()));
+		Button tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",GameHandler.getInstance().getGiraCartaSelezionataEventHandler());
 		VBox azioniActionGround = BoxFactory
 				.generaBoxVerticaleNodi(Arrays.asList(CartaSelezionataBox.getInstance().getBox(),tastoGiraCarta));
-		
+		//fine TODO gestire come componente singolo, servono vari observable e observer
 	
 
 		actionground.getChildren().add(azioniActionGround);

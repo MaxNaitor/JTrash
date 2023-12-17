@@ -35,7 +35,16 @@ public class CartaSelezionataBox implements Observer {
 		return box;
 	}
 
+	public void setBoxFill(Rectangle box) {
+		this.box.setFill(box.getFill());
+	}
+
 	public void setBox(Rectangle box) {
+		//solo il primo set nel getinstance deve inizializzare il box
+		if (this.box != null) {
+			setBoxFill(box);
+			return;
+		}
 		this.box = box;
 	}
 

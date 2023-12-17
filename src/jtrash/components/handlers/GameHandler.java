@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.objects.Carta;
+import jtrash.components.objects.CartaSelezionataBox;
 import jtrash.components.objects.Player;
 
 public class GameHandler implements Observer {
@@ -28,6 +31,16 @@ public class GameHandler implements Observer {
 	private List<Player> giocatori = new ArrayList<>();
 
 	private Carta cartaSelezionata;
+
+	private EventHandler<ActionEvent> giraCartaSelezionataEventHandler = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			System.out.println("Carta da girare: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
+			cartaSelezionata.giraCarta();
+			CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
+		}
+	};
 
 	public void aggiungiGiocatore(String nome) {
 		giocatori.add(PlayerFactory.creaPlayer(null, nome));
@@ -59,6 +72,10 @@ public class GameHandler implements Observer {
 	public void update(Observable o, Object arg) {
 		setCartaSelezionata((Carta) arg);
 		System.out.println("Carta selezionata: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
+	}
+
+	public EventHandler<ActionEvent> getGiraCartaSelezionataEventHandler() {
+		return giraCartaSelezionataEventHandler;
 	}
 
 }

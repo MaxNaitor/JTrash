@@ -3,7 +3,6 @@ package jtrash.components.factories;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
 import jtrash.components.observables.SelezioneCartaObservable;
 
