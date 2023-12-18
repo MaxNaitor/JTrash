@@ -103,7 +103,7 @@ public class Playground {
 						Arrays.asList(CartaSelezionataBox.getInstance().getBox(),
 								testoCartaSelezionata,
 								tastoGiraCarta,
-								CarteScartateBox.getInstance().getBox(),
+								ButtonFactory.generaTastoSelezioneCarta(CarteScartateBox.getInstance().getCartaDaVisualizzare()),
 								testoCarteScartare,
 								CarteMazzoBox.getInstance().getBox(),
 								testoCarteMazzo));

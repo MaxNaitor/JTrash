@@ -23,9 +23,14 @@ public class BoxFactory {
 		return box;
 	}
 
+	/**
+	 * crea una HBox con le carte disposte in fila,inserendoli come button per abilitarne la selezione
+	 * @param carte
+	 * @return HBox
+	 */
 	public static HBox generaBoxOrizzontaleCarte(List<Carta> carte) {
 		List<Button> pulsantiCarte = new ArrayList<>();
-		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTasto("", c, ActionEventFactory.azioneSelezionaCarta(c))));
+		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTastoSelezioneCarta(c)));
 		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(pulsantiCarte);
 		return box;

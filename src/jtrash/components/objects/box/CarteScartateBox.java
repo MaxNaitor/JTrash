@@ -14,6 +14,7 @@ public class CarteScartateBox implements IboxInterface, Observer {
 
 	private static CarteScartateBox instance;
 
+	private Carta cartaDaVisualizzare;
 	private Rectangle box;
 
 	private CarteScartateBox() {
@@ -31,15 +32,18 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Mazzo mazzo = (Mazzo) arg;
-		Carta cartaDaVisualizzare = null;
 		if (mazzo.getCarteScoperte().isEmpty()) {
-			cartaDaVisualizzare = new Carta();
-			cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
+			resetCartaDaVisualizzare();
 		} else {
 			cartaDaVisualizzare = mazzo.getCarteScoperte().get(mazzo.getCarteScoperte().size() - 1);
 		}
 		box.setFill(cartaDaVisualizzare.getCartaShape().getFill());
 
+	}
+	
+	private void resetCartaDaVisualizzare() {
+		cartaDaVisualizzare = new Carta();
+		cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
 	}
 
 	public Rectangle getBox() {
@@ -53,12 +57,19 @@ public class CarteScartateBox implements IboxInterface, Observer {
 
 	@Override
 	public void setBox(Rectangle box) {
-		//solo il primo set nel getinstance deve inizializzare il box
+		// solo il primo set nel getinstance deve inizializzare il box
 		if (this.box != null) {
 			setBoxFill(box);
 			return;
 		}
 		this.box = box;
+	}
+
+	public Carta getCartaDaVisualizzare() {
+		if (cartaDaVisualizzare == null) {
+			resetCartaDaVisualizzare();
+		}
+		return cartaDaVisualizzare;
 	}
 
 }
