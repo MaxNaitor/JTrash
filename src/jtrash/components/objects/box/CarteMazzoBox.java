@@ -1,16 +1,14 @@
 package jtrash.components.objects.box;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.factories.ImagePatternFactory;
 import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
-import jtrash.enums.FOLDERS_ENUM;
-import jtrash.enums.IMAGES_ENUM;
 
 @SuppressWarnings("deprecation")
 public class CarteMazzoBox implements IboxInterface, Observer {
@@ -18,6 +16,8 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 	private static CarteMazzoBox instance;
 
 	private Rectangle box;
+	
+	private Carta cartaInCima;
 
 	private CarteMazzoBox() {
 
@@ -25,10 +25,10 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 
 	public static CarteMazzoBox getInstance() {
 		if (instance == null) {
+			List<Carta> carteCoperte = GameHandler.getInstance().getMazzo().getCarteCoperte();
 			instance = new CarteMazzoBox();
-			instance.setBox(GameHandler.getInstance().getCartaSelezionata().getCartaShape());
-			instance.box.setFill(ImagePatternFactory.generaImmagine(
-					FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + IMAGES_ENUM.RETRO_CARTE.getNomeImmagine()));
+			instance.cartaInCima = carteCoperte.get(carteCoperte.size() - 1);
+			instance.setBox(instance.cartaInCima.getCartaShape());
 		}
 		return instance;
 	}
@@ -40,7 +40,10 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 			Carta cartaDaVisualizzare = new Carta();
 			cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
 			box.setFill(cartaDaVisualizzare.getCartaShape().getFill());
-		} 
+		}  else {
+			instance.cartaInCima = mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1);
+			instance.setBox(instance.cartaInCima.getCartaShape());
+		}
 		
 	}
 

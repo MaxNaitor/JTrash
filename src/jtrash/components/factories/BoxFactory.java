@@ -30,7 +30,7 @@ public class BoxFactory {
 	 */
 	public static HBox generaBoxOrizzontaleCarte(List<Carta> carte) {
 		List<Button> pulsantiCarte = new ArrayList<>();
-		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTastoSelezioneCarta(c)));
+		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTastoSelezioneCarta(c,true)));
 		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(pulsantiCarte);
 		return box;

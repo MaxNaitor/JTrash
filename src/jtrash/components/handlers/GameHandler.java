@@ -13,6 +13,8 @@ import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
 import jtrash.components.objects.Player;
 import jtrash.components.objects.box.CartaSelezionataBox;
+import jtrash.components.objects.box.CarteMazzoBox;
+import jtrash.components.objects.box.CarteScartateBox;
 
 @SuppressWarnings("deprecation")
 public class GameHandler implements Observer {
@@ -20,12 +22,12 @@ public class GameHandler implements Observer {
 	private static GameHandler instance;
 
 	private GameHandler() {
-
 	}
 
 	public static GameHandler getInstance() {
 		if (instance == null) {
 			instance = new GameHandler();
+			
 		}
 		return instance;
 	}
@@ -44,6 +46,30 @@ public class GameHandler implements Observer {
 				cartaSelezionata.giraCarta();
 			}
 			CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
+		}
+	};
+
+	private EventHandler<ActionEvent> pescaCartaEventHandler = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			if (!mazzo.getCarteCoperte().isEmpty()) {
+				mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1).giraCarta();
+				// TODO evento per bloccarte il tasto pesca e attivare il tasto scarta
+			}
+		}
+	};
+
+	private EventHandler<ActionEvent> scartaCartaPescataEventHandler = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			if (!mazzo.getCarteCoperte().isEmpty()) {
+				mazzo.getCarteScoperte().add(mazzo.getCarteCoperte().remove(mazzo.getCarteCoperte().size() - 1));
+				//TODO evento che aggiorna i box delle carte mazzo e scoperte
+				CarteMazzoBox.getInstance().update(null, mazzo);
+				CarteScartateBox.getInstance().update(null, mazzo);
+			}
 		}
 	};
 
@@ -76,11 +102,22 @@ public class GameHandler implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		setCartaSelezionata((Carta) arg);
-		System.out.println("Carta selezionata: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
 	}
 
 	public EventHandler<ActionEvent> getGiraCartaSelezionataEventHandler() {
 		return giraCartaSelezionataEventHandler;
+	}
+
+	public EventHandler<ActionEvent> getPescaCartaEventHandler() {
+		return pescaCartaEventHandler;
+	}
+
+	public EventHandler<ActionEvent> getScartaCartaPescataEventHandler() {
+		return scartaCartaPescataEventHandler;
+	}
+
+	public void setPescaCartaEventHandler(EventHandler<ActionEvent> pescaCartaEventHandler) {
+		this.pescaCartaEventHandler = pescaCartaEventHandler;
 	}
 
 	public Mazzo getMazzo() {

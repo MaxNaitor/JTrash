@@ -32,12 +32,14 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Mazzo mazzo = (Mazzo) arg;
+		System.out.println("carte scoperte " + mazzo.getCarteScoperte().size());
 		if (mazzo.getCarteScoperte().isEmpty()) {
 			resetCartaDaVisualizzare();
 		} else {
-			cartaDaVisualizzare = mazzo.getCarteScoperte().get(mazzo.getCarteScoperte().size() - 1);
+			instance.cartaDaVisualizzare = mazzo.getCarteScoperte().get(mazzo.getCarteScoperte().size() - 1);
+			System.out.println("carta scartata: " + this.cartaDaVisualizzare.getSeme() + " " + this.cartaDaVisualizzare.getValore());
 		}
-		box.setFill(cartaDaVisualizzare.getCartaShape().getFill());
+		instance.setBox(instance.cartaDaVisualizzare.getCartaShape());
 
 	}
 	

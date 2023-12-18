@@ -98,15 +98,25 @@ public class Playground {
 		
 		Text testoCarteScartare = TextFactory.generaTesto("Carte scartate", Color.WHITE, null, 0);
 		Text testoCarteMazzo = TextFactory.generaTesto("Mazzo", Color.WHITE, null, 0);
+		
+		Button pescaCarta = ButtonFactory.generaTasto("Pesca carta",gameHandler.getPescaCartaEventHandler());
+		Button posizionaCarta = ButtonFactory.generaTasto("Posiziona carta",gameHandler.getGiraCartaSelezionataEventHandler());
+		Button scartaCarta = ButtonFactory.generaTasto("Scarta carta",gameHandler.getScartaCartaPescataEventHandler());
+		Button posizionaCartaJolly = ButtonFactory.generaTasto("Posiziona Jolly carta",gameHandler.getGiraCartaSelezionataEventHandler());
+		
 		VBox azioniActionGround = BoxFactory
 				.generaBoxVerticaleNodi(
 						Arrays.asList(CartaSelezionataBox.getInstance().getBox(),
 								testoCartaSelezionata,
 								tastoGiraCarta,
-								ButtonFactory.generaTastoSelezioneCarta(CarteScartateBox.getInstance().getCartaDaVisualizzare()),
+								ButtonFactory.generaTastoSelezioneCarta(CarteScartateBox.getInstance().getCartaDaVisualizzare(),false),
 								testoCarteScartare,
 								CarteMazzoBox.getInstance().getBox(),
-								testoCarteMazzo));
+								testoCarteMazzo,
+								pescaCarta,
+								posizionaCarta,
+								scartaCarta,
+								posizionaCartaJolly));
 		//fine TODO gestire come componente singolo, servono vari observable e observer
 	
 

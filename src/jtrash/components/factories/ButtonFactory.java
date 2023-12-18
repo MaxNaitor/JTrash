@@ -25,10 +25,11 @@ public class ButtonFactory {
 		return button;
 	}
 	
-	public static Button generaTastoSelezioneCarta(Carta carta) {
+	public static Button generaTastoSelezioneCarta(Carta carta,boolean disabilita) {
 		Button button = new Button("",carta);
 		aggiungiEffettiMouseHover(button);
 		button.setOnAction(ActionEventFactory.azioneSelezionaCarta(carta));
+		button.setDisable(disabilita);
 		return button;
 	}
 	
