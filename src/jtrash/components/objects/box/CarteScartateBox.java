@@ -24,7 +24,9 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	public static CarteScartateBox getInstance() {
 		if (instance == null) {
 			instance = new CarteScartateBox();
-			instance.setBox(GameHandler.getInstance().getCartaSelezionata().getCartaShape());
+			instance.cartaDaVisualizzare = new Carta();
+			instance.cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
+			instance.setBox(instance.cartaDaVisualizzare.getCartaShape());
 		}
 		return instance;
 	}
@@ -37,9 +39,12 @@ public class CarteScartateBox implements IboxInterface, Observer {
 			resetCartaDaVisualizzare();
 		} else {
 			instance.cartaDaVisualizzare = mazzo.getCarteScoperte().get(mazzo.getCarteScoperte().size() - 1);
+			if (cartaDaVisualizzare.isCoperta()) {
+				cartaDaVisualizzare.giraCarta();
+			}
 			System.out.println("carta scartata: " + this.cartaDaVisualizzare.getSeme() + " " + this.cartaDaVisualizzare.getValore());
 		}
-		instance.setBox(instance.cartaDaVisualizzare.getCartaShape());
+		instance.setBoxFill(instance.cartaDaVisualizzare.getCartaShape());
 
 	}
 	
@@ -68,10 +73,10 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	}
 
 	public Carta getCartaDaVisualizzare() {
-		if (cartaDaVisualizzare == null) {
+		if (instance.cartaDaVisualizzare == null) {
 			resetCartaDaVisualizzare();
 		}
-		return cartaDaVisualizzare;
+		return instance.cartaDaVisualizzare;
 	}
 
 }

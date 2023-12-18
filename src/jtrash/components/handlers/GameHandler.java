@@ -54,7 +54,9 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (!mazzo.getCarteCoperte().isEmpty()) {
-				mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1).giraCarta();
+				Carta ultimaCarta = mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1);
+				ultimaCarta.giraCarta();
+				System.out.println("carta pescata: " + ultimaCarta.getSeme() + " " + ultimaCarta.getValore());
 				// TODO evento per bloccarte il tasto pesca e attivare il tasto scarta
 			}
 		}
@@ -65,7 +67,11 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (!mazzo.getCarteCoperte().isEmpty()) {
-				mazzo.getCarteScoperte().add(mazzo.getCarteCoperte().remove(mazzo.getCarteCoperte().size() - 1));
+				Carta ultimaCarta = mazzo.getCarteCoperte().remove(mazzo.getCarteCoperte().size() - 1);
+				if (ultimaCarta.isCoperta()) {
+					ultimaCarta.giraCarta();
+				}
+				mazzo.getCarteScoperte().add(ultimaCarta);
 				//TODO evento che aggiorna i box delle carte mazzo e scoperte
 				CarteMazzoBox.getInstance().update(null, mazzo);
 				CarteScartateBox.getInstance().update(null, mazzo);
