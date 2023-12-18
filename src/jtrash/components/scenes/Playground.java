@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import jtrash.components.factories.ActionEventFactory;
+import javafx.scene.text.Text;
 import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
@@ -16,9 +16,11 @@ import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.CartaSelezionataBox;
 import jtrash.components.objects.Mazzo;
 import jtrash.components.objects.Player;
+import jtrash.components.objects.box.CartaSelezionataBox;
+import jtrash.components.objects.box.CarteMazzoBox;
+import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
@@ -36,8 +38,6 @@ public class Playground {
 		}
 		return instance;
 	}
-
-	private Mazzo mazzo;
 
 //	public GridPane getPlayground() {
 //		mazzo = new Mazzo();
@@ -61,19 +61,20 @@ public class Playground {
 //	}
 
 	public HBox getPlayground() {
-		mazzo = new Mazzo();
+		
+		GameHandler gameHandler = GameHandler.getInstance();
 
 		GridPane playground = GridPaneFactory.generaGridPane(BackgroundFactory
 				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 
 		switch (GameHandler.getInstance().getGiocatori().size()) {
 		case 2:
-			Player player1 = GameHandler.getInstance().getGiocatori().get(0);
-			player1.setCarte(mazzo.distribuisciMano());
+			Player player1 = gameHandler.getGiocatori().get(0);
+			player1.setCarte(gameHandler.getMazzo().distribuisciMano());
 			VBox boxPlayer1 = PlayerFactory.generaCampoPlayer(player1);
 			boxPlayer1.getChildren().add(TextFactory.generaTesto(player1.getNome(), Color.WHITE, null, 0));
-			Player player2 = GameHandler.getInstance().getGiocatori().get(0);
-			player2.setCarte(mazzo.distribuisciMano());
+			Player player2 = gameHandler.getGiocatori().get(0);
+			player2.setCarte(gameHandler.getMazzo().distribuisciMano());
 			VBox boxPlayer2 = PlayerFactory.generaCampoPlayer(player2);
 			boxPlayer2.getChildren().add(TextFactory.generaTesto(player2.getNome(), Color.WHITE, null, 0));
 			playground.add(boxPlayer1, 15, 5); // cosa aggiungere, left-margin,top margin
@@ -92,13 +93,24 @@ public class Playground {
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 		
 
-		Button tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",GameHandler.getInstance().getGiraCartaSelezionataEventHandler());
+		Text testoCartaSelezionata = TextFactory.generaTesto("Carta selezionata", Color.WHITE, null, 0);
+		Button tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",gameHandler.getGiraCartaSelezionataEventHandler());
+		
+		Text testoCarteScartare = TextFactory.generaTesto("Carte scartate", Color.WHITE, null, 0);
+		Text testoCarteMazzo = TextFactory.generaTesto("Mazzo", Color.WHITE, null, 0);
 		VBox azioniActionGround = BoxFactory
-				.generaBoxVerticaleNodi(Arrays.asList(CartaSelezionataBox.getInstance().getBox(),tastoGiraCarta));
+				.generaBoxVerticaleNodi(
+						Arrays.asList(CartaSelezionataBox.getInstance().getBox(),
+								testoCartaSelezionata,
+								tastoGiraCarta,
+								CarteScartateBox.getInstance().getBox(),
+								testoCarteScartare,
+								CarteMazzoBox.getInstance().getBox(),
+								testoCarteMazzo));
 		//fine TODO gestire come componente singolo, servono vari observable e observer
 	
 
-		actionground.getChildren().add(azioniActionGround);
+		actionground.add(azioniActionGround,0,1);
 
 		HBox box = BoxFactory.generaBoxOrizzontaleNodi(Arrays.asList(playground, actionground));
 		HBox.setHgrow(playground, Priority.ALWAYS);

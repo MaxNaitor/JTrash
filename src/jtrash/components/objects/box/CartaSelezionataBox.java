@@ -1,12 +1,14 @@
-package jtrash.components.objects;
+package jtrash.components.objects.box;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.shape.Rectangle;
 import jtrash.components.handlers.GameHandler;
+import jtrash.components.objects.Carta;
 
-public class CartaSelezionataBox implements Observer {
+@SuppressWarnings("deprecation")
+public class CartaSelezionataBox implements IboxInterface, Observer {
 
 	private static CartaSelezionataBox instance;
 
@@ -35,10 +37,12 @@ public class CartaSelezionataBox implements Observer {
 		return box;
 	}
 
+	@Override
 	public void setBoxFill(Rectangle box) {
 		this.box.setFill(box.getFill());
 	}
 
+	@Override
 	public void setBox(Rectangle box) {
 		//solo il primo set nel getinstance deve inizializzare il box
 		if (this.box != null) {

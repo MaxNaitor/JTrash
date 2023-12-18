@@ -4,7 +4,7 @@ import java.util.Observable;
 
 import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
-import jtrash.components.objects.CartaSelezionataBox;
+import jtrash.components.objects.box.CartaSelezionataBox;
 
 public class SelezioneCartaObservable extends Observable{
 

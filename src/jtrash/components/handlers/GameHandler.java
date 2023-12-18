@@ -10,9 +10,11 @@ import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.objects.Carta;
-import jtrash.components.objects.CartaSelezionataBox;
+import jtrash.components.objects.Mazzo;
 import jtrash.components.objects.Player;
+import jtrash.components.objects.box.CartaSelezionataBox;
 
+@SuppressWarnings("deprecation")
 public class GameHandler implements Observer {
 
 	private static GameHandler instance;
@@ -31,13 +33,16 @@ public class GameHandler implements Observer {
 	private List<Player> giocatori = new ArrayList<>();
 
 	private Carta cartaSelezionata;
+	private Mazzo mazzo = new Mazzo();
 
 	private EventHandler<ActionEvent> giraCartaSelezionataEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			System.out.println("Carta da girare: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
-			cartaSelezionata.giraCarta();
+			if (cartaSelezionata.isCoperta()) {
+				cartaSelezionata.giraCarta();
+			}
 			CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
 		}
 	};
@@ -76,6 +81,14 @@ public class GameHandler implements Observer {
 
 	public EventHandler<ActionEvent> getGiraCartaSelezionataEventHandler() {
 		return giraCartaSelezionataEventHandler;
+	}
+
+	public Mazzo getMazzo() {
+		return mazzo;
+	}
+
+	public void setMazzo(Mazzo mazzo) {
+		this.mazzo = mazzo;
 	}
 
 }
