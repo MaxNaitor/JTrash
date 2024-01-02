@@ -2,7 +2,10 @@ package jtrash.components.scenes;
 
 import java.util.Arrays;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -47,7 +50,9 @@ public class Actionground {
 
 	private static Button posizionaCarta;
 	private static Button scartaCarta;
+	
 	private static Button posizionaWildcard;
+	private static ComboBox<Integer> selettorePosizioneWildcard;
 
 	private static VBox azioniActionGround;
 
@@ -73,9 +78,16 @@ public class Actionground {
 
 		posizionaCarta = ButtonFactory.generaTasto("Posiziona carta", gameHandler.getPosizionaCartaEventHandler());
 		posizionaCarta.setDisable(true); // all'inizio, non posso posizionare carte
+		
 		posizionaWildcard = ButtonFactory.generaTasto("Posiziona Wildcard",
-				gameHandler.getPosizionaCartaEventHandler());
+				gameHandler.getPosizionaWildcardEventHandler());
 		posizionaWildcard.setDisable(true);
+		
+		ObservableList<Integer> posizioni = FXCollections.observableArrayList(
+                1,2,3,4,5,6,7,8,9,10
+        );
+		selettorePosizioneWildcard = new ComboBox<>(posizioni);
+		selettorePosizioneWildcard.setDisable(true);
 
 		scartaCarta = ButtonFactory.generaTasto("Scarta carta", gameHandler.getScartaCartaPescataEventHandler());
 		scartaCarta.setDisable(true); // all'inizio, non posso scartare carte
@@ -85,7 +97,7 @@ public class Actionground {
 //								tastoGiraCarta,
 						CarteScartateBox.getInstance().getBox(), testoCarteScartare,
 						CarteMazzoBox.getInstance().getBox(), testoCarteMazzo, pescaCartaMazzo, pescaCartaScartata,
-						posizionaCarta, scartaCarta, posizionaWildcard));
+						posizionaCarta, scartaCarta, posizionaWildcard, selettorePosizioneWildcard));
 
 		actionground.add(azioniActionGround, 0, 1);
 	}
@@ -113,19 +125,23 @@ public class Actionground {
 			case RE:
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(false);
+				selettorePosizioneWildcard.setDisable(false);
 				break;
 			case REGINA:
 			case JACK:
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(true);
+				selettorePosizioneWildcard.setDisable(true);
 				break;
 			default:
 				posizionaCarta.setDisable(false);
 				posizionaWildcard.setDisable(true);
+				selettorePosizioneWildcard.setDisable(true);
 			}
 		} else {
 			posizionaCarta.setDisable(true);
 			posizionaWildcard.setDisable(true);
+			selettorePosizioneWildcard.setDisable(true);
 		}
 	}
 
@@ -140,6 +156,10 @@ public class Actionground {
 		} else {
 			pescaCartaScartata.setDisable(true);
 		}
+	}
+	
+	public int getPosizioneWildcardSelezionata() {
+		return selettorePosizioneWildcard.getValue() - 1;
 	}
 
 }

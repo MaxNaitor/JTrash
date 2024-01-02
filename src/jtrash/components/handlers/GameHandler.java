@@ -46,33 +46,56 @@ public class GameHandler implements Observer {
 
 		@Override
 		public void handle(ActionEvent arg0) {
-			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)
-					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.RE)
-					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.REGINA)
-					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JACK)) {
-				int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaSelezionata.getValore());
-				List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
-				int indexDaSostituire = valoreCarta - 1;
+			int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaSelezionata.getValore());
+			List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
+			int indexDaSostituire = valoreCarta - 1;
 
-				Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-				carteGiocatore.set(indexDaSostituire, cartaSelezionata);
+			Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+			carteGiocatore.set(indexDaSostituire, cartaSelezionata);
 
-				mazzo.getCarteScoperte().add(cartaDaSostituire);
+			mazzo.getCarteScoperte().add(cartaDaSostituire);
 
-				cartaSelezionata = null;
+			cartaSelezionata = null;
 
-				CarteScartateBox.getInstance().update(null, mazzo);
-				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+			CarteScartateBox.getInstance().update(null, mazzo);
+			CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
-				Playground.getInstance().updatePlayground(false);
+			Playground.getInstance().updatePlayground(false);
 
-				Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
-				Actionground.getInstance().setEnablePescaCarta(true);
-				Actionground.getInstance().setEnableScartaCarta(false);
-				Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
+			Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
+			Actionground.getInstance().setEnablePescaCarta(true);
+			Actionground.getInstance().setEnableScartaCarta(false);
+			Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
 
-				handleTurno();
-			}
+			handleTurno();
+		}
+	};
+
+	private EventHandler<ActionEvent> posizionaWildcardEventHandler = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
+			int indexDaSostituire = Actionground.getInstance().getPosizioneWildcardSelezionata();
+
+			Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+			carteGiocatore.set(indexDaSostituire, cartaSelezionata);
+
+			mazzo.getCarteScoperte().add(cartaDaSostituire);
+
+			cartaSelezionata = null;
+
+			CarteScartateBox.getInstance().update(null, mazzo);
+			CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+
+			Playground.getInstance().updatePlayground(false);
+
+			Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
+			Actionground.getInstance().setEnablePescaCarta(true);
+			Actionground.getInstance().setEnableScartaCarta(false);
+			Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
+
+			handleTurno();
 		}
 	};
 
@@ -235,6 +258,10 @@ public class GameHandler implements Observer {
 
 	public Player getGiocatoreDiTurno() {
 		return giocatoreDiTurno;
+	}
+
+	public EventHandler<ActionEvent> getPosizionaWildcardEventHandler() {
+		return posizionaWildcardEventHandler;
 	}
 
 }
