@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
@@ -64,6 +65,12 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 			return;
 		}
 		this.box = box;
+	}
+
+	@Override
+	public void setBoxFill(Paint fill) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

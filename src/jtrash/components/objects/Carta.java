@@ -48,7 +48,7 @@ public class Carta extends CartaAbstract {
 			this.cartaShape.setFill(this.retro);
 		}
 		// aggiorno lo stato della carta
-		this.isCoperta.set(!cartaIsCoperta);
+		this.isCoperta.set(false);
 
 		return getCartaShape();
 	}

@@ -81,13 +81,6 @@ public class Playground {
 			playground.add(boxPlayer2, 15, 15);
 		}
 
-//		GridPane.setRowIndex(player1, 0);
-//		GridPane.setColumnIndex(player1, 0);
-//		
-//		GridPane.setRowIndex(player2, 5);
-//		GridPane.setColumnIndex(player2, 0);
-
-		
 		//TODO gestire come componente singolo, servono vari observable e observer
 		GridPane actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));

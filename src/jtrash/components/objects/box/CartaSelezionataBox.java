@@ -3,6 +3,7 @@ package jtrash.components.objects.box;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
@@ -50,6 +51,11 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 			return;
 		}
 		this.box = box;
+	}
+
+	@Override
+	public void setBoxFill(Paint fill) {
+		this.box.setFill(fill);
 	}
 
 }
