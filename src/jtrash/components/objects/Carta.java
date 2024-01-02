@@ -64,5 +64,9 @@ public class Carta extends CartaAbstract {
 	public boolean isCoperta() {
 		return isCoperta.get();
 	}
+	
+	public boolean isWildcard() {
+		return valore.equals(VALORI_CARTE_ENUM.RE) || valore.equals(VALORI_CARTE_ENUM.JOLLY);
+	}
 
 }

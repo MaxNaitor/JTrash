@@ -51,7 +51,7 @@ public class Mazzo extends CartaAbstract {
 		// se ho ancora carte, rimuovo dal mazzo la prima e la ritorno,
 		// altrimenti ritorno null
 		if (pescaCartaScoperta) {
-			cartaPescata = this.carteScoperte.isEmpty() ? null : this.carteScoperte.remove(this.carteScoperte.size()-1);
+			cartaPescata = this.carteScoperte.isEmpty() ? null : getPrimaCartaScoperta(true);
 			aggiornaMazzoScoperto(cartaPescata);
 		} else {
 			cartaPescata = this.carteCoperte.isEmpty() ? null : this.carteCoperte.remove(0);
@@ -59,6 +59,14 @@ public class Mazzo extends CartaAbstract {
 		}
 
 		return cartaPescata;
+	}
+	
+	public Carta getPrimaCartaScoperta(boolean rimuoviCarta) {
+		if (rimuoviCarta) {
+			return this.carteScoperte.remove(this.carteScoperte.size()-1);
+		} else {
+			return this.carteScoperte.get(this.carteScoperte.size()-1);
+		}
 	}
 
 	public void aggiungiCartaScoperta(Carta carta) {

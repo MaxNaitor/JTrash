@@ -62,7 +62,7 @@ public class Actionground {
 		actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 
-		giocatoreDiTurno = TextFactory.generaTesto("Turno di " + gameHandler.getGiocatoreDiTurno().getNome(),
+		giocatoreDiTurno = TextFactory.generaTesto("Turno di giocatore",
 				Color.WHITE, FontWeight.BOLD, 20);
 
 		testoCartaSelezionata = TextFactory.generaTesto("Carta selezionata", Color.WHITE);
