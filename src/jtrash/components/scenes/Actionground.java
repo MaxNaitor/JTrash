@@ -22,6 +22,7 @@ import jtrash.enums.IMAGES_ENUM;
 public class Actionground {
 	
 	private static Actionground instance;
+	private static GameHandler gameHandler;
 	
 	public static Actionground getInstance() {
 		if (instance == null) {
@@ -34,7 +35,7 @@ public class Actionground {
 	
 
 	private static Text testoCartaSelezionata;
-	private static Button tastoGiraCarta;
+//	private static Button tastoGiraCarta;
 	
 	private static Text testoCarteScartare;
 	private static Text testoCarteMazzo;
@@ -54,7 +55,7 @@ public class Actionground {
 		
 
 		testoCartaSelezionata = TextFactory.generaTesto("Carta selezionata", Color.WHITE, null, 0);
-		tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",gameHandler.getGiraCartaSelezionataEventHandler());
+//		tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",gameHandler.getGiraCartaSelezionataEventHandler());
 		
 		testoCarteScartare = TextFactory.generaTesto("Carte scartate", Color.WHITE, null, 0);
 		testoCarteMazzo = TextFactory.generaTesto("Mazzo", Color.WHITE, null, 0);
@@ -68,7 +69,7 @@ public class Actionground {
 				.generaBoxVerticaleNodi(
 						Arrays.asList(CartaSelezionataBox.getInstance().getBox(),
 								testoCartaSelezionata,
-								tastoGiraCarta,
+//								tastoGiraCarta,
 								CarteScartateBox.getInstance().getBox(),
 								testoCarteScartare,
 								CarteMazzoBox.getInstance().getBox(),
@@ -84,4 +85,12 @@ public class Actionground {
 	public GridPane getActionground() {
 		return actionground;
 	}
+	
+	public void setEnablePescaCarta(boolean canPescareCarta) {
+		pescaCarta.setDisable(!canPescareCarta);
+	}
+	public void setEnableScartaCarta(boolean canScartareCarta) {
+		scartaCarta.setDisable(!canScartareCarta);
+	}
+
 }

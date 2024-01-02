@@ -15,6 +15,7 @@ import jtrash.components.objects.Player;
 import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
+import jtrash.components.scenes.Actionground;
 
 @SuppressWarnings("deprecation")
 public class GameHandler implements Observer {
@@ -27,7 +28,7 @@ public class GameHandler implements Observer {
 	public static GameHandler getInstance() {
 		if (instance == null) {
 			instance = new GameHandler();
-			
+
 		}
 		return instance;
 	}
@@ -59,12 +60,15 @@ public class GameHandler implements Observer {
 				cartaSelezionata = cartaPescata;
 				cartaSelezionata.giraCarta();
 				CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
-				// TODO evento per bloccarte il tasto pesca e attivare il tasto scarta
+				
+				//non utilizzo observable altrimenti si crea una dipendenza ciclica tra gamehandler e actionground
+				Actionground.getInstance().setEnablePescaCarta(false); 
+				Actionground.getInstance().setEnableScartaCarta(true); 
 			}
 		}
 	};
 
-	private EventHandler<ActionEvent> scartaCartaPescataEventHandler = new EventHandler<ActionEvent>() {
+	private EventHandler<ActionEvent> scartaCartaEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent arg0) {
@@ -72,10 +76,12 @@ public class GameHandler implements Observer {
 				Carta cartaScartata = cartaSelezionata;
 				mazzo.getCarteScoperte().add(cartaScartata);
 				cartaSelezionata = null;
-				//TODO evento che aggiorna i box delle carte mazzo e scoperte
+				// TODO evento che aggiorna i box delle carte mazzo e scoperte
 				CarteMazzoBox.getInstance().update(null, mazzo);
 				CarteScartateBox.getInstance().update(null, mazzo);
 				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+				Actionground.getInstance().setEnablePescaCarta(true);
+				Actionground.getInstance().setEnableScartaCarta(false); 
 			}
 		}
 	};
@@ -120,7 +126,7 @@ public class GameHandler implements Observer {
 	}
 
 	public EventHandler<ActionEvent> getScartaCartaPescataEventHandler() {
-		return scartaCartaPescataEventHandler;
+		return scartaCartaEventHandler;
 	}
 
 	public void setPescaCartaEventHandler(EventHandler<ActionEvent> pescaCartaEventHandler) {
