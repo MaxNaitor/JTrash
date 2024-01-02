@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import javafx.scene.paint.Color;
 import jtrash.components.factories.ImagePatternFactory;
 import jtrash.components.objects.abstractions.CartaAbstract;
+import jtrash.components.scenes.Actionground;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.SEMI_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
@@ -51,7 +52,7 @@ public class Mazzo extends CartaAbstract {
 		// se ho ancora carte, rimuovo dal mazzo la prima e la ritorno,
 		// altrimenti ritorno null
 		if (pescaCartaScoperta) {
-			cartaPescata = this.carteScoperte.isEmpty() ? null : this.carteScoperte.remove(0);
+			cartaPescata = this.carteScoperte.isEmpty() ? null : this.carteScoperte.remove(this.carteScoperte.size()-1);
 			aggiornaMazzoScoperto(cartaPescata);
 		} else {
 			cartaPescata = this.carteCoperte.isEmpty() ? null : this.carteCoperte.remove(0);

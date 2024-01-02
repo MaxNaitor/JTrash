@@ -16,6 +16,7 @@ import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.components.scenes.Actionground;
+import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
 public class GameHandler implements Observer {
@@ -38,32 +39,48 @@ public class GameHandler implements Observer {
 	private Carta cartaSelezionata;
 	private Mazzo mazzo = new Mazzo();
 
-	private EventHandler<ActionEvent> giraCartaSelezionataEventHandler = new EventHandler<ActionEvent>() {
+	private EventHandler<ActionEvent> posizionaCartaEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent arg0) {
-			System.out.println("Carta da girare: " + cartaSelezionata.getValore() + " " + cartaSelezionata.getSeme());
-			if (cartaSelezionata.isCoperta()) {
-				cartaSelezionata.giraCarta();
+			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)) {
+				//
 			}
-			CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
 		}
 	};
 
-	private EventHandler<ActionEvent> pescaCartaEventHandler = new EventHandler<ActionEvent>() {
+	private EventHandler<ActionEvent> pescaCartaMazzoEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (!mazzo.getCarteCoperte().isEmpty()) {
 				Carta cartaPescata = mazzo.pesca(false);
-				System.out.println("carta pescata: " + cartaPescata.getSeme() + " " + cartaPescata.getValore());
 				cartaSelezionata = cartaPescata;
 				cartaSelezionata.giraCarta();
 				CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
-				
-				//non utilizzo observable altrimenti si crea una dipendenza ciclica tra gamehandler e actionground
-				Actionground.getInstance().setEnablePescaCarta(false); 
-				Actionground.getInstance().setEnableScartaCarta(true); 
+
+				// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
+				// gamehandler e actionground
+				Actionground.getInstance().setEnablePescaCarta(false);
+				Actionground.getInstance().setEnableScartaCarta(true);
+			}
+		}
+	};
+
+	private EventHandler<ActionEvent> pescaCartaScartataEventHandler = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			if (!mazzo.getCarteScoperte().isEmpty()) {
+				Carta cartaPescata = mazzo.pesca(true);
+				cartaSelezionata = cartaPescata;
+				CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
+				CarteScartateBox.getInstance().update(null, mazzo);
+
+				// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
+				// gamehandler e actionground
+				Actionground.getInstance().setEnablePescaCarta(false);
+				Actionground.getInstance().setEnableScartaCarta(true);
 			}
 		}
 	};
@@ -76,12 +93,13 @@ public class GameHandler implements Observer {
 				Carta cartaScartata = cartaSelezionata;
 				mazzo.getCarteScoperte().add(cartaScartata);
 				cartaSelezionata = null;
-				// TODO evento che aggiorna i box delle carte mazzo e scoperte
+
+				// non utilizzo observable altrimenti si crea una dipendenza ciclica
 				CarteMazzoBox.getInstance().update(null, mazzo);
 				CarteScartateBox.getInstance().update(null, mazzo);
 				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 				Actionground.getInstance().setEnablePescaCarta(true);
-				Actionground.getInstance().setEnableScartaCarta(false); 
+				Actionground.getInstance().setEnableScartaCarta(false);
 			}
 		}
 	};
@@ -117,12 +135,8 @@ public class GameHandler implements Observer {
 		setCartaSelezionata((Carta) arg);
 	}
 
-	public EventHandler<ActionEvent> getGiraCartaSelezionataEventHandler() {
-		return giraCartaSelezionataEventHandler;
-	}
-
 	public EventHandler<ActionEvent> getPescaCartaEventHandler() {
-		return pescaCartaEventHandler;
+		return pescaCartaMazzoEventHandler;
 	}
 
 	public EventHandler<ActionEvent> getScartaCartaPescataEventHandler() {
@@ -130,7 +144,23 @@ public class GameHandler implements Observer {
 	}
 
 	public void setPescaCartaEventHandler(EventHandler<ActionEvent> pescaCartaEventHandler) {
-		this.pescaCartaEventHandler = pescaCartaEventHandler;
+		this.pescaCartaMazzoEventHandler = pescaCartaEventHandler;
+	}
+
+	public EventHandler<ActionEvent> getPosizionaCartaEventHandler() {
+		return posizionaCartaEventHandler;
+	}
+
+	public void setPosizionaCartaEventHandler(EventHandler<ActionEvent> posizionaCartaEventHandler) {
+		this.posizionaCartaEventHandler = posizionaCartaEventHandler;
+	}
+
+	public EventHandler<ActionEvent> getPescaCartaScartataEventHandler() {
+		return pescaCartaScartataEventHandler;
+	}
+
+	public void setPescaCartaScartataEventHandler(EventHandler<ActionEvent> pescaCartaScartataEventHandler) {
+		this.pescaCartaScartataEventHandler = pescaCartaScartataEventHandler;
 	}
 
 	public Mazzo getMazzo() {

@@ -40,7 +40,9 @@ public class Actionground {
 	private static Text testoCarteScartare;
 	private static Text testoCarteMazzo;
 	
-	private static Button pescaCarta;
+	private static Button pescaCartaMazzo;
+	private static Button pescaCartaScartata;
+	
 	private static Button posizionaCarta;
 	private static Button scartaCarta;
 	private static Button posizionaCartaJolly;
@@ -60,10 +62,13 @@ public class Actionground {
 		testoCarteScartare = TextFactory.generaTesto("Carte scartate", Color.WHITE, null, 0);
 		testoCarteMazzo = TextFactory.generaTesto("Mazzo", Color.WHITE, null, 0);
 		
-		pescaCarta = ButtonFactory.generaTasto("Pesca carta",gameHandler.getPescaCartaEventHandler());
-		posizionaCarta = ButtonFactory.generaTasto("Posiziona carta",gameHandler.getGiraCartaSelezionataEventHandler());
+		pescaCartaMazzo = ButtonFactory.generaTasto("Pesca carta dal mazzo",gameHandler.getPescaCartaEventHandler());
+		pescaCartaScartata = ButtonFactory.generaTasto("Pesca carta scartata",gameHandler.getPescaCartaScartataEventHandler());
+		pescaCartaScartata.setDisable(true); //all'inizio, non posso pescare carte scartate, visto che non ce ne sono
+		
+		posizionaCarta = ButtonFactory.generaTasto("Posiziona carta",gameHandler.getPosizionaCartaEventHandler());
 		scartaCarta = ButtonFactory.generaTasto("Scarta carta",gameHandler.getScartaCartaPescataEventHandler());
-		posizionaCartaJolly = ButtonFactory.generaTasto("Posiziona Jolly carta",gameHandler.getGiraCartaSelezionataEventHandler());
+		posizionaCartaJolly = ButtonFactory.generaTasto("Posiziona Jolly carta",gameHandler.getPosizionaCartaEventHandler());
 		
 		azioniActionGround = BoxFactory
 				.generaBoxVerticaleNodi(
@@ -74,7 +79,8 @@ public class Actionground {
 								testoCarteScartare,
 								CarteMazzoBox.getInstance().getBox(),
 								testoCarteMazzo,
-								pescaCarta,
+								pescaCartaMazzo,
+								pescaCartaScartata,
 								posizionaCarta,
 								scartaCarta,
 								posizionaCartaJolly));
@@ -87,7 +93,8 @@ public class Actionground {
 	}
 	
 	public void setEnablePescaCarta(boolean canPescareCarta) {
-		pescaCarta.setDisable(!canPescareCarta);
+		pescaCartaMazzo.setDisable(!canPescareCarta);
+		pescaCartaScartata.setDisable(!canPescareCarta);
 	}
 	public void setEnableScartaCarta(boolean canScartareCarta) {
 		scartaCarta.setDisable(!canScartareCarta);
