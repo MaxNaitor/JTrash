@@ -50,7 +50,7 @@ public class GameHandler implements Observer {
 			handleTurno();
 		}
 	};
-	
+
 	private void posizionaCarta(Carta carta) {
 		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(carta.getValore());
 		int indexDaSostituire = valoreCarta - 1;
@@ -78,29 +78,32 @@ public class GameHandler implements Observer {
 
 		@Override
 		public void handle(ActionEvent arg0) {
-			List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
-			int indexDaSostituire = Actionground.getInstance().getPosizioneWildcardSelezionata();
-
-			Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-			carteGiocatore.set(indexDaSostituire, cartaSelezionata);
-
-			mazzo.getCarteScoperte().add(cartaDaSostituire);
-
-			cartaSelezionata = null;
-
-			CarteScartateBox.getInstance().update(null, mazzo);
-			CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
-
-			Playground.getInstance().updatePlayground(false);
-
-			Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
-			Actionground.getInstance().setEnablePescaCarta(true);
-			Actionground.getInstance().setEnableScartaCarta(false);
-			Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
-
+			posizionaWildCard(cartaSelezionata, null);
 			handleTurno();
 		}
 	};
+
+	private void posizionaWildCard(Carta carta, Integer index) {
+		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
+		int indexDaSostituire = index != null ? index : Actionground.getInstance().getPosizioneWildcardSelezionata();
+
+		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+		carteGiocatore.set(indexDaSostituire, carta);
+
+		mazzo.getCarteScoperte().add(cartaDaSostituire);
+
+		cartaSelezionata = null;
+
+		CarteScartateBox.getInstance().update(null, mazzo);
+		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+
+		Playground.getInstance().updatePlayground(false);
+
+		Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
+		Actionground.getInstance().setEnablePescaCarta(true);
+		Actionground.getInstance().setEnableScartaCarta(false);
+		Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
+	}
 
 	private EventHandler<ActionEvent> pescaCartaMazzoEventHandler = new EventHandler<ActionEvent>() {
 
@@ -112,7 +115,7 @@ public class GameHandler implements Observer {
 		}
 
 	};
-	
+
 	private EventHandler<ActionEvent> pescaCartaScartataEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
@@ -122,14 +125,16 @@ public class GameHandler implements Observer {
 			}
 		}
 	};
-	
+
 	private Carta pescaCarta(boolean pescaCartaScoperta) {
 		Carta cartaPescata = mazzo.pesca(pescaCartaScoperta);
 		cartaSelezionata = cartaPescata;
-		if (!pescaCartaScoperta) cartaSelezionata.giraCarta();
+		if (!pescaCartaScoperta)
+			cartaSelezionata.giraCarta();
 
 		CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
-		if (pescaCartaScoperta) CarteScartateBox.getInstance().update(null, mazzo);
+		if (pescaCartaScoperta)
+			CarteScartateBox.getInstance().update(null, mazzo);
 
 		// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
 		// gamehandler e actionground
@@ -145,22 +150,26 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (!mazzo.getCarteCoperte().isEmpty()) {
-				Carta cartaScartata = cartaSelezionata;
-				mazzo.getCarteScoperte().add(cartaScartata);
-				cartaSelezionata = null;
-
-				// non utilizzo observable altrimenti si crea una dipendenza ciclica
-				CarteMazzoBox.getInstance().update(null, mazzo);
-				CarteScartateBox.getInstance().update(null, mazzo);
-				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
-
-				Actionground.getInstance().handlePescaCartaScartata(cartaScartata);
-				Actionground.getInstance().setEnablePescaCarta(true);
-				Actionground.getInstance().setEnableScartaCarta(false);
+				scartaCarta(cartaSelezionata);
 				handleTurno();
 			}
 		}
+
 	};
+	
+	private void scartaCarta(Carta carta) {
+		mazzo.getCarteScoperte().add(carta);
+		cartaSelezionata = null;
+
+		// non utilizzo observable altrimenti si crea una dipendenza ciclica
+		CarteMazzoBox.getInstance().update(null, mazzo);
+		CarteScartateBox.getInstance().update(null, mazzo);
+		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+
+		Actionground.getInstance().handlePescaCartaScartata(carta);
+		Actionground.getInstance().setEnablePescaCarta(true);
+		Actionground.getInstance().setEnableScartaCarta(false);
+	}
 
 	public void aggiungiGiocatore(String nome) {
 		giocatori.add(PlayerFactory.creaPlayer(null, nome));
@@ -195,72 +204,74 @@ public class GameHandler implements Observer {
 				}
 			}
 			Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
-			
+
 			if (giocatoreDiTurno.getNome().contains("BOT")) {
 				turnoBot();
 			}
 		}
 
 	}
-	
+
 	private void turnoBot() {
-		//controllo prima le carte scoperte
+		// controllo prima le carte scoperte
 		Carta primaCartaScoperta = mazzo.getPrimaCartaScoperta(false);
-		
+
 		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(primaCartaScoperta.getValore());
 		int indexDaSostituire = valoreCarta - 1;
-		
+
 		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-		
-		//TODO gestione wildcards
-		if (!primaCartaScoperta.isWildcard()) {
-			if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-				//se la carta è ancora coperta o è una wildcard,allora la sostituisco
-				posizionaCarta(pescaCarta(true));
-				handleTurno();
-				return;
-			}
-		} else {
-			//TODO
-			handleWildcardBot();
-			if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-				//se la carta è ancora coperta o è una wildcard,allora la sostituisco
-				posizionaCarta(pescaCarta(true));
-				handleTurno();
-				return;
-			}
-		}
-		
-		Carta cartaPescata = pescaCarta(false);
-		valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaPescata.getValore());
-		indexDaSostituire = valoreCarta - 1;
-		
-		cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-		
-		if (!cartaPescata.isWildcard()) {
-			if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-				//se la carta è ancora coperta o è una wildcard,allora la sostituisco
-				posizionaCarta(cartaPescata);
-				handleTurno();
-				return;
-			}
-		} else {
-			//TODO
-			handleWildcardBot();
-			if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-				//se la carta è ancora coperta o è una wildcard,allora la sostituisco
-				posizionaCarta(cartaPescata);
-				handleTurno();
-				return;
+
+		if (primaCartaScoperta.isPosizionabile()) {
+			if (!primaCartaScoperta.isWildcard()) {
+				if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
+					// se la carta è ancora coperta o è una wildcard,allora la sostituisco
+					posizionaCarta(pescaCarta(true));
+					handleTurno();
+					return;
+				}
+			} else {
+				if (posizionaWildcardBot(primaCartaScoperta)) {
+					handleTurno();
+					return;
+				}
 			}
 		}
 
-		
+		Carta cartaPescata = pescaCarta(false);
+		valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaPescata.getValore());
+		indexDaSostituire = valoreCarta - 1;
+
+		cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+
+		if (cartaPescata.isPosizionabile()) {
+			if (!cartaPescata.isWildcard()) {
+				if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
+					// se la carta è ancora coperta o è una wildcard,allora la sostituisco
+					posizionaCarta(cartaPescata);
+					handleTurno();
+					return;
+				}
+			} else {
+				if (posizionaWildcardBot(cartaPescata)) {
+					handleTurno();
+					return;
+				}
+			}
+		}
+		scartaCarta(cartaPescata);
+		handleTurno();
 	}
-	
-	private void handleWildcardBot() {
-		
+
+	private boolean posizionaWildcardBot(Carta cartaDaPosizionare) {
+		for (int i = 0; i < giocatoreDiTurno.getCarte().size(); i++) {
+			Carta cartaGiocatore = giocatoreDiTurno.getCarte().get(i);
+			if (cartaGiocatore.isCoperta()) {
+				posizionaWildCard(cartaDaPosizionare, i);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Carta getCartaSelezionata() {

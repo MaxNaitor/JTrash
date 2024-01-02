@@ -68,5 +68,9 @@ public class Carta extends CartaAbstract {
 	public boolean isWildcard() {
 		return valore.equals(VALORI_CARTE_ENUM.RE) || valore.equals(VALORI_CARTE_ENUM.JOLLY);
 	}
+	
+	public boolean isPosizionabile() {
+		return !valore.equals(VALORI_CARTE_ENUM.REGINA) && !valore.equals(VALORI_CARTE_ENUM.JACK);
+	}
 
 }
