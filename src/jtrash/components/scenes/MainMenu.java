@@ -41,14 +41,15 @@ public class MainMenu {
 				Arrays.asList(TextFactory.generaTesto("JTrash", Color.WHITE, FontWeight.BOLD, 75)));
 		HBox boxSottotitolo = BoxFactory.generaBoxOrizzontaleNodi(Arrays.asList(
 				TextFactory.generaTesto("Tiziano Massa - Matricola 2067791", Color.WHITE, FontWeight.THIN, 30)));
-		
-		Button tastoGioca = ButtonFactory.generaTasto("Gioca",ActionEventFactory.azioneCambioScena(SceneFactory.getInstance().creaScena(Playground.getInstance().getPlayground())));
 
-		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo,tastoGioca));
+		Button tastoGioca = ButtonFactory.generaTasto("Gioca", ActionEventFactory
+				.azioneCambioScena(SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco())));
+
+		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo, tastoGioca));
 
 		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
 
 		return mainMenu;
 	}
-	
+
 }
