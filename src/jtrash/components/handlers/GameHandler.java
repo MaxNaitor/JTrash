@@ -16,6 +16,7 @@ import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.components.scenes.Actionground;
+import jtrash.components.scenes.Gioco;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
@@ -39,12 +40,15 @@ public class GameHandler implements Observer {
 	private Carta cartaSelezionata;
 	private Mazzo mazzo = new Mazzo();
 
+	private Player giocatoreDiTurno;
+
 	private EventHandler<ActionEvent> posizionaCartaEventHandler = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)) {
 				//
+				handleTurno();
 			}
 		}
 	};
@@ -100,6 +104,7 @@ public class GameHandler implements Observer {
 				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 				Actionground.getInstance().setEnablePescaCarta(true);
 				Actionground.getInstance().setEnableScartaCarta(false);
+				handleTurno();
 			}
 		}
 	};
@@ -115,6 +120,32 @@ public class GameHandler implements Observer {
 		}
 
 		return giocatori;
+	}
+
+	public void handleTurno() {
+		if (giocatoreDiTurno == null) {
+			giocatoreDiTurno = getGiocatori().get(0);
+		} else {
+			boolean giocatoreDiTurnoSuperato = false;
+			boolean giocatoreDiTurnoCambiato = false;
+			for (Player giocatore : getGiocatori()) {
+
+				if (giocatoreDiTurnoSuperato) {
+					giocatoreDiTurno = giocatore;
+					giocatoreDiTurnoCambiato = true;
+					break;
+				}
+
+				if (giocatore.getNome().equals(giocatoreDiTurno.getNome())) {
+					giocatoreDiTurnoSuperato = true;
+					continue;
+				}
+			}
+			if (!giocatoreDiTurnoCambiato) {
+				giocatoreDiTurno = getGiocatori().get(0);
+			}
+		}
+		Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
 	}
 
 	public Carta getCartaSelezionata() {
@@ -169,6 +200,10 @@ public class GameHandler implements Observer {
 
 	public void setMazzo(Mazzo mazzo) {
 		this.mazzo = mazzo;
+	}
+
+	public Player getGiocatoreDiTurno() {
+		return giocatoreDiTurno;
 	}
 
 }

@@ -7,10 +7,15 @@ import javafx.scene.text.Text;
 
 public class TextFactory {
 
-	public static Text generaTesto(String testo, Color colore, FontWeight fontWeight, int dimensione) {
+	public static Text generaTesto(String testo, Color colore) {
 		Text text = new Text(testo);
-		if (fontWeight != null) text.setFont(Font.font("Consolas", fontWeight, dimensione));
 		text.setFill(colore);
+		return text;
+	}
+
+	public static Text generaTesto(String testo, Color colore, FontWeight fontWeight, int dimensione) {
+		Text text = generaTesto(testo, colore);
+		text.setFont(Font.font("Consolas", fontWeight, dimensione));
 		return text;
 	}
 }
