@@ -14,11 +14,13 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.handlers.GameHandler;
+import jtrash.components.objects.Carta;
 import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
+import jtrash.enums.VALORI_CARTE_ENUM;
 
 public class Actionground {
 
@@ -45,7 +47,7 @@ public class Actionground {
 
 	private static Button posizionaCarta;
 	private static Button scartaCarta;
-	private static Button posizionaCartaJolly;
+	private static Button posizionaWildcard;
 
 	private static VBox azioniActionGround;
 
@@ -70,18 +72,20 @@ public class Actionground {
 		pescaCartaScartata.setDisable(true); // all'inizio, non posso pescare carte scartate, visto che non ce ne sono
 
 		posizionaCarta = ButtonFactory.generaTasto("Posiziona carta", gameHandler.getPosizionaCartaEventHandler());
+		posizionaCarta.setDisable(true); // all'inizio, non posso posizionare carte
+		posizionaWildcard = ButtonFactory.generaTasto("Posiziona Wildcard",
+				gameHandler.getPosizionaCartaEventHandler());
+		posizionaWildcard.setDisable(true);
+
 		scartaCarta = ButtonFactory.generaTasto("Scarta carta", gameHandler.getScartaCartaPescataEventHandler());
 		scartaCarta.setDisable(true); // all'inizio, non posso scartare carte
-
-		posizionaCartaJolly = ButtonFactory.generaTasto("Posiziona Jolly carta",
-				gameHandler.getPosizionaCartaEventHandler());
 
 		azioniActionGround = BoxFactory.generaBoxVerticaleNodi(
 				Arrays.asList(giocatoreDiTurno, CartaSelezionataBox.getInstance().getBox(), testoCartaSelezionata,
 //								tastoGiraCarta,
 						CarteScartateBox.getInstance().getBox(), testoCarteScartare,
 						CarteMazzoBox.getInstance().getBox(), testoCarteMazzo, pescaCartaMazzo, pescaCartaScartata,
-						posizionaCarta, scartaCarta, posizionaCartaJolly));
+						posizionaCarta, scartaCarta, posizionaWildcard));
 
 		actionground.add(azioniActionGround, 0, 1);
 	}
@@ -92,7 +96,6 @@ public class Actionground {
 
 	public void setEnablePescaCarta(boolean canPescareCarta) {
 		pescaCartaMazzo.setDisable(!canPescareCarta);
-		pescaCartaScartata.setDisable(!canPescareCarta);
 	}
 
 	public void setEnableScartaCarta(boolean canScartareCarta) {
@@ -101,6 +104,42 @@ public class Actionground {
 
 	public void handleTurno(String nomeGiocatoreDiTurno) {
 		giocatoreDiTurno.setText("Turno di " + nomeGiocatoreDiTurno);
+	}
+
+	public void handlePosizionaCarta(Carta cartaSelezionata) {
+		if (cartaSelezionata != null) {
+			switch (cartaSelezionata.getValore()) {
+			case JOLLY:
+			case RE:
+				posizionaCarta.setDisable(true);
+				posizionaWildcard.setDisable(false);
+				break;
+			case REGINA:
+			case JACK:
+				posizionaCarta.setDisable(true);
+				posizionaWildcard.setDisable(true);
+				break;
+			default:
+				posizionaCarta.setDisable(false);
+				posizionaWildcard.setDisable(true);
+			}
+		} else {
+			posizionaCarta.setDisable(true);
+			posizionaWildcard.setDisable(true);
+		}
+	}
+
+	public void handlePescaCartaScartata(Carta cartaScartata) {
+		if (cartaScartata != null) {
+			if (cartaScartata.getValore().equals(VALORI_CARTE_ENUM.REGINA)
+					|| cartaScartata.getValore().equals(VALORI_CARTE_ENUM.JACK)) {
+				pescaCartaScartata.setDisable(true);
+			} else {
+				pescaCartaScartata.setDisable(false);
+			}
+		} else {
+			pescaCartaScartata.setDisable(true);
+		}
 	}
 
 }

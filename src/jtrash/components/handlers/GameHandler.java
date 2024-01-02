@@ -46,22 +46,31 @@ public class GameHandler implements Observer {
 
 		@Override
 		public void handle(ActionEvent arg0) {
-			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)) {
+			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)
+					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.RE)
+					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.REGINA)
+					&& !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JACK)) {
 				int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaSelezionata.getValore());
 				List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 				int indexDaSostituire = valoreCarta - 1;
-				
+
 				Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
 				carteGiocatore.set(indexDaSostituire, cartaSelezionata);
-				
+
 				mazzo.getCarteScoperte().add(cartaDaSostituire);
-				CarteScartateBox.getInstance().update(null, mazzo);
+
 				cartaSelezionata = null;
+
+				CarteScartateBox.getInstance().update(null, mazzo);
 				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
-				
+
 				Playground.getInstance().updatePlayground(false);
+
+				Actionground.getInstance().handlePescaCartaScartata(cartaDaSostituire);
 				Actionground.getInstance().setEnablePescaCarta(true);
 				Actionground.getInstance().setEnableScartaCarta(false);
+				Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
+
 				handleTurno();
 			}
 		}
@@ -75,10 +84,13 @@ public class GameHandler implements Observer {
 				Carta cartaPescata = mazzo.pesca(false);
 				cartaSelezionata = cartaPescata;
 				cartaSelezionata.giraCarta();
+
 				CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
 
 				// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
 				// gamehandler e actionground
+				Actionground.getInstance().handlePosizionaCarta(cartaPescata);
+				Actionground.getInstance().handlePescaCartaScartata(null);
 				Actionground.getInstance().setEnablePescaCarta(false);
 				Actionground.getInstance().setEnableScartaCarta(true);
 			}
@@ -92,11 +104,14 @@ public class GameHandler implements Observer {
 			if (!mazzo.getCarteScoperte().isEmpty()) {
 				Carta cartaPescata = mazzo.pesca(true);
 				cartaSelezionata = cartaPescata;
+
 				CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
 				CarteScartateBox.getInstance().update(null, mazzo);
 
 				// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
 				// gamehandler e actionground
+				Actionground.getInstance().handlePosizionaCarta(cartaPescata);
+				Actionground.getInstance().handlePescaCartaScartata(null);
 				Actionground.getInstance().setEnablePescaCarta(false);
 				Actionground.getInstance().setEnableScartaCarta(true);
 			}
@@ -116,13 +131,14 @@ public class GameHandler implements Observer {
 				CarteMazzoBox.getInstance().update(null, mazzo);
 				CarteScartateBox.getInstance().update(null, mazzo);
 				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+
+				Actionground.getInstance().handlePescaCartaScartata(cartaScartata);
 				Actionground.getInstance().setEnablePescaCarta(true);
 				Actionground.getInstance().setEnableScartaCarta(false);
 				handleTurno();
 			}
 		}
 	};
-
 
 	public void aggiungiGiocatore(String nome) {
 		giocatori.add(PlayerFactory.creaPlayer(null, nome));
