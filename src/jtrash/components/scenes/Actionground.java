@@ -23,7 +23,6 @@ import jtrash.enums.IMAGES_ENUM;
 public class Actionground {
 
 	private static Actionground instance;
-	private static GameHandler gameHandler;
 
 	public static Actionground getInstance() {
 		if (instance == null) {

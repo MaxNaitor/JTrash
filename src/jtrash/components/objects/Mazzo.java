@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import javafx.scene.paint.Color;
 import jtrash.components.factories.ImagePatternFactory;
 import jtrash.components.objects.abstractions.CartaAbstract;
-import jtrash.components.scenes.Actionground;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.SEMI_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;

@@ -16,7 +16,7 @@ import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.components.scenes.Actionground;
-import jtrash.components.scenes.Gioco;
+import jtrash.components.scenes.Playground;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
@@ -47,7 +47,21 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			if (cartaSelezionata != null && !cartaSelezionata.getValore().equals(VALORI_CARTE_ENUM.JOLLY)) {
-				//
+				int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaSelezionata.getValore());
+				List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
+				int indexDaSostituire = valoreCarta - 1;
+				
+				Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+				carteGiocatore.set(indexDaSostituire, cartaSelezionata);
+				
+				mazzo.getCarteScoperte().add(cartaDaSostituire);
+				CarteScartateBox.getInstance().update(null, mazzo);
+				cartaSelezionata = null;
+				CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+				
+				Playground.getInstance().updatePlayground(false);
+				Actionground.getInstance().setEnablePescaCarta(true);
+				Actionground.getInstance().setEnableScartaCarta(false);
 				handleTurno();
 			}
 		}
@@ -108,6 +122,7 @@ public class GameHandler implements Observer {
 			}
 		}
 	};
+
 
 	public void aggiungiGiocatore(String nome) {
 		giocatori.add(PlayerFactory.creaPlayer(null, nome));
