@@ -12,6 +12,8 @@ public class Player {
 
 	private boolean hasTrash;
 
+	private boolean isBot = true;
+
 	private List<Carta> carte;
 
 	public List<HBox> distribuisciCarteSulTavolo() {
@@ -55,6 +57,14 @@ public class Player {
 
 	public void setHasTrash(boolean hasTrash) {
 		this.hasTrash = hasTrash;
+	}
+
+	public boolean isBot() {
+		return isBot;
+	}
+
+	public void setBot(boolean isBot) {
+		this.isBot = isBot;
 	}
 
 }

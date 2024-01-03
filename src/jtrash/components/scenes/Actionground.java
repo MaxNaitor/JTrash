@@ -18,6 +18,7 @@ import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
+import jtrash.components.objects.Player;
 import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
@@ -50,7 +51,7 @@ public class Actionground {
 
 	private static Button posizionaCarta;
 	private static Button scartaCarta;
-	
+
 	private static Button posizionaWildcard;
 	private static ComboBox<Integer> selettorePosizioneWildcard;
 
@@ -62,8 +63,7 @@ public class Actionground {
 		actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));
 
-		giocatoreDiTurno = TextFactory.generaTesto("Turno di giocatore",
-				Color.WHITE, FontWeight.BOLD, 20);
+		giocatoreDiTurno = TextFactory.generaTesto("Turno di giocatore", Color.WHITE, FontWeight.BOLD, 20);
 
 		testoCartaSelezionata = TextFactory.generaTesto("Carta selezionata", Color.WHITE);
 //		tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",gameHandler.getGiraCartaSelezionataEventHandler());
@@ -78,14 +78,12 @@ public class Actionground {
 
 		posizionaCarta = ButtonFactory.generaTasto("Posiziona carta", gameHandler.getPosizionaCartaEventHandler());
 		posizionaCarta.setDisable(true); // all'inizio, non posso posizionare carte
-		
+
 		posizionaWildcard = ButtonFactory.generaTasto("Posiziona Wildcard",
 				gameHandler.getPosizionaWildcardEventHandler());
 		posizionaWildcard.setDisable(true);
-		
-		ObservableList<Integer> posizioni = FXCollections.observableArrayList(
-                1,2,3,4,5,6,7,8,9,10
-        );
+
+		ObservableList<Integer> posizioni = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		selettorePosizioneWildcard = new ComboBox<>(posizioni);
 		selettorePosizioneWildcard.setDisable(true);
 
@@ -145,19 +143,34 @@ public class Actionground {
 		}
 	}
 
-	public void handlePescaCartaScartata(Carta cartaScartata) {
+	public boolean handleDisablePescaCartaScartata(Carta cartaScartata, Player giocatoreDiTurno) {
 		if (cartaScartata != null) {
-			if (cartaScartata.getValore().equals(VALORI_CARTE_ENUM.REGINA)
-					|| cartaScartata.getValore().equals(VALORI_CARTE_ENUM.JACK)) {
+			if (!cartaScartata.isPosizionabile()) {
 				pescaCartaScartata.setDisable(true);
-			} else {
-				pescaCartaScartata.setDisable(false);
+				return true;
 			}
+
+			if (cartaScartata.isWildcard()) {
+				pescaCartaScartata.setDisable(false);
+				return false;
+			}
+
+			int indexCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaScartata.getValore()) - 1;
+			Carta cartaGiocatore = giocatoreDiTurno.getCarte().get(indexCarta);
+
+			if (cartaGiocatore.isCoperta() || !cartaGiocatore.isCoperta() && cartaGiocatore.isWildcard()) {
+				pescaCartaScartata.setDisable(false);
+				return false;
+			}
+			pescaCartaScartata.setDisable(true);
+			return true;
+
 		} else {
 			pescaCartaScartata.setDisable(true);
+			return true;
 		}
 	}
-	
+
 	public int getPosizioneWildcardSelezionata() {
 		return selettorePosizioneWildcard.getValue() - 1;
 	}
