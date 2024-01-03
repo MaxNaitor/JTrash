@@ -60,26 +60,40 @@ public class MainMenu {
 		TextField inputNomeGiocatore = new TextField(
 				utenteAttivo != null && utenteAttivo.getUsername() != null ? utenteAttivo.getUsername() : "Player");
 
+		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(
+				Arrays.asList(boxTitolo, boxSottotitolo, inserisciNomeGiocatoreText, inputNomeGiocatore));
+
+		if (utenteAttivo != null) {
+			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(
+					TextFactory.generaTesto("Partite giocate da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteGiocate(), Color.WHITE),
+					TextFactory.generaTesto("Partite vinte da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteVinte(), Color.WHITE)));
+
+			boxVerticale.getChildren().add(statisticheUtente);
+		}
+
+		if (!utentiRegistrati.isEmpty()) {
+			Text utentiRegistratiText = TextFactory.generaTesto("Seleziona utente già registrato:", Color.WHITE);
+			boxVerticale.getChildren().add(utentiRegistratiText);
+			
+			ObservableList<Utente> utenti = FXCollections.observableArrayList(utentiRegistrati);
+			ComboBox<Utente> selettoreUtentiRegistrati = new ComboBox<>(utenti);
+			boxVerticale.getChildren().add(selettoreUtentiRegistrati);
+		}
+
 		Text numeroAvversariText = TextFactory.generaTesto("Numero avversari:", Color.WHITE);
+
+		boxVerticale.getChildren().add(numeroAvversariText);
 
 		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
+
+		boxVerticale.getChildren().add(selettoreAvversari);
 
 		Button tastoGioca = ButtonFactory.generaTasto("Gioca",
 				ActionEventFactory.azioneIniziaPartita(
 						SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco()), inputNomeGiocatore,
 						selettoreAvversari));
-
-		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo,
-				inserisciNomeGiocatoreText, inputNomeGiocatore, numeroAvversariText, selettoreAvversari, tastoGioca));
-
-		if (utenteAttivo != null) {
-			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(
-					TextFactory.generaTesto("Partite giocate: " + utenteAttivo.getPartiteGiocate(), Color.WHITE),
-					TextFactory.generaTesto("Partite vinte: " + utenteAttivo.getPartiteVinte(), Color.WHITE)));
-
-			boxVerticale.getChildren().add(statisticheUtente);
-		}
+		boxVerticale.getChildren().add(tastoGioca);
 
 		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
 

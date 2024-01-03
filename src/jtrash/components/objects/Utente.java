@@ -11,7 +11,7 @@ public class Utente {
 		super();
 		this.username = username;
 	}
-	
+
 	public void handleFineParita(boolean vittoria) {
 		partiteGiocate++;
 		if (vittoria)
@@ -40,6 +40,11 @@ public class Utente {
 
 	public void setPartiteVinte(int partiteVinte) {
 		this.partiteVinte = partiteVinte;
+	}
+
+	@Override
+	public String toString() {
+		return username;
 	}
 
 }
