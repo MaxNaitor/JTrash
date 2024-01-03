@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -63,10 +65,12 @@ public class MainMenu {
 		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(
 				Arrays.asList(boxTitolo, boxSottotitolo, inserisciNomeGiocatoreText, inputNomeGiocatore));
 
+		Text partiteGiocate = TextFactory.generaTesto(getStatisticaGiocatore(false), Color.WHITE);
+
+		Text partiteVinte = TextFactory.generaTesto(getStatisticaGiocatore(true), Color.WHITE);
+
 		if (utenteAttivo != null) {
-			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(
-					TextFactory.generaTesto("Partite giocate da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteGiocate(), Color.WHITE),
-					TextFactory.generaTesto("Partite vinte da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteVinte(), Color.WHITE)));
+			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(partiteGiocate, partiteVinte));
 
 			boxVerticale.getChildren().add(statisticheUtente);
 		}
@@ -74,9 +78,19 @@ public class MainMenu {
 		if (!utentiRegistrati.isEmpty()) {
 			Text utentiRegistratiText = TextFactory.generaTesto("Seleziona utente già registrato:", Color.WHITE);
 			boxVerticale.getChildren().add(utentiRegistratiText);
-			
+
 			ObservableList<Utente> utenti = FXCollections.observableArrayList(utentiRegistrati);
 			ComboBox<Utente> selettoreUtentiRegistrati = new ComboBox<>(utenti);
+			selettoreUtentiRegistrati.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					utenteAttivo = selettoreUtentiRegistrati.getValue();
+					inputNomeGiocatore.setText(utenteAttivo.getUsername());
+					partiteGiocate.setText(getStatisticaGiocatore(false));
+					partiteVinte.setText(getStatisticaGiocatore(true));
+				}
+			});
 			boxVerticale.getChildren().add(selettoreUtentiRegistrati);
 		}
 
@@ -87,12 +101,22 @@ public class MainMenu {
 		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
 
-		boxVerticale.getChildren().add(selettoreAvversari);
-
 		Button tastoGioca = ButtonFactory.generaTasto("Gioca",
 				ActionEventFactory.azioneIniziaPartita(
 						SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco()), inputNomeGiocatore,
 						selettoreAvversari));
+		tastoGioca.setDisable(true);
+
+		selettoreAvversari.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				tastoGioca.setDisable(selettoreAvversari.getValue() == null || selettoreAvversari.getValue() == 0);
+			}
+		});
+
+		boxVerticale.getChildren().add(selettoreAvversari);
+
 		boxVerticale.getChildren().add(tastoGioca);
 
 		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
@@ -127,6 +151,17 @@ public class MainMenu {
 
 	public Utente getUtenteAttivo() {
 		return utenteAttivo;
+	}
+
+	private String getStatisticaGiocatore(boolean isPartiteVinte) {
+		if (isPartiteVinte) {
+			return utenteAttivo != null
+					? "Partite vinte da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteVinte()
+					: "";
+		}
+		return utenteAttivo != null
+				? "Partite giocate da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteGiocate()
+				: "";
 	}
 
 }
