@@ -10,22 +10,24 @@ public class Player {
 
 	private String nome;
 
+	private boolean hasTrash;
+
 	private List<Carta> carte;
-	
+
 	public List<HBox> distribuisciCarteSulTavolo() {
 		HBox primaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(0, 5));
 		HBox secondaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(5, 10));
-		return Arrays.asList(primaFila,secondaFila);
+		return Arrays.asList(primaFila, secondaFila);
 	}
-	
+
 	public List<HBox> distribuisciCarteSulTavoloButton() {
 		HBox primaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(0, 5));
 		HBox secondaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(5, 10));
-		
-		return Arrays.asList(primaFila,secondaFila);
+
+		return Arrays.asList(primaFila, secondaFila);
 	}
 
-	public Player(List<Carta> carte,String nome) {
+	public Player(List<Carta> carte, String nome) {
 		super();
 		this.carte = carte;
 		this.nome = nome;
@@ -45,6 +47,14 @@ public class Player {
 
 	public void setCarte(List<Carta> carte) {
 		this.carte = carte;
+	}
+
+	public boolean isHasTrash() {
+		return hasTrash;
+	}
+
+	public void setHasTrash(boolean hasTrash) {
+		this.hasTrash = hasTrash;
 	}
 
 }

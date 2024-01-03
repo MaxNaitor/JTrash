@@ -9,7 +9,6 @@ import jtrash.components.handlers.GameHandler;
 import jtrash.components.objects.Carta;
 import jtrash.components.observables.SelezioneCartaObservable;
 import jtrash.components.scenes.MainMenu;
-import jtrash.components.scenes.Playground;
 
 public class ActionEventFactory {
 
@@ -18,15 +17,8 @@ public class ActionEventFactory {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				MainMenu.getInstance().setUsernameUtente(inputUsername.getText());
-				
-				GameHandler.getInstance().aggiungiGiocatore(inputUsername.getText());
-				
-				for (int i = 1; i <= selettoreAvversari.getValue(); i++) {
-					GameHandler.getInstance().aggiungiGiocatore("BOT " + i);
-				}
-				
-				Playground.getInstance().updatePlayground(true);
+				MainMenu.getInstance().handleUtenteAttivo(inputUsername.getText());
+				GameHandler.getInstance().startNewGame(inputUsername.getText(), selettoreAvversari.getValue());
 				SceneFactory.getInstance().cambiaScena(scene);
 			}
 		};

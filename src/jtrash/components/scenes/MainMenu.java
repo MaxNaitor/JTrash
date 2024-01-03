@@ -1,6 +1,9 @@
 package jtrash.components.scenes;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +23,7 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
+import jtrash.components.objects.Utente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
@@ -27,7 +31,9 @@ public class MainMenu {
 
 	private static MainMenu instance;
 
-	private String usernameUtente;
+	private Utente utenteAttivo;
+
+	private List<Utente> utentiRegistrati = new ArrayList<>();
 
 	private MainMenu() {
 
@@ -51,32 +57,62 @@ public class MainMenu {
 
 		Text inserisciNomeGiocatoreText = TextFactory.generaTesto("Inserisci username:", Color.WHITE);
 
-		TextField inputNomeGiocatore = new TextField("Player");
-		
+		TextField inputNomeGiocatore = new TextField(
+				utenteAttivo != null && utenteAttivo.getUsername() != null ? utenteAttivo.getUsername() : "Player");
+
 		Text numeroAvversariText = TextFactory.generaTesto("Numero avversari:", Color.WHITE);
-		
-		ObservableList<Integer> avversari = FXCollections.observableArrayList(
-                1,2,3
-        );
+
+		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
 
-		Button tastoGioca = ButtonFactory.generaTasto("Gioca", ActionEventFactory.azioneIniziaPartita(
-				SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco()), inputNomeGiocatore,selettoreAvversari));
+		Button tastoGioca = ButtonFactory.generaTasto("Gioca",
+				ActionEventFactory.azioneIniziaPartita(
+						SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco()), inputNomeGiocatore,
+						selettoreAvversari));
 
-		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(
-				Arrays.asList(boxTitolo, boxSottotitolo, inserisciNomeGiocatoreText, inputNomeGiocatore,numeroAvversariText,selettoreAvversari, tastoGioca));
+		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo,
+				inserisciNomeGiocatoreText, inputNomeGiocatore, numeroAvversariText, selettoreAvversari, tastoGioca));
+
+		if (utenteAttivo != null) {
+			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(
+					TextFactory.generaTesto("Partite giocate: " + utenteAttivo.getPartiteGiocate(), Color.WHITE),
+					TextFactory.generaTesto("Partite vinte: " + utenteAttivo.getPartiteVinte(), Color.WHITE)));
+
+			boxVerticale.getChildren().add(statisticheUtente);
+		}
 
 		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
 
 		return mainMenu;
 	}
 
-	public String getUsernameUtente() {
-		return instance.usernameUtente;
+	public void handleFineParita(boolean vittoria) {
+		utenteAttivo.handleFineParita(vittoria);
+		SceneFactory.getInstance().cambiaScena(SceneFactory.getInstance().creaScena(instance.getMenu()));
 	}
 
-	public void setUsernameUtente(String usernameUtente) {
-		instance.usernameUtente = usernameUtente;
+	public void handleUtenteAttivo(String username) {
+		if (utenteAttivo == null) {
+			registraUtente(username);
+		} else {
+			List<Utente> utentiFiltrati = utentiRegistrati.stream()
+					.filter(u -> u.getUsername().equalsIgnoreCase(username)).collect(Collectors.toList());
+			if (utentiFiltrati.isEmpty()) {
+				registraUtente(username);
+			} else {
+				utenteAttivo = utentiFiltrati.get(0);
+			}
+		}
+
+	}
+
+	private void registraUtente(String username) {
+		utenteAttivo = new Utente(username);
+		utentiRegistrati.add(utenteAttivo);
+	}
+
+	public Utente getUtenteAttivo() {
+		return utenteAttivo;
 	}
 
 }

@@ -38,6 +38,9 @@ public class Playground {
 
 	public void updatePlayground(boolean startGame) {
 		if (!GameHandler.getInstance().getGiocatori().isEmpty()) {
+			if (startGame) {
+				playground.getChildren().clear();
+			}
 			switch (GameHandler.getInstance().getGiocatori().size()) {
 			case 4:
 				playground.add(generaBoxPlayer(4, startGame), 25, 10); // cosa aggiungere, left-margin,top margin
