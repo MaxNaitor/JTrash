@@ -64,6 +64,7 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			posizionaCarta(cartaSelezionata);
+			// TODO riprovare, se la carta scartata è posizionabile
 			handleTurno();
 		}
 	};
@@ -96,6 +97,7 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			posizionaWildCard(cartaSelezionata, null);
+			// TODO riprovare, se la carta scartata è posizionabile
 			handleTurno();
 		}
 	};
@@ -244,54 +246,82 @@ public class GameHandler implements Observer {
 	}
 
 	private void turnoBot() {
+		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 		// controllo prima le carte scoperte
+		boolean hasGiocatoCartaScoperta = turnoBotCarteScoperte(carteGiocatore);
+
+		//se posiziono una carta, continuo a posizionare finchè posso dalle carte scartate
+		if (hasGiocatoCartaScoperta) {
+			turnoBotCarteScoperte(carteGiocatore);
+		}
+
+		//se il bot non gioca dalle scoperte, allora pesco
+		if (!hasGiocatoCartaScoperta) {
+			boolean hasGiocatoCartaMazzo = turnoBotCarteMazzo(carteGiocatore);
+
+			//se posiziono una carta, continuo a posizionare finchè posso dalle carte scartate
+			if (hasGiocatoCartaMazzo) {
+				turnoBotCarteScoperte(carteGiocatore);
+			}
+		}
+
+		handleTurno();
+	}
+
+	private boolean turnoBotCarteScoperte(List<Carta> carteGiocatore) {
 		Carta primaCartaScoperta = mazzo.getPrimaCartaScoperta(false);
 
-		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(primaCartaScoperta.getValore());
 		int indexDaSostituire = valoreCarta - 1;
 
 		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+
+		boolean cartaPosizionata = false;
 
 		if (primaCartaScoperta.isPosizionabile()) {
 			if (!primaCartaScoperta.isWildcard()) {
 				if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
 					// se la carta è ancora coperta o è una wildcard,allora la sostituisco
 					posizionaCarta(pescaCarta(true));
-					handleTurno();
-					return;
+					cartaPosizionata = true;
 				}
 			} else {
 				if (posizionaWildcardBot(primaCartaScoperta)) {
-					handleTurno();
-					return;
+					turnoBotCarteScoperte(carteGiocatore);
+					cartaPosizionata = true;
 				}
 			}
 		}
+		return cartaPosizionata;
+	}
 
+	private boolean turnoBotCarteMazzo(List<Carta> carteGiocatore) {
 		Carta cartaPescata = pescaCarta(false);
-		valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaPescata.getValore());
-		indexDaSostituire = valoreCarta - 1;
+		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaPescata.getValore());
+		int indexDaSostituire = valoreCarta - 1;
+		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
 
 		cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+
+		boolean cartaPosizionata = false;
 
 		if (cartaPescata.isPosizionabile()) {
 			if (!cartaPescata.isWildcard()) {
 				if (cartaDaSostituire.isCoperta() || !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
 					// se la carta è ancora coperta o è una wildcard,allora la sostituisco
 					posizionaCarta(cartaPescata);
-					handleTurno();
-					return;
+					cartaPosizionata = true;
 				}
 			} else {
 				if (posizionaWildcardBot(cartaPescata)) {
-					handleTurno();
-					return;
+					cartaPosizionata = true;
 				}
 			}
 		}
-		scartaCarta(cartaPescata);
-		handleTurno();
+
+		if (!cartaPosizionata)
+			scartaCarta(cartaPescata);
+		return cartaPosizionata;
 	}
 
 	private boolean posizionaWildcardBot(Carta cartaDaPosizionare) {
