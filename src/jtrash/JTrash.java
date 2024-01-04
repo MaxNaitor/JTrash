@@ -13,6 +13,7 @@ public class JTrash extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		stage.setMaximized(true);
 		stage.setTitle("JTrash - Tiziano Massa");
 		SceneFactory sceneFactory = SceneFactory.getInstance();
 		sceneFactory.setStagePrimario(stage);

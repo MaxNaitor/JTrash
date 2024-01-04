@@ -9,16 +9,19 @@ import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jtrash.components.factories.BackgroundFactory;
+import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
@@ -88,8 +91,9 @@ public class GameHandler implements Observer {
 		Actionground.getInstance().setEnablePescaCarta(false);
 		Actionground.getInstance().setEnableScartaCarta(false);
 		Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
-		boolean disablePescaCartaScartata = Actionground.getInstance().handleDisablePescaCartaScartata(cartaDaSostituire,giocatoreDiTurno);
-		
+		boolean disablePescaCartaScartata = Actionground.getInstance()
+				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
+
 		if (disablePescaCartaScartata && !giocatoreDiTurno.isBot()) {
 			handleTurno();
 		}
@@ -124,8 +128,9 @@ public class GameHandler implements Observer {
 		Actionground.getInstance().setEnablePescaCarta(false);
 		Actionground.getInstance().setEnableScartaCarta(false);
 		Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
-		boolean disablePescaCartaScartata = Actionground.getInstance().handleDisablePescaCartaScartata(cartaDaSostituire,giocatoreDiTurno);
-		
+		boolean disablePescaCartaScartata = Actionground.getInstance()
+				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
+
 		if (disablePescaCartaScartata && !giocatoreDiTurno.isBot()) {
 			handleTurno();
 		}
@@ -165,7 +170,7 @@ public class GameHandler implements Observer {
 		// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
 		// gamehandler e actionground
 		Actionground.getInstance().handlePosizionaCarta(cartaPescata);
-		Actionground.getInstance().handleDisablePescaCartaScartata(null,giocatoreDiTurno);
+		Actionground.getInstance().handleDisablePescaCartaScartata(null, giocatoreDiTurno);
 		Actionground.getInstance().setEnablePescaCarta(false);
 		Actionground.getInstance().setEnableScartaCarta(true);
 		return cartaPescata;
@@ -192,7 +197,7 @@ public class GameHandler implements Observer {
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
-		Actionground.getInstance().handleDisablePescaCartaScartata(carta,giocatoreDiTurno);
+		Actionground.getInstance().handleDisablePescaCartaScartata(carta, giocatoreDiTurno);
 		Actionground.getInstance().setEnablePescaCarta(true);
 		Actionground.getInstance().setEnableScartaCarta(false);
 	}
@@ -240,9 +245,9 @@ public class GameHandler implements Observer {
 						giocatoreDiTurno = getGiocatori().get(0);
 					}
 					Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
-					
+
 					mostraModale("Camio turno", "Turno di " + giocatoreDiTurno.getNome());
-					
+
 					if (contatoreTurniDopoTrash > 0)
 						contatoreTurniDopoTrash++;
 
@@ -251,7 +256,8 @@ public class GameHandler implements Observer {
 					} else {
 						Actionground.getInstance().setEnablePescaCarta(true);
 						Actionground.getInstance().setEnableScartaCarta(false);
-						Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false), giocatoreDiTurno);
+						Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
+								giocatoreDiTurno);
 					}
 				} else {
 					handleFinePartita();
@@ -266,16 +272,18 @@ public class GameHandler implements Observer {
 		// controllo prima le carte scoperte
 		boolean hasGiocatoCartaScoperta = turnoBotCarteScoperte(carteGiocatore);
 
-		//se posiziono una carta, continuo a posizionare finchè posso dalle carte scartate
+		// se posiziono una carta, continuo a posizionare finchè posso dalle carte
+		// scartate
 		if (hasGiocatoCartaScoperta) {
 			turnoBotCarteScoperte(carteGiocatore);
 		}
 
-		//se il bot non gioca dalle scoperte, allora pesco
+		// se il bot non gioca dalle scoperte, allora pesco
 		if (!hasGiocatoCartaScoperta) {
 			boolean hasGiocatoCartaMazzo = turnoBotCarteMazzo(carteGiocatore);
 
-			//se posiziono una carta, continuo a posizionare finchè posso dalle carte scartate
+			// se posiziono una carta, continuo a posizionare finchè posso dalle carte
+			// scartate
 			if (hasGiocatoCartaMazzo) {
 				turnoBotCarteScoperte(carteGiocatore);
 			}
@@ -417,7 +425,14 @@ public class GameHandler implements Observer {
 
 		StackPane modalLayout = new StackPane();
 		Text testoModale = TextFactory.generaTesto(testo, Color.WHITE, FontWeight.BOLD, 50);
-		modalLayout.getChildren().addAll(Arrays.asList(testoModale));
+		Button pulsanteContinua = new Button("Continua");
+		pulsanteContinua.setOnAction(e -> modalStage.close());
+		
+		VBox box = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(testoModale,pulsanteContinua));
+		box.setAlignment(Pos.CENTER);
+
+		modalLayout.getChildren().add(box);
+		
 		modalLayout.setBackground(BackgroundFactory
 				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 

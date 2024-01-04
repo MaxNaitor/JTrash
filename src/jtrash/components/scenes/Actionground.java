@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -41,7 +42,6 @@ public class Actionground {
 
 	private static Text giocatoreDiTurno;
 	private static Text testoCartaSelezionata;
-//	private static Button tastoGiraCarta;
 
 	private static Text testoCarteScartare;
 	private static Text testoCarteMazzo;
@@ -66,7 +66,6 @@ public class Actionground {
 		giocatoreDiTurno = TextFactory.generaTesto("Turno di giocatore", Color.WHITE, FontWeight.BOLD, 20);
 
 		testoCartaSelezionata = TextFactory.generaTesto("Carta selezionata", Color.WHITE);
-//		tastoGiraCarta = ButtonFactory.generaTasto("Gira carta",gameHandler.getGiraCartaSelezionataEventHandler());
 
 		testoCarteScartare = TextFactory.generaTesto("Carte scartate", Color.WHITE);
 		testoCarteMazzo = TextFactory.generaTesto("Mazzo", Color.WHITE);
@@ -83,6 +82,7 @@ public class Actionground {
 				gameHandler.getPosizionaWildcardEventHandler());
 		posizionaWildcard.setDisable(true);
 
+		Text wildcardLabel = TextFactory.generaTesto("Seleziona posizione wildcard:", Color.WHITE);
 		ObservableList<Integer> posizioni = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		selettorePosizioneWildcard = new ComboBox<>(posizioni);
 		selettorePosizioneWildcard.setDisable(true);
@@ -90,13 +90,12 @@ public class Actionground {
 		scartaCarta = ButtonFactory.generaTasto("Scarta carta", gameHandler.getScartaCartaPescataEventHandler());
 		scartaCarta.setDisable(true); // all'inizio, non posso scartare carte
 
-		azioniActionGround = BoxFactory.generaBoxVerticaleNodi(
-				Arrays.asList(giocatoreDiTurno, CartaSelezionataBox.getInstance().getBox(), testoCartaSelezionata,
-//								tastoGiraCarta,
-						CarteScartateBox.getInstance().getBox(), testoCarteScartare,
+		azioniActionGround = BoxFactory
+				.generaBoxVerticaleNodi(Arrays.asList(giocatoreDiTurno, CartaSelezionataBox.getInstance().getBox(),
+						testoCartaSelezionata, CarteScartateBox.getInstance().getBox(), testoCarteScartare,
 						CarteMazzoBox.getInstance().getBox(), testoCarteMazzo, pescaCartaMazzo, pescaCartaScartata,
-						posizionaCarta, scartaCarta, posizionaWildcard, selettorePosizioneWildcard));
-
+						posizionaCarta, scartaCarta, posizionaWildcard,wildcardLabel, selettorePosizioneWildcard));
+		actionground.setAlignment(Pos.BASELINE_CENTER);
 		actionground.add(azioniActionGround, 0, 1);
 	}
 

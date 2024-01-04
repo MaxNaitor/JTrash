@@ -1,13 +1,12 @@
 package jtrash.components.factories;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class SceneFactory {
-	
-	private static double WIDTH = 1080;
-	private static double HEIGHT = 720;
 
 	private static SceneFactory instance;
 
@@ -25,11 +24,15 @@ public class SceneFactory {
 	private Stage stagePrimario;
 	
 	public Scene creaScena(Parent parent) {
-		return new Scene(parent,WIDTH,HEIGHT);
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getVisualBounds();
+		return new Scene(parent,bounds.getWidth(),bounds.getHeight());
 	}
 	
 	public void cambiaScena(Scene scena) {
-		if (stagePrimario != null) stagePrimario.setScene(scena);
+		if (stagePrimario != null) {
+			stagePrimario.setScene(scena);
+		}
 	}
 
 	public Stage getStagePrimario() {
