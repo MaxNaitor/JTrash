@@ -10,7 +10,7 @@ public class Player {
 
 	private String nome;
 
-	private boolean hasTrash;
+	private boolean hasTrash = false;
 
 	private boolean isBot = true;
 

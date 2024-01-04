@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
+import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.objects.Carta;
@@ -61,35 +62,19 @@ public class GameHandler implements Observer {
 
 	private int contatoreTurniDopoTrash = 0;
 
-	private EventHandler<ActionEvent> posizionaCartaEventHandler = new EventHandler<ActionEvent>() {
-
-		@Override
-		public void handle(ActionEvent arg0) {
-			posizionaCarta(cartaSelezionata);
-		}
-	};
-
 	private void posizionaCarta(Carta carta) {
 		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(carta.getValore());
 		int indexDaSostituire = valoreCarta - 1;
-		
+
 		posizionaCartaGenerica(carta, indexDaSostituire);
 	}
-
-	private EventHandler<ActionEvent> posizionaWildcardEventHandler = new EventHandler<ActionEvent>() {
-
-		@Override
-		public void handle(ActionEvent arg0) {
-			posizionaWildCard(cartaSelezionata, null);
-		}
-	};
 
 	private void posizionaWildCard(Carta carta, Integer index) {
 		int indexDaSostituire = index != null ? index : Actionground.getInstance().getPosizioneWildcardSelezionata();
 
 		posizionaCartaGenerica(carta, indexDaSostituire);
 	}
-	
+
 	private void posizionaCartaGenerica(Carta carta, Integer index) {
 		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 		Carta cartaDaSostituire = carteGiocatore.get(index);
@@ -103,7 +88,7 @@ public class GameHandler implements Observer {
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
 		Playground.getInstance().updatePlayground(false);
-		
+
 		AnimationsHandler.animazioneIngrandimento(carta);
 
 		Actionground.getInstance().setEnablePescaCarta(false);
@@ -112,31 +97,11 @@ public class GameHandler implements Observer {
 		boolean disablePescaCartaScartata = Actionground.getInstance()
 				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
 
-		if (disablePescaCartaScartata && !giocatoreDiTurno.isBot()) {
+		if ((disablePescaCartaScartata && !giocatoreDiTurno.isBot())
+				|| checkTrashGiocatore(giocatoreDiTurno)) {
 			handleTurno();
 		}
 	}
-
-	private EventHandler<ActionEvent> pescaCartaMazzoEventHandler = new EventHandler<ActionEvent>() {
-
-		@Override
-		public void handle(ActionEvent arg0) {
-			if (!mazzo.getCarteCoperte().isEmpty()) {
-				pescaCarta(false);
-			}
-		}
-
-	};
-
-	private EventHandler<ActionEvent> pescaCartaScartataEventHandler = new EventHandler<ActionEvent>() {
-
-		@Override
-		public void handle(ActionEvent arg0) {
-			if (!mazzo.getCarteScoperte().isEmpty()) {
-				pescaCarta(true);
-			}
-		}
-	};
 
 	private Carta pescaCarta(boolean pescaCartaScoperta) {
 		Carta cartaPescata = mazzo.pesca(pescaCartaScoperta);
@@ -161,10 +126,8 @@ public class GameHandler implements Observer {
 
 		@Override
 		public void handle(ActionEvent arg0) {
-			if (!mazzo.getCarteCoperte().isEmpty()) {
-				scartaCarta(cartaSelezionata);
-				handleTurno();
-			}
+			scartaCarta(cartaSelezionata);
+			handleTurno();
 		}
 
 	};
@@ -349,7 +312,15 @@ public class GameHandler implements Observer {
 		return this.cartaSelezionata;
 	}
 
-	private void checkTrash(Player giocatoreDiTurno) {
+	private boolean checkTrash(Player giocatoreDiTurno) {
+		boolean trash = checkTrashGiocatore(giocatoreDiTurno);
+		if (trash) {
+			handleTrash();
+		}
+		return trash;
+	}
+
+	private boolean checkTrashGiocatore(Player giocatoreDiTurno) {
 		boolean trash = true;
 		for (Carta carta : giocatoreDiTurno.getCarte()) {
 			if (carta.isCoperta()) {
@@ -357,10 +328,8 @@ public class GameHandler implements Observer {
 				break;
 			}
 		}
-		if (trash) {
-			giocatoreDiTurno.setHasTrash(true);
-			handleTrash();
-		}
+		if (trash) giocatoreDiTurno.setHasTrash(true);
+		return trash;
 	}
 
 	private void handleTrash() {
@@ -406,14 +375,13 @@ public class GameHandler implements Observer {
 
 		StackPane modalLayout = new StackPane();
 		Text testoModale = TextFactory.generaTesto(testo, Color.WHITE, FontWeight.BOLD, 50);
-		Button pulsanteContinua = new Button("Continua");
-		pulsanteContinua.setOnAction(e -> modalStage.close());
-		
-		VBox box = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(testoModale,pulsanteContinua));
+		Button pulsanteContinua = ButtonFactory.generaTasto("Continua", e -> modalStage.close());
+
+		VBox box = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(testoModale, pulsanteContinua));
 		box.setAlignment(Pos.CENTER);
 
 		modalLayout.getChildren().add(box);
-		
+
 		modalLayout.setBackground(BackgroundFactory
 				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 
@@ -463,31 +431,19 @@ public class GameHandler implements Observer {
 	}
 
 	public EventHandler<ActionEvent> getPescaCartaEventHandler() {
-		return pescaCartaMazzoEventHandler;
+		return e -> pescaCarta(false);
 	}
 
 	public EventHandler<ActionEvent> getScartaCartaPescataEventHandler() {
 		return scartaCartaEventHandler;
 	}
 
-	public void setPescaCartaEventHandler(EventHandler<ActionEvent> pescaCartaEventHandler) {
-		this.pescaCartaMazzoEventHandler = pescaCartaEventHandler;
-	}
-
 	public EventHandler<ActionEvent> getPosizionaCartaEventHandler() {
-		return posizionaCartaEventHandler;
-	}
-
-	public void setPosizionaCartaEventHandler(EventHandler<ActionEvent> posizionaCartaEventHandler) {
-		this.posizionaCartaEventHandler = posizionaCartaEventHandler;
+		return e -> posizionaCarta(cartaSelezionata);
 	}
 
 	public EventHandler<ActionEvent> getPescaCartaScartataEventHandler() {
-		return pescaCartaScartataEventHandler;
-	}
-
-	public void setPescaCartaScartataEventHandler(EventHandler<ActionEvent> pescaCartaScartataEventHandler) {
-		this.pescaCartaScartataEventHandler = pescaCartaScartataEventHandler;
+		return e -> pescaCarta(true);
 	}
 
 	public Mazzo getMazzo() {
@@ -503,7 +459,7 @@ public class GameHandler implements Observer {
 	}
 
 	public EventHandler<ActionEvent> getPosizionaWildcardEventHandler() {
-		return posizionaWildcardEventHandler;
+		return e -> posizionaWildCard(cartaSelezionata, null);
 	}
 
 }
