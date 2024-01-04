@@ -406,7 +406,7 @@ public class GameHandler implements Observer {
 		for (int i = 1; i <= numeroGiocatori; i++) {
 			GameHandler.getInstance().aggiungiGiocatore("BOT " + i);
 		}
-		Playground.getInstance().updatePlayground(true);
+		resetCampo();
 	}
 
 	public void startNewRound() {
@@ -415,10 +415,14 @@ public class GameHandler implements Observer {
 		mostraModale("Nuovo Round", "Nuovo round con i seguenti giocatori: \n" + nomiGiocatori);
 		giocatoreDiTurno = null;
 		setMazzo(new Mazzo());
+		resetCampo();
+	}
+
+	private void resetCampo() {
+		Playground.getInstance().updatePlayground(true);
 		CarteMazzoBox.getInstance().update(null, mazzo);
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
-		Playground.getInstance().updatePlayground(true);
 		Actionground.getInstance().setEnablePescaCarta(true);
 		Actionground.getInstance().setEnableScartaCarta(false);
 		Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
