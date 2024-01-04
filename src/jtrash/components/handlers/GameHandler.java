@@ -198,10 +198,7 @@ public class GameHandler implements Observer {
 					if (giocatoreDiTurno.isBot()) {
 						turnoBot();
 					} else {
-						Actionground.getInstance().setEnablePescaCarta(true);
-						Actionground.getInstance().setEnableScartaCarta(false);
-						Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
-								giocatoreDiTurno);
+						resetActionGround();
 					}
 
 				} else {
@@ -454,6 +451,10 @@ public class GameHandler implements Observer {
 		CarteMazzoBox.getInstance().update(null, mazzo);
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
+		resetActionGround();
+	}
+	
+	private void resetActionGround() {
 		Actionground.getInstance().setEnablePescaCarta(true);
 		Actionground.getInstance().setEnableScartaCarta(false);
 		Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),

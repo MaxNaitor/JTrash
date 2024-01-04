@@ -94,7 +94,7 @@ public class Actionground {
 				.generaBoxVerticaleNodi(Arrays.asList(giocatoreDiTurno, CartaSelezionataBox.getInstance().getBox(),
 						testoCartaSelezionata, CarteScartateBox.getInstance().getBox(), testoCarteScartare,
 						CarteMazzoBox.getInstance().getBox(), testoCarteMazzo, pescaCartaMazzo, pescaCartaScartata,
-						posizionaCarta, scartaCarta, posizionaWildcard,wildcardLabel, selettorePosizioneWildcard));
+						posizionaCarta, scartaCarta, posizionaWildcard, wildcardLabel, selettorePosizioneWildcard));
 		actionground.setAlignment(Pos.BASELINE_CENTER);
 		actionground.add(azioniActionGround, 0, 1);
 	}
@@ -128,21 +128,23 @@ public class Actionground {
 			case JACK:
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(true);
-				selettorePosizioneWildcard.setValue(null);
-				selettorePosizioneWildcard.setDisable(true);
+				disableSelettorePosizioneWildcard();
 				break;
 			default:
 				posizionaCarta.setDisable(false);
 				posizionaWildcard.setDisable(true);
-				selettorePosizioneWildcard.setValue(null);
-				selettorePosizioneWildcard.setDisable(true);
+				disableSelettorePosizioneWildcard();
 			}
 		} else {
 			posizionaCarta.setDisable(true);
 			posizionaWildcard.setDisable(true);
-			selettorePosizioneWildcard.setValue(null);
-			selettorePosizioneWildcard.setDisable(true);
+			disableSelettorePosizioneWildcard();
 		}
+	}
+
+	private void disableSelettorePosizioneWildcard() {
+		selettorePosizioneWildcard.setValue(null);
+		selettorePosizioneWildcard.setDisable(true);
 	}
 
 	public boolean handleDisablePescaCartaScartata(Carta cartaScartata, Player giocatoreDiTurno) {
