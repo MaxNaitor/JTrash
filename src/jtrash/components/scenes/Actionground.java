@@ -128,16 +128,19 @@ public class Actionground {
 			case JACK:
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(true);
+				selettorePosizioneWildcard.setValue(null);
 				selettorePosizioneWildcard.setDisable(true);
 				break;
 			default:
 				posizionaCarta.setDisable(false);
 				posizionaWildcard.setDisable(true);
+				selettorePosizioneWildcard.setValue(null);
 				selettorePosizioneWildcard.setDisable(true);
 			}
 		} else {
 			posizionaCarta.setDisable(true);
 			posizionaWildcard.setDisable(true);
+			selettorePosizioneWildcard.setValue(null);
 			selettorePosizioneWildcard.setDisable(true);
 		}
 	}
