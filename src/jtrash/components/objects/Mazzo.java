@@ -37,7 +37,7 @@ public class Mazzo extends CartaAbstract {
 		// aggiungo i due jolly, usando come colore un seme del colore corrispondente
 		carteCoperte.add(new Carta(SEMI_ENUM.CUORI, VALORI_CARTE_ENUM.JOLLY));
 		carteCoperte.add(new Carta(SEMI_ENUM.PICCHE, VALORI_CARTE_ENUM.JOLLY));
-
+		
 		mischia();
 
 	}

@@ -216,21 +216,9 @@ public class GameHandler implements Observer {
 			// controllo prima le carte scoperte
 			boolean hasGiocatoCartaScoperta = turnoBotCarteScoperte(carteGiocatore);
 
-			// se posiziono una carta, continuo a posizionare finchè posso dalle carte
-			// scartate
-			if (hasGiocatoCartaScoperta) {
-				turnoBotCarteScoperte(carteGiocatore);
-			}
-
 			// se il bot non gioca dalle scoperte, allora pesco
 			if (!hasGiocatoCartaScoperta) {
-				boolean hasGiocatoCartaMazzo = turnoBotCarteMazzo(carteGiocatore);
-
-				// se posiziono una carta, continuo a posizionare finchè posso dalle carte
-				// scartate
-				if (hasGiocatoCartaMazzo) {
-					turnoBotCarteScoperte(carteGiocatore);
-				}
+				turnoBotCarteMazzo(carteGiocatore);
 			}
 			if (giocatoreDiTurno.isBot()) {
 				handleTurno();
@@ -269,6 +257,11 @@ public class GameHandler implements Observer {
 						cartaPosizionata = true;
 					}
 				}
+			}
+			
+			//se ho posizionato, continuo a giocare finchè posso posizionare dalle carte scoperte
+			if (cartaPosizionata) {
+				turnoBotCarteScoperte(carteGiocatore);
 			}
 			return cartaPosizionata;
 		}
@@ -309,8 +302,12 @@ public class GameHandler implements Observer {
 				}
 			}
 
-			if (!cartaPosizionata)
+			//se ho posizionato, continuo a giocare finchè posso posizionare dalle carte scoperte
+			if (cartaPosizionata) {
+				turnoBotCarteScoperte(carteGiocatore);
+			} else {
 				scartaCarta(cartaPescata);
+			}
 			return cartaPosizionata;
 		}
 
