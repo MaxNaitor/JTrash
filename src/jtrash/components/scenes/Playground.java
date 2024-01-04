@@ -53,18 +53,6 @@ public class Playground {
 			}
 			if (startGame)
 				gameHandler.handleTurno();
-			
-//			for (Node g : playground.getChildren()) {
-//				VBox v = (VBox)g;
-//				System.out.println(g.getId());
-//				for (Node fila : v.getChildren()) {
-//					HBox h = (HBox)fila;
-//					for (Node carta : h.getChildren()) {
-//						Carta c = (Carta) carta;
-//						System.out.println(c.getValore());
-//					}
-//				}
-//			}
 		}
 	}
 
