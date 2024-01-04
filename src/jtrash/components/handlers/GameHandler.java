@@ -419,6 +419,10 @@ public class GameHandler implements Observer {
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 		Playground.getInstance().updatePlayground(true);
+		Actionground.getInstance().setEnablePescaCarta(true);
+		Actionground.getInstance().setEnableScartaCarta(false);
+		Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
+				giocatoreDiTurno);
 	}
 
 	public void setCartaSelezionata(Carta cartaSelezionata) {
