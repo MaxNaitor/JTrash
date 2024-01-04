@@ -1,6 +1,8 @@
 package jtrash.components.scenes;
 
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
@@ -9,6 +11,7 @@ import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.handlers.GameHandler;
+import jtrash.components.objects.Carta;
 import jtrash.components.objects.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
@@ -38,9 +41,7 @@ public class Playground {
 
 	public void updatePlayground(boolean startGame) {
 		if (!GameHandler.getInstance().getGiocatori().isEmpty()) {
-			if (startGame) {
-				playground.getChildren().clear();
-			}
+			playground.getChildren().clear();
 			switch (GameHandler.getInstance().getGiocatori().size()) {
 			case 4:
 				playground.add(generaBoxPlayer(4, startGame), 25, 10); // cosa aggiungere, left-margin,top margin
@@ -52,6 +53,18 @@ public class Playground {
 			}
 			if (startGame)
 				gameHandler.handleTurno();
+			
+//			for (Node g : playground.getChildren()) {
+//				VBox v = (VBox)g;
+//				System.out.println(g.getId());
+//				for (Node fila : v.getChildren()) {
+//					HBox h = (HBox)fila;
+//					for (Node carta : h.getChildren()) {
+//						Carta c = (Carta) carta;
+//						System.out.println(c.getValore());
+//					}
+//				}
+//			}
 		}
 	}
 
@@ -61,6 +74,7 @@ public class Playground {
 			player.setCarte(gameHandler.getMazzo().distribuisciMano());
 		VBox boxPlayer = PlayerFactory.generaCampoPlayer(player);
 		boxPlayer.getChildren().add(TextFactory.generaTesto(player.getNome(), Color.WHITE, FontWeight.BOLD, 15));
+		boxPlayer.setId(player.getNome());
 		return boxPlayer;
 	}
 }

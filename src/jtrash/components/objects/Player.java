@@ -18,7 +18,9 @@ public class Player {
 
 	public List<HBox> distribuisciCarteSulTavolo() {
 		HBox primaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(0, 5));
+		primaFila.setId("primaFila");
 		HBox secondaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(5, 10));
+		secondaFila.setId("secondaFila");
 		return Arrays.asList(primaFila, secondaFila);
 	}
 

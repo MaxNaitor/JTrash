@@ -6,6 +6,7 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import jtrash.components.handlers.AnimationsHandler;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
 
@@ -45,7 +46,7 @@ public class CarteScartateBox implements IboxInterface, Observer {
 		instance.setBoxFill(instance.cartaDaVisualizzare.getCartaShape());
 
 	}
-	
+
 	private void resetCartaDaVisualizzare() {
 		cartaDaVisualizzare = new Carta();
 		cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
@@ -58,6 +59,7 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	@Override
 	public void setBoxFill(Rectangle box) {
 		this.box.setFill(box.getFill());
+		handleAnimazioneIngrandimento();
 	}
 
 	@Override
@@ -80,7 +82,13 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	@Override
 	public void setBoxFill(Paint fill) {
 		// TODO Auto-generated method stub
-		
+
+	}
+	
+	private void handleAnimazioneIngrandimento() {
+		if (!this.box.getFill().equals(Color.WHITE)) {
+			AnimationsHandler.animazioneIngrandimento(this.box);
+		}
 	}
 
 }

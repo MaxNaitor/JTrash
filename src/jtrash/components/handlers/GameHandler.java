@@ -66,37 +66,14 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			posizionaCarta(cartaSelezionata);
-			// TODO riprovare, se la carta scartata è posizionabile
-//			handleTurno();
 		}
 	};
 
 	private void posizionaCarta(Carta carta) {
 		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(carta.getValore());
 		int indexDaSostituire = valoreCarta - 1;
-		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
-
-		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-		carteGiocatore.set(indexDaSostituire, carta);
-
-		mazzo.getCarteScoperte().add(cartaDaSostituire);
-
-		cartaSelezionata = null;
-
-		CarteScartateBox.getInstance().update(null, mazzo);
-		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
-
-		Playground.getInstance().updatePlayground(false);
-
-		Actionground.getInstance().setEnablePescaCarta(false);
-		Actionground.getInstance().setEnableScartaCarta(false);
-		Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
-		boolean disablePescaCartaScartata = Actionground.getInstance()
-				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
-
-		if (disablePescaCartaScartata && !giocatoreDiTurno.isBot()) {
-			handleTurno();
-		}
+		
+		posizionaCartaGenerica(carta, indexDaSostituire);
 	}
 
 	private EventHandler<ActionEvent> posizionaWildcardEventHandler = new EventHandler<ActionEvent>() {
@@ -104,17 +81,19 @@ public class GameHandler implements Observer {
 		@Override
 		public void handle(ActionEvent arg0) {
 			posizionaWildCard(cartaSelezionata, null);
-			// TODO riprovare, se la carta scartata è posizionabile
-//			handleTurno();
 		}
 	};
 
 	private void posizionaWildCard(Carta carta, Integer index) {
-		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
 		int indexDaSostituire = index != null ? index : Actionground.getInstance().getPosizioneWildcardSelezionata();
 
-		Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
-		carteGiocatore.set(indexDaSostituire, carta);
+		posizionaCartaGenerica(carta, indexDaSostituire);
+	}
+	
+	private void posizionaCartaGenerica(Carta carta, Integer index) {
+		List<Carta> carteGiocatore = giocatoreDiTurno.getCarte();
+		Carta cartaDaSostituire = carteGiocatore.get(index);
+		carteGiocatore.set(index, carta);
 
 		mazzo.getCarteScoperte().add(cartaDaSostituire);
 
@@ -124,6 +103,8 @@ public class GameHandler implements Observer {
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
 		Playground.getInstance().updatePlayground(false);
+		
+		AnimationsHandler.animazioneIngrandimento(carta);
 
 		Actionground.getInstance().setEnablePescaCarta(false);
 		Actionground.getInstance().setEnableScartaCarta(false);
