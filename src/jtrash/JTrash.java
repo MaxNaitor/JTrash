@@ -3,7 +3,10 @@ package jtrash;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import jtrash.components.factories.SceneFactory;
+import jtrash.components.handlers.AudioManager;
 import jtrash.components.scenes.MainMenu;
+import jtrash.enums.FOLDERS_ENUM;
+import jtrash.enums.MUSICA_ENUM;
 
 public class JTrash extends Application {
 
@@ -19,6 +22,7 @@ public class JTrash extends Application {
 		sceneFactory.setStagePrimario(stage);
 		stage.setScene(sceneFactory.creaScena(MainMenu.getInstance().getMenu()));
 		stage.show();
+		AudioManager.getInstance().play(FOLDERS_ENUM.MUSICA.getFolderLocation() + MUSICA_ENUM.MUSICA_PRINCIPALE.getNomeCanzone());
 	}
 
 }
