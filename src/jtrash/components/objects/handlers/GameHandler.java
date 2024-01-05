@@ -1,4 +1,4 @@
-package jtrash.components.handlers;
+package jtrash.components.objects.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.AvatarFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.objects.Carta;
-import jtrash.components.objects.Mazzo;
-import jtrash.components.objects.Player;
-import jtrash.components.objects.box.CartaSelezionataBox;
-import jtrash.components.objects.box.CarteMazzoBox;
-import jtrash.components.objects.box.CarteScartateBox;
-import jtrash.components.scenes.Actionground;
-import jtrash.components.scenes.Playground;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.models.Mazzo;
+import jtrash.components.objects.models.Player;
+import jtrash.components.objects.views.box.CartaSelezionataBox;
+import jtrash.components.objects.views.box.CarteMazzoBox;
+import jtrash.components.objects.views.box.CarteScartateBox;
+import jtrash.components.objects.views.scenes.Actionground;
+import jtrash.components.objects.views.scenes.Playground;
 import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
@@ -359,8 +359,7 @@ public class GameHandler implements Observer {
 	private void handleTrash() {
 		if (contatoreTurniDopoTrash == 0)
 			contatoreTurniDopoTrash++;
-		ModalHandler.getInstance().mostraModaleInformativo("TRASH!!!",
-				"Il giocatore " + giocatoreDiTurno.getNome() + " ha fatto Trash!");
+		ModalHandler.getInstance().mostraModaleInformativo("TRASH!!!", giocatoreDiTurno.getNome() + " ha fatto Trash!");
 	}
 
 	private void handleFinePartita() {

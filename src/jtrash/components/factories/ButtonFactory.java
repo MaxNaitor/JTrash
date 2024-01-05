@@ -11,8 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.handlers.UtentiHandler;
-import jtrash.components.objects.Carta;
+import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.models.Carta;
 
 public class ButtonFactory {
 

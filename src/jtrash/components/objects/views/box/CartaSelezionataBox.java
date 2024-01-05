@@ -1,4 +1,4 @@
-package jtrash.components.objects.box;
+package jtrash.components.objects.views.box;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,9 +6,10 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.handlers.AnimationsHandler;
-import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.Carta;
+import jtrash.components.objects.handlers.AnimationsHandler;
+import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
 @SuppressWarnings("deprecation")
 public class CartaSelezionataBox implements IboxInterface, Observer {

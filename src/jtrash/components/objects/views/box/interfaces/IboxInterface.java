@@ -1,4 +1,4 @@
-package jtrash.components.objects.box;
+package jtrash.components.objects.views.box.interfaces;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package jtrash.components.objects.box;
+package jtrash.components.objects.views.box;
 
 import java.util.List;
 import java.util.Observable;
@@ -7,9 +7,10 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.Carta;
-import jtrash.components.objects.Mazzo;
+import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.models.Mazzo;
+import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
 @SuppressWarnings("deprecation")
 public class CarteMazzoBox implements IboxInterface, Observer {

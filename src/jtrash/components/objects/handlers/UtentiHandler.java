@@ -1,4 +1,4 @@
-package jtrash.components.handlers;
+package jtrash.components.objects.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +20,8 @@ import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.objects.Utente;
-import jtrash.components.scenes.MainMenu;
+import jtrash.components.objects.models.Utente;
+import jtrash.components.objects.views.scenes.MainMenu;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 

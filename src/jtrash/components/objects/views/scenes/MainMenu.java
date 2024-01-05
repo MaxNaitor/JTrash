@@ -1,4 +1,4 @@
-package jtrash.components.scenes;
+package jtrash.components.objects.views.scenes;
 
 import java.util.Arrays;
 
@@ -21,9 +21,9 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.handlers.ModalHandler;
-import jtrash.components.handlers.UtentiHandler;
-import jtrash.components.objects.Utente;
+import jtrash.components.objects.handlers.ModalHandler;
+import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.models.Utente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 

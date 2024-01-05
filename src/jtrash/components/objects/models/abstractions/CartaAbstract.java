@@ -1,10 +1,10 @@
-package jtrash.components.objects.abstractions;
+package jtrash.components.objects.models.abstractions;
 
 import javafx.scene.Parent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.ImagePatternFactory;
-import jtrash.components.objects.interfaces.ICarta;
+import jtrash.components.objects.models.interfaces.ICarta;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 

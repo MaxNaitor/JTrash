@@ -4,9 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import jtrash.components.handlers.GameHandler;
-import jtrash.components.handlers.UtentiHandler;
-import jtrash.components.objects.Carta;
+import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.models.Carta;
 import jtrash.components.observables.SelezioneCartaObservable;
 
 public class ActionEventFactory {
@@ -16,7 +16,6 @@ public class ActionEventFactory {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-//				UtentiHandler.getInstance().handleUtenteAttivo(inputUsername.getText());
 				GameHandler.getInstance().startNewGame(UtentiHandler.getInstance().getUtenteAttivo().getUsername(), selettoreAvversari.getValue());
 				SceneFactory.getInstance().cambiaScena(scene);
 			}

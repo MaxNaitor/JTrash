@@ -1,4 +1,4 @@
-package jtrash.components.scenes;
+package jtrash.components.objects.views.scenes;
 
 import java.util.Arrays;
 

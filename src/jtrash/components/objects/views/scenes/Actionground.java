@@ -1,4 +1,4 @@
-package jtrash.components.scenes;
+package jtrash.components.objects.views.scenes;
 
 import java.util.Arrays;
 
@@ -17,12 +17,12 @@ import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.Carta;
-import jtrash.components.objects.Player;
-import jtrash.components.objects.box.CartaSelezionataBox;
-import jtrash.components.objects.box.CarteMazzoBox;
-import jtrash.components.objects.box.CarteScartateBox;
+import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.models.Player;
+import jtrash.components.objects.views.box.CartaSelezionataBox;
+import jtrash.components.objects.views.box.CarteMazzoBox;
+import jtrash.components.objects.views.box.CarteScartateBox;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;

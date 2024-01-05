@@ -1,4 +1,4 @@
-package jtrash.components.handlers;
+package jtrash.components.objects.handlers;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;

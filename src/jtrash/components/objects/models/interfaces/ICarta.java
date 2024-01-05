@@ -1,4 +1,4 @@
-package jtrash.components.objects.interfaces;
+package jtrash.components.objects.models.interfaces;
 
 public interface ICarta {
 	// dimensioni delle carte

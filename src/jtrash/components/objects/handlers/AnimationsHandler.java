@@ -1,4 +1,4 @@
-package jtrash.components.handlers;
+package jtrash.components.objects.handlers;
 
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;

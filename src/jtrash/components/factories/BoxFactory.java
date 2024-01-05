@@ -10,9 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
-import jtrash.components.handlers.UtentiHandler;
-import jtrash.components.objects.Carta;
-import jtrash.components.objects.Player;
+import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.models.Player;
 
 public class BoxFactory {
 	

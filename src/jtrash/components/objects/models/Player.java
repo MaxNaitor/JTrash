@@ -1,4 +1,4 @@
-package jtrash.components.objects;
+package jtrash.components.objects.models;
 
 import java.util.Arrays;
 import java.util.List;

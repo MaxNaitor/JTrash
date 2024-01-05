@@ -1,4 +1,4 @@
-package jtrash.components.scenes;
+package jtrash.components.objects.views.scenes;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -8,8 +8,8 @@ import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.Player;
+import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.models.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 

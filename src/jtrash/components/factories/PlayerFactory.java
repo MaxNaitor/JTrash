@@ -4,8 +4,8 @@ import java.util.List;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.objects.Carta;
-import jtrash.components.objects.Player;
+import jtrash.components.objects.models.Carta;
+import jtrash.components.objects.models.Player;
 
 public class PlayerFactory {
 
