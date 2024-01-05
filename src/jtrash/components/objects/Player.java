@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.BoxFactory;
 
 public class Player {
@@ -13,6 +14,8 @@ public class Player {
 	private boolean hasTrash = false;
 
 	private boolean isBot = true;
+
+	private Rectangle avatar;
 
 	private List<Carta> carte;
 
@@ -31,10 +34,11 @@ public class Player {
 		return Arrays.asList(primaFila, secondaFila);
 	}
 
-	public Player(List<Carta> carte, String nome) {
+	public Player(List<Carta> carte, String nome, Rectangle avatar) {
 		super();
 		this.carte = carte;
 		this.nome = nome;
+		this.avatar = avatar;
 	}
 
 	public String getNome() {
@@ -67,6 +71,14 @@ public class Player {
 
 	public void setBot(boolean isBot) {
 		this.isBot = isBot;
+	}
+
+	public Rectangle getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Rectangle avatar) {
+		this.avatar = avatar;
 	}
 
 }

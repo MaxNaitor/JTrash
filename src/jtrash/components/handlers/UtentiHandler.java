@@ -3,7 +3,6 @@ package jtrash.components.handlers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

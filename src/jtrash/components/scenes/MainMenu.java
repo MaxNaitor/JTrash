@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -91,11 +90,7 @@ public class MainMenu {
 
 	private void aggiungiSezioneGiocatoreAttivo(VBox boxVerticale) {
 		if (utentiHandler.getUtenteAttivo() != null) {
-			HBox boxUtenteAttivo = BoxFactory.generaBoxOrizzontaleNodi(Arrays.asList(TextFactory.generaTesto(
-					"Ciao " + utentiHandler.getUtenteAttivo().getUsername() + "!", Color.WHITE, FontWeight.BOLD, 30)));
-			boxUtenteAttivo.getChildren().add(utentiHandler.getUtenteAttivo().getAvatar());
-			
-			boxUtenteAttivo.setAlignment(Pos.CENTER_LEFT);
+			HBox boxUtenteAttivo = BoxFactory.getBoxGiocatore("Ciao " + UtentiHandler.getInstance().getUtenteAttivo().getUsername() + "!",30);
 			
 			boxVerticale.getChildren().add(boxUtenteAttivo);
 		}

@@ -1,17 +1,14 @@
 package jtrash.components.scenes;
 
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
 import jtrash.components.factories.BackgroundFactory;
+import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.factories.TextFactory;
 import jtrash.components.handlers.GameHandler;
-import jtrash.components.objects.Carta;
 import jtrash.components.objects.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
@@ -60,9 +57,13 @@ public class Playground {
 		Player player = gameHandler.getGiocatori().get(numeroPlayer - 1);
 		if (startGame)
 			player.setCarte(gameHandler.getMazzo().distribuisciMano());
-		VBox boxPlayer = PlayerFactory.generaCampoPlayer(player);
-		boxPlayer.getChildren().add(TextFactory.generaTesto(player.getNome(), Color.WHITE, FontWeight.BOLD, 15));
-		boxPlayer.setId(player.getNome());
-		return boxPlayer;
+		VBox boxCampoPlayer = PlayerFactory.generaCampoPlayer(player);
+		
+		HBox boxInfoGiocatore = BoxFactory.getBoxGiocatore(player, 15);
+		boxInfoGiocatore.setAlignment(Pos.CENTER);
+		
+		boxCampoPlayer.getChildren().add(boxInfoGiocatore);
+		boxCampoPlayer.setId(player.getNome());
+		return boxCampoPlayer;
 	}
 }

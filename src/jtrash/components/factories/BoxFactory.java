@@ -1,12 +1,18 @@
 package jtrash.components.factories;
 
+import java.util.Arrays;
 import java.util.List;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.FontWeight;
+import jtrash.components.handlers.UtentiHandler;
 import jtrash.components.objects.Carta;
+import jtrash.components.objects.Player;
 
 public class BoxFactory {
 	
@@ -55,5 +61,23 @@ public class BoxFactory {
 		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(bottoni);
 		return box;
+	}
+	
+	public static HBox getBoxGiocatore(String testo,int dimensioneNome) {
+		HBox boxUtenteAttivo = generaBoxOrizzontaleNodi(Arrays.asList(TextFactory.generaTesto(
+				testo, Color.WHITE, FontWeight.BOLD, dimensioneNome)));
+		boxUtenteAttivo.getChildren().add(UtentiHandler.getInstance().getUtenteAttivo().getAvatar());
+		
+		boxUtenteAttivo.setAlignment(Pos.CENTER_LEFT);
+		return boxUtenteAttivo;
+	}
+	
+	public static HBox getBoxGiocatore(Player giocatore,int dimensioneNome) {
+		HBox boxUtenteAttivo = generaBoxOrizzontaleNodi(Arrays.asList(TextFactory.generaTesto(
+				giocatore.getNome(), Color.WHITE, FontWeight.BOLD, dimensioneNome)));
+		boxUtenteAttivo.getChildren().add(giocatore.getAvatar());
+		
+		boxUtenteAttivo.setAlignment(Pos.CENTER_LEFT);
+		return boxUtenteAttivo;
 	}
 }

@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import jtrash.components.factories.AvatarFactory;
 import jtrash.components.factories.PlayerFactory;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
@@ -18,6 +20,7 @@ import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.components.scenes.Actionground;
 import jtrash.components.scenes.Playground;
+import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
@@ -128,8 +131,18 @@ public class GameHandler implements Observer {
 		Actionground.getInstance().setEnableScartaCarta(false);
 	}
 
-	public Player aggiungiGiocatore(String nome) {
-		Player giocatore = PlayerFactory.creaPlayer(null, nome);
+	public Player aggiungiGiocatore(String nome, boolean isBot) {
+
+		Rectangle avatar;
+
+		if (isBot) {
+			avatar = AvatarFactory.getAvatar(AVATAR_ENUM.AVATAR_BOT);
+		} else {
+			avatar = UtentiHandler.getInstance().getUtenteAttivo().getAvatar();
+		}
+
+		Player giocatore = PlayerFactory.creaPlayer(null, nome, avatar);
+		giocatore.setBot(isBot);
 		giocatori.add(giocatore);
 		if (giocatori.size() > 2) {
 			Mazzo secondoMazzo = new Mazzo();
@@ -358,7 +371,8 @@ public class GameHandler implements Observer {
 			String nomeGiocatore = giocatori.get(0).getNome();
 			ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
 					"Partita finita! Vince " + nomeGiocatore + "!");
-			boolean vittoriaGiocatore = nomeGiocatore.equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername());
+			boolean vittoriaGiocatore = nomeGiocatore
+					.equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername());
 			giocatoreDiTurno = null;
 			UtentiHandler.getInstance().handleFineParita(vittoriaGiocatore);
 		} else {
@@ -391,11 +405,10 @@ public class GameHandler implements Observer {
 	public void startNewGame(String nomeGiocatore, int numeroGiocatori) {
 		setMazzo(new Mazzo());
 		giocatori = new ArrayList<>();
-		Player giocatore = aggiungiGiocatore(nomeGiocatore);
-		giocatore.setBot(false);
+		aggiungiGiocatore(nomeGiocatore, false);
 
 		for (int i = 1; i <= numeroGiocatori; i++) {
-			GameHandler.getInstance().aggiungiGiocatore("BOT " + i);
+			aggiungiGiocatore("BOT " + i, true);
 		}
 		resetCampo();
 	}
