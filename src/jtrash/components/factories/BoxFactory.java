@@ -1,6 +1,5 @@
 package jtrash.components.factories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
@@ -29,8 +28,6 @@ public class BoxFactory {
 	 * @return HBox
 	 */
 	public static HBox generaBoxOrizzontaleCarte(List<Carta> carte) {
-//		List<Button> pulsantiCarte = new ArrayList<>();
-//		carte.forEach(c -> pulsantiCarte.add(ButtonFactory.generaTastoSelezioneCarta(c,true)));
 		HBox box = generaBoxOrizzontaleBase();
 		box.getChildren().addAll(carte);
 		return box;
@@ -51,6 +48,12 @@ public class BoxFactory {
 	public static VBox generaBoxVerticaleHbox(List<HBox> boxList) {
 		VBox box = generaBoxVerticaleBase();
 		box.getChildren().addAll(boxList);
+		return box;
+	}
+	
+	public static HBox generaBoxOrizzontaleBottoni(List<Button> bottoni) {
+		HBox box = generaBoxOrizzontaleBase();
+		box.getChildren().addAll(bottoni);
 		return box;
 	}
 }

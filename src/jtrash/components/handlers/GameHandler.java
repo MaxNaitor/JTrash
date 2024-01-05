@@ -189,7 +189,8 @@ public class GameHandler implements Observer {
 					}
 					Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
 
-					mostraModale("Cambio turno", "Turno di " + giocatoreDiTurno.getNome());
+					ModalHandler.getInstance().mostraModaleInformativo("Cambio turno",
+							"Turno di " + giocatoreDiTurno.getNome());
 
 					if (contatoreTurniDopoTrash > 0) {
 						contatoreTurniDopoTrash++;
@@ -258,8 +259,9 @@ public class GameHandler implements Observer {
 					}
 				}
 			}
-			
-			//se ho posizionato, continuo a giocare finchè posso posizionare dalle carte scoperte
+
+			// se ho posizionato, continuo a giocare finchè posso posizionare dalle carte
+			// scoperte
 			if (cartaPosizionata) {
 				turnoBotCarteScoperte(carteGiocatore);
 			}
@@ -302,7 +304,8 @@ public class GameHandler implements Observer {
 				}
 			}
 
-			//se ho posizionato, continuo a giocare finchè posso posizionare dalle carte scoperte
+			// se ho posizionato, continuo a giocare finchè posso posizionare dalle carte
+			// scoperte
 			if (cartaPosizionata) {
 				turnoBotCarteScoperte(carteGiocatore);
 			} else {
@@ -360,7 +363,8 @@ public class GameHandler implements Observer {
 	private void handleTrash() {
 		if (contatoreTurniDopoTrash == 0)
 			contatoreTurniDopoTrash++;
-		mostraModale("TRASH!!!", "Il giocatore " + giocatoreDiTurno.getNome() + " ha fatto Trash!");
+		ModalHandler.getInstance().mostraModaleInformativo("TRASH!!!",
+				"Il giocatore " + giocatoreDiTurno.getNome() + " ha fatto Trash!");
 	}
 
 	private void handleFinePartita() {
@@ -369,7 +373,8 @@ public class GameHandler implements Observer {
 
 		if (giocatori.size() == 1) {
 			String nomeGiocatore = giocatori.get(0).getNome();
-			mostraModale("Fine Partita", "Partita finita! Vince " + nomeGiocatore + "!");
+			ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
+					"Partita finita! Vince " + nomeGiocatore + "!");
 			boolean vittoriaGiocatore = nomeGiocatore.equals(MainMenu.getInstance().getUtenteAttivo().getUsername());
 			giocatoreDiTurno = null;
 			MainMenu.getInstance().handleFineParita(vittoriaGiocatore);
@@ -384,34 +389,12 @@ public class GameHandler implements Observer {
 			if (!giocatoreEliminato) {
 				startNewRound();
 			} else {
-				mostraModale("Fine Partita", "Partita finita, sei stato eliminato!");
+				ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
+						"Partita finita, sei stato eliminato!");
 				giocatoreDiTurno = null;
 				MainMenu.getInstance().handleFineParita(false);
 			}
 		}
-	}
-
-	private void mostraModale(String titolo, String testo) {
-		Stage modalStage = new Stage();
-		modalStage.initModality(Modality.APPLICATION_MODAL);
-		modalStage.setTitle(titolo);
-		modalStage.setMinWidth(500);
-		modalStage.setMinHeight(500);
-
-		StackPane modalLayout = new StackPane();
-		Text testoModale = TextFactory.generaTesto(testo, Color.WHITE, FontWeight.BOLD, 50);
-		Button pulsanteContinua = ButtonFactory.generaTasto("Continua", e -> modalStage.close());
-
-		VBox box = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(testoModale, pulsanteContinua));
-		box.setAlignment(Pos.CENTER);
-
-		modalLayout.getChildren().add(box);
-
-		modalLayout.setBackground(BackgroundFactory
-				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
-
-		modalStage.setScene(new Scene(modalLayout));
-		modalStage.showAndWait();
 	}
 
 	private boolean checkFineRound() {
@@ -437,7 +420,8 @@ public class GameHandler implements Observer {
 	public void startNewRound() {
 		StringBuilder nomiGiocatori = new StringBuilder();
 		giocatori.stream().forEach(p -> nomiGiocatori.append(p.getNome() + "; "));
-		mostraModale("Nuovo Round", "Nuovo round con i seguenti giocatori: \n" + nomiGiocatori);
+		ModalHandler.getInstance().mostraModaleInformativo("Nuovo Round",
+				"Nuovo round con i seguenti giocatori: \n" + nomiGiocatori);
 		giocatoreDiTurno = null;
 		setMazzo(new Mazzo());
 		resetCampo();
@@ -450,7 +434,7 @@ public class GameHandler implements Observer {
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 		resetActionGround();
 	}
-	
+
 	private void resetActionGround() {
 		Actionground.getInstance().setEnablePescaCarta(true);
 		Actionground.getInstance().setEnableScartaCarta(false);

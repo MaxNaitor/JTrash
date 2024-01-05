@@ -1,11 +1,15 @@
 package jtrash.components.objects;
 
+import javafx.scene.shape.Rectangle;
+
 public class Utente {
 	private String username;
 
 	private int partiteGiocate = 0;
 
 	private int partiteVinte = 0;
+
+	private Rectangle avatar;
 
 	public Utente(String username) {
 		super();
@@ -40,6 +44,14 @@ public class Utente {
 
 	public void setPartiteVinte(int partiteVinte) {
 		this.partiteVinte = partiteVinte;
+	}
+
+	public Rectangle getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Rectangle avatar) {
+		this.avatar = avatar;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
+import jtrash.components.handlers.ModalHandler;
 import jtrash.components.objects.Utente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
