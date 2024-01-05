@@ -1,7 +1,6 @@
 package jtrash.components.handlers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,21 +8,8 @@ import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import jtrash.components.factories.BackgroundFactory;
-import jtrash.components.factories.BoxFactory;
-import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.factories.TextFactory;
 import jtrash.components.objects.Carta;
 import jtrash.components.objects.Mazzo;
 import jtrash.components.objects.Player;
@@ -31,10 +17,7 @@ import jtrash.components.objects.box.CartaSelezionataBox;
 import jtrash.components.objects.box.CarteMazzoBox;
 import jtrash.components.objects.box.CarteScartateBox;
 import jtrash.components.scenes.Actionground;
-import jtrash.components.scenes.MainMenu;
 import jtrash.components.scenes.Playground;
-import jtrash.enums.FOLDERS_ENUM;
-import jtrash.enums.IMAGES_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
@@ -375,13 +358,13 @@ public class GameHandler implements Observer {
 			String nomeGiocatore = giocatori.get(0).getNome();
 			ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
 					"Partita finita! Vince " + nomeGiocatore + "!");
-			boolean vittoriaGiocatore = nomeGiocatore.equals(MainMenu.getInstance().getUtenteAttivo().getUsername());
+			boolean vittoriaGiocatore = nomeGiocatore.equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername());
 			giocatoreDiTurno = null;
-			MainMenu.getInstance().handleFineParita(vittoriaGiocatore);
+			UtentiHandler.getInstance().handleFineParita(vittoriaGiocatore);
 		} else {
 			boolean giocatoreEliminato = true;
 			for (Player giocatore : giocatori) {
-				if (giocatore.getNome().equals(MainMenu.getInstance().getUtenteAttivo().getUsername())) {
+				if (giocatore.getNome().equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername())) {
 					giocatoreEliminato = false;
 					break;
 				}
@@ -392,7 +375,7 @@ public class GameHandler implements Observer {
 				ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
 						"Partita finita, sei stato eliminato!");
 				giocatoreDiTurno = null;
-				MainMenu.getInstance().handleFineParita(false);
+				UtentiHandler.getInstance().handleFineParita(false);
 			}
 		}
 	}

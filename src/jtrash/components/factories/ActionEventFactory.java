@@ -4,21 +4,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import jtrash.components.handlers.GameHandler;
+import jtrash.components.handlers.UtentiHandler;
 import jtrash.components.objects.Carta;
 import jtrash.components.observables.SelezioneCartaObservable;
-import jtrash.components.scenes.MainMenu;
 
 public class ActionEventFactory {
 
-	public static EventHandler<ActionEvent> azioneIniziaPartita(Scene scene, TextField inputUsername,ComboBox<Integer> selettoreAvversari) {
+	public static EventHandler<ActionEvent> azioneIniziaPartita(Scene scene,ComboBox<Integer> selettoreAvversari) {
 		return new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				MainMenu.getInstance().handleUtenteAttivo(inputUsername.getText());
-				GameHandler.getInstance().startNewGame(inputUsername.getText(), selettoreAvversari.getValue());
+//				UtentiHandler.getInstance().handleUtenteAttivo(inputUsername.getText());
+				GameHandler.getInstance().startNewGame(UtentiHandler.getInstance().getUtenteAttivo().getUsername(), selettoreAvversari.getValue());
 				SceneFactory.getInstance().cambiaScena(scene);
 			}
 		};

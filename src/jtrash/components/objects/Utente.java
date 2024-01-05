@@ -11,9 +11,10 @@ public class Utente {
 
 	private Rectangle avatar;
 
-	public Utente(String username) {
+	public Utente(String username, Rectangle avatar) {
 		super();
 		this.username = username;
+		this.avatar = avatar;
 	}
 
 	public void handleFineParita(boolean vittoria) {
