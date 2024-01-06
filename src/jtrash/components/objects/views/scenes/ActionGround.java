@@ -27,13 +27,13 @@ import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
-public class Actionground {
+public class ActionGround {
 
-	private static Actionground instance;
+	private static ActionGround instance;
 
-	public static Actionground getInstance() {
+	public static ActionGround getInstance() {
 		if (instance == null) {
-			instance = new Actionground();
+			instance = new ActionGround();
 		}
 		return instance;
 	}
@@ -57,7 +57,7 @@ public class Actionground {
 
 	private static VBox azioniActionGround;
 
-	private Actionground() {
+	private ActionGround() {
 		GameHandler gameHandler = GameHandler.getInstance();
 
 		actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(

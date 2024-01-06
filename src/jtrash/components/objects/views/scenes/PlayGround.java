@@ -13,21 +13,21 @@ import jtrash.components.objects.models.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
-public class Playground {
+public class PlayGround {
 
-	private static Playground instance;
+	private static PlayGround instance;
 	private static GameHandler gameHandler = GameHandler.getInstance();
 
 	private static GridPane playground = GridPaneFactory.generaGridPane(BackgroundFactory
 			.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 
-	private Playground() {
+	private PlayGround() {
 
 	}
 
-	public static Playground getInstance() {
+	public static PlayGround getInstance() {
 		if (instance == null) {
-			instance = new Playground();
+			instance = new PlayGround();
 		}
 		return instance;
 	}

@@ -49,16 +49,17 @@ public class UtentiHandler {
 	}
 
 	public String getStatisticaGiocatore(boolean isPartiteVinte) {
-		if (isPartiteVinte) {
-			return utenteAttivo != null
-					? "Partite vinte da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteVinte()
-					: "";
-		}
-		return utenteAttivo != null
-				? "Partite giocate da " + utenteAttivo.getUsername() + ": " + utenteAttivo.getPartiteGiocate()
-				: "";
-	}
+		if (utenteAttivo == null)
+			return "";
 
+		String intestazioneStatistica = isPartiteVinte ? "Partite vinte da " + utenteAttivo.getUsername() + ": "
+				: "Partite giocate da " + utenteAttivo.getUsername() + ": ";
+
+		String statistica = isPartiteVinte ? "" + utenteAttivo.getPartiteVinte()
+				: "" + utenteAttivo.getPartiteGiocate();
+
+		return intestazioneStatistica + statistica;
+	}
 
 	public List<Utente> getUtentiRegistrati() {
 		return utentiRegistrati;

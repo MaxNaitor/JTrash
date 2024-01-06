@@ -35,10 +35,6 @@ public class ModalHandler {
 		return instance;
 	}
 
-	public void mostraModale(Stage modalStage) {
-		modalStage.showAndWait();
-	}
-
 	public void mostraModaleInformativo(String titolo, String testo) {
 		Stage modalStage = getModalStage(titolo);
 
@@ -56,7 +52,7 @@ public class ModalHandler {
 
 		modalStage.setScene(new Scene(modalLayout));
 
-		mostraModale(modalStage);
+		modalStage.showAndWait();
 	}
 
 	public void mostraModaleRegistrazioneUtente() {
@@ -64,7 +60,7 @@ public class ModalHandler {
 
 		modalStage.setScene(new Scene(RegistrazioneUtente.getInstance().getRegistrazioneUtenteLayout(modalStage)));
 
-		mostraModale(modalStage);
+		modalStage.showAndWait();
 	}
 
 	private Stage getModalStage(String titolo) {

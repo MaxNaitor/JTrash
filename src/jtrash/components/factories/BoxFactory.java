@@ -63,9 +63,9 @@ public class BoxFactory {
 		return box;
 	}
 	
-	public static HBox getBoxGiocatore(String testo,int dimensioneNome) {
+	public static HBox getBoxUtente() {
 		HBox boxUtenteAttivo = generaBoxOrizzontaleNodi(Arrays.asList(TextFactory.generaTesto(
-				testo, Color.WHITE, FontWeight.BOLD, dimensioneNome)));
+				"Ciao " + UtentiHandler.getInstance().getUtenteAttivo().getUsername() + "!", Color.WHITE, FontWeight.BOLD, 30)));
 		boxUtenteAttivo.getChildren().add(UtentiHandler.getInstance().getUtenteAttivo().getAvatar());
 		
 		boxUtenteAttivo.setAlignment(Pos.CENTER_LEFT);

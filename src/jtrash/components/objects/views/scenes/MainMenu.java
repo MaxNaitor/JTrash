@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -14,13 +15,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import jtrash.components.factories.ActionEventFactory;
 import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
+import jtrash.components.objects.handlers.GameHandler;
 import jtrash.components.objects.handlers.ModalHandler;
 import jtrash.components.objects.handlers.UtentiHandler;
 import jtrash.components.objects.models.Utente;
@@ -67,8 +68,8 @@ public class MainMenu {
 		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
 
-		Button tastoGioca = ButtonFactory.generaTasto("Gioca", ActionEventFactory.azioneIniziaPartita(
-				SceneFactory.getInstance().creaScena(Gioco.getInstance().getGioco()), selettoreAvversari));
+		Button tastoGioca = ButtonFactory.generaTasto("Gioca", azioneIniziaPartita(
+				SceneFactory.getInstance().creaScena(SchermataDiGioco.getInstance().getGioco()), selettoreAvversari));
 		disableTastoGioca(tastoGioca, selettoreAvversari);
 
 		selettoreAvversari.setOnAction(new EventHandler<ActionEvent>() {
@@ -82,6 +83,8 @@ public class MainMenu {
 		boxVerticale.getChildren().add(selettoreAvversari);
 
 		boxVerticale.getChildren().add(tastoGioca);
+		
+		boxVerticale.setSpacing(20);
 
 		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
 
@@ -90,9 +93,7 @@ public class MainMenu {
 
 	private void aggiungiSezioneGiocatoreAttivo(VBox boxVerticale) {
 		if (utentiHandler.getUtenteAttivo() != null) {
-			HBox boxUtenteAttivo = BoxFactory.getBoxGiocatore("Ciao " + UtentiHandler.getInstance().getUtenteAttivo().getUsername() + "!",30);
-			
-			boxVerticale.getChildren().add(boxUtenteAttivo);
+			boxVerticale.getChildren().add(BoxFactory.getBoxUtente());
 		}
 	}
 
@@ -137,6 +138,18 @@ public class MainMenu {
 		boolean utenteSelected = utentiHandler.getUtenteAttivo() != null;
 
 		tastoGioca.setDisable(!(avversariSelezionati >= 1 && utenteSelected));
+	}
+	
+	private EventHandler<ActionEvent> azioneIniziaPartita(Scene scene, ComboBox<Integer> selettoreAvversari) {
+		return new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				GameHandler.getInstance().startNewGame(UtentiHandler.getInstance().getUtenteAttivo().getUsername(),
+						selettoreAvversari.getValue());
+				SceneFactory.getInstance().cambiaScena(scene);
+			}
+		};
 	}
 
 }

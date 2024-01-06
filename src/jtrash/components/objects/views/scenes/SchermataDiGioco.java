@@ -7,24 +7,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import jtrash.components.factories.BoxFactory;
 
-public class Gioco {
+public class SchermataDiGioco {
 
-	private static Gioco instance;
+	private static SchermataDiGioco instance;
 
-	private Gioco() {
+	private SchermataDiGioco() {
 
 	}
 
-	public static Gioco getInstance() {
+	public static SchermataDiGioco getInstance() {
 		if (instance == null) {
-			instance = new Gioco();
+			instance = new SchermataDiGioco();
 		}
 		return instance;
 	}
 
 	public HBox getGioco() {
-		GridPane playground = Playground.getInstance().getPlayground();
-		GridPane actionground = Actionground.getInstance().getActionground();
+		GridPane playground = PlayGround.getInstance().getPlayground();
+		GridPane actionground = ActionGround.getInstance().getActionground();
 
 		HBox box = BoxFactory.generaBoxOrizzontaleNodi(Arrays.asList(playground, actionground));
 		HBox.setHgrow(playground, Priority.ALWAYS);

@@ -18,8 +18,8 @@ import jtrash.components.objects.models.Player;
 import jtrash.components.objects.views.box.CartaSelezionataBox;
 import jtrash.components.objects.views.box.CarteMazzoBox;
 import jtrash.components.objects.views.box.CarteScartateBox;
-import jtrash.components.objects.views.scenes.Actionground;
-import jtrash.components.objects.views.scenes.Playground;
+import jtrash.components.objects.views.scenes.ActionGround;
+import jtrash.components.objects.views.scenes.PlayGround;
 import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
@@ -56,7 +56,7 @@ public class GameHandler implements Observer {
 	}
 
 	private void posizionaWildCard(Carta carta, Integer index) {
-		int indexDaSostituire = index != null ? index : Actionground.getInstance().getPosizioneWildcardSelezionata();
+		int indexDaSostituire = index != null ? index : ActionGround.getInstance().getPosizioneWildcardSelezionata();
 
 		posizionaCartaGenerica(carta, indexDaSostituire);
 	}
@@ -73,14 +73,14 @@ public class GameHandler implements Observer {
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
-		Playground.getInstance().updatePlayground(false);
+		PlayGround.getInstance().updatePlayground(false);
 
 		AnimationsHandler.animazioneIngrandimento(carta);
 
-		Actionground.getInstance().setEnablePescaCarta(false);
-		Actionground.getInstance().setEnableScartaCarta(false);
-		Actionground.getInstance().handlePosizionaCarta(cartaSelezionata);
-		boolean disablePescaCartaScartata = Actionground.getInstance()
+		ActionGround.getInstance().setEnablePescaCarta(false);
+		ActionGround.getInstance().setEnableScartaCarta(false);
+		ActionGround.getInstance().handlePosizionaCarta(cartaSelezionata);
+		boolean disablePescaCartaScartata = ActionGround.getInstance()
 				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
 
 		if ((disablePescaCartaScartata && !giocatoreDiTurno.isBot()) || checkTrashGiocatore(giocatoreDiTurno)) {
@@ -100,10 +100,10 @@ public class GameHandler implements Observer {
 
 		// non utilizzo observable altrimenti si crea una dipendenza ciclica tra
 		// gamehandler e actionground
-		Actionground.getInstance().handlePosizionaCarta(cartaPescata);
-		Actionground.getInstance().handleDisablePescaCartaScartata(null, giocatoreDiTurno);
-		Actionground.getInstance().setEnablePescaCarta(false);
-		Actionground.getInstance().setEnableScartaCarta(true);
+		ActionGround.getInstance().handlePosizionaCarta(cartaPescata);
+		ActionGround.getInstance().handleDisablePescaCartaScartata(null, giocatoreDiTurno);
+		ActionGround.getInstance().setEnablePescaCarta(false);
+		ActionGround.getInstance().setEnableScartaCarta(true);
 		return cartaPescata;
 	}
 
@@ -126,9 +126,9 @@ public class GameHandler implements Observer {
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
 
-		Actionground.getInstance().handleDisablePescaCartaScartata(carta, giocatoreDiTurno);
-		Actionground.getInstance().setEnablePescaCarta(true);
-		Actionground.getInstance().setEnableScartaCarta(false);
+		ActionGround.getInstance().handleDisablePescaCartaScartata(carta, giocatoreDiTurno);
+		ActionGround.getInstance().setEnablePescaCarta(true);
+		ActionGround.getInstance().setEnableScartaCarta(false);
 	}
 
 	public Player aggiungiGiocatore(String nome, boolean isBot) {
@@ -160,7 +160,7 @@ public class GameHandler implements Observer {
 		if (!getGiocatori().isEmpty()) {
 			if (giocatoreDiTurno == null) {
 				giocatoreDiTurno = getGiocatori().get(0);
-				Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
+				ActionGround.getInstance().handleTurno(giocatoreDiTurno.getNome());
 			} else {
 				checkTrash(giocatoreDiTurno);
 				if (!checkFineRound()) {
@@ -183,7 +183,7 @@ public class GameHandler implements Observer {
 					if (!giocatoreDiTurnoCambiato) {
 						giocatoreDiTurno = getGiocatori().get(0);
 					}
-					Actionground.getInstance().handleTurno(giocatoreDiTurno.getNome());
+					ActionGround.getInstance().handleTurno(giocatoreDiTurno.getNome());
 
 					ModalHandler.getInstance().mostraModaleInformativo("Cambio turno",
 							"Turno di " + giocatoreDiTurno.getNome());
@@ -423,7 +423,7 @@ public class GameHandler implements Observer {
 	}
 
 	private void resetCampo() {
-		Playground.getInstance().updatePlayground(true);
+		PlayGround.getInstance().updatePlayground(true);
 		CarteMazzoBox.getInstance().update(null, mazzo);
 		CarteScartateBox.getInstance().update(null, mazzo);
 		CartaSelezionataBox.getInstance().setBoxFill(Color.WHITE);
@@ -431,9 +431,9 @@ public class GameHandler implements Observer {
 	}
 
 	private void resetActionGround() {
-		Actionground.getInstance().setEnablePescaCarta(true);
-		Actionground.getInstance().setEnableScartaCarta(false);
-		Actionground.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
+		ActionGround.getInstance().setEnablePescaCarta(true);
+		ActionGround.getInstance().setEnableScartaCarta(false);
+		ActionGround.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
 				giocatoreDiTurno);
 	}
 

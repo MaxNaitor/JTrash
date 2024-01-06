@@ -13,11 +13,6 @@ public class PlayerFactory {
 		return new Player(carte,nome,avatar);
 	}
 	
-//	public static VBox generaCampoPlayer(List<Carta> carte) {
-//		Player player = PlayerFactory.creaPlayer(carte);
-//		return BoxFactory.generaBoxVerticaleHbox(player.distribuisciCarteSulTavolo());
-//	}
-	
 	public static VBox generaCampoPlayer(Player player) {
 	return BoxFactory.generaBoxVerticaleHbox(player.distribuisciCarteSulTavolo());
 }

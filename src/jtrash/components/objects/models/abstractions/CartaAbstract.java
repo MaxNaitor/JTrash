@@ -17,8 +17,8 @@ public abstract class CartaAbstract extends Rectangle implements ICarta {
 		setWidth(WIDTH);
 
 		// bordo tondo per le carte
-		setArcWidth(15);
-		setArcHeight(15);
+		setArcWidth(ARC_DIMENSIONS);
+		setArcHeight(ARC_DIMENSIONS);
 
 		this.retro = ImagePatternFactory.generaImmagine(
 				FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + IMAGES_ENUM.RETRO_CARTE.getNomeImmagine());
