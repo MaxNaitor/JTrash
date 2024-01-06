@@ -1,29 +1,13 @@
 package jtrash.components.objects.handlers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import jtrash.components.factories.BackgroundFactory;
-import jtrash.components.factories.BoxFactory;
-import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.SceneFactory;
-import jtrash.components.factories.TextFactory;
 import jtrash.components.objects.models.Utente;
 import jtrash.components.objects.views.scenes.MainMenu;
-import jtrash.enums.FOLDERS_ENUM;
-import jtrash.enums.IMAGES_ENUM;
+import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 
 public class UtentiHandler {
 
@@ -40,8 +24,6 @@ public class UtentiHandler {
 	private String usernameUtente;
 	private Rectangle avatarSelezionato;
 
-	Button pulsanteRegistra;
-
 	public static UtentiHandler getInstance() {
 		if (instance == null) {
 			instance = new UtentiHandler();
@@ -49,46 +31,12 @@ public class UtentiHandler {
 		return instance;
 	}
 
-	public StackPane getRegistrazioneUtenteLayout(Stage modalStage) {
-		StackPane modalLayout = new StackPane();
-
-		Text inserisciNomeGiocatoreText = TextFactory.generaTesto("Inserisci username:", Color.WHITE, FontWeight.BOLD,
-				30);
-		TextField inputNomeGiocatore = new TextField();
-		inputNomeGiocatore.setMaxWidth(300);
-		inputNomeGiocatore.textProperty().addListener((observable, oldValue, newValue) -> {
-			usernameUtente = newValue;
-			enableRegistra();
-		});
-
-		Text scegliAvatarText = TextFactory.generaTesto("Scegli un Avatar:", Color.WHITE, FontWeight.BOLD, 30);
-		HBox avatarBox = BoxFactory.generaBoxOrizzontaleBottoni(ButtonFactory.generaTastiSelezioneAvatar());
-		avatarBox.setAlignment(Pos.CENTER);
-
-		pulsanteRegistra = ButtonFactory.generaTasto("Registra", e -> {
-			registraUtente();
-			modalStage.close();
-		});
-		pulsanteRegistra.setDisable(true);
-
-		VBox box = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(inserisciNomeGiocatoreText, inputNomeGiocatore,
-				scegliAvatarText, avatarBox, pulsanteRegistra));
-		box.setAlignment(Pos.CENTER);
-
-		modalLayout.getChildren().add(box);
-
-		modalLayout.setBackground(BackgroundFactory
-				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
-
-		return modalLayout;
-	}
-
 	public void handleFineParita(boolean vittoria) {
 		utenteAttivo.handleFineParita(vittoria);
 		SceneFactory.getInstance().cambiaScena(SceneFactory.getInstance().creaScena(MainMenu.getInstance().getMenu()));
 	}
 
-	private void registraUtente() {
+	public void registraUtente() {
 		utenteAttivo = new Utente(usernameUtente, avatarSelezionato);
 		utentiRegistrati.add(utenteAttivo);
 		usernameUtente = null;
@@ -111,13 +59,6 @@ public class UtentiHandler {
 				: "";
 	}
 
-	private void enableRegistra() {
-		if (usernameUtente != null && !usernameUtente.isBlank() && avatarSelezionato != null) {
-			pulsanteRegistra.setDisable(false);
-		} else {
-			pulsanteRegistra.setDisable(true);
-		}
-	}
 
 	public List<Utente> getUtentiRegistrati() {
 		return utentiRegistrati;
@@ -133,11 +74,19 @@ public class UtentiHandler {
 
 	public void setAvatarSelezionato(Rectangle avatarSelezionato) {
 		this.avatarSelezionato = avatarSelezionato;
-		enableRegistra();
+		RegistrazioneUtente.getInstance().enableRegistra();
 	}
 
 	public void setUtenteAttivo(Utente utenteAttivo) {
 		this.utenteAttivo = utenteAttivo;
+	}
+
+	public String getUsernameUtente() {
+		return usernameUtente;
+	}
+
+	public void setUsernameUtente(String usernameUtente) {
+		this.usernameUtente = usernameUtente;
 	}
 
 }

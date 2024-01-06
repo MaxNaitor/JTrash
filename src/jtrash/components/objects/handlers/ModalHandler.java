@@ -16,6 +16,7 @@ import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.TextFactory;
+import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
@@ -61,7 +62,7 @@ public class ModalHandler {
 	public void mostraModaleRegistrazioneUtente() {
 		Stage modalStage = getModalStage("Registrazione Utente");
 
-		modalStage.setScene(new Scene(UtentiHandler.getInstance().getRegistrazioneUtenteLayout(modalStage)));
+		modalStage.setScene(new Scene(RegistrazioneUtente.getInstance().getRegistrazioneUtenteLayout(modalStage)));
 
 		mostraModale(modalStage);
 	}
