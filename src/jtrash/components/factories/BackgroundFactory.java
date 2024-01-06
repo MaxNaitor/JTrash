@@ -9,6 +9,11 @@ import javafx.scene.layout.BackgroundSize;
 
 public class BackgroundFactory {
 
+	/**
+	 * Crea un Background con l'immagine indicata in input.
+	 * @param urlImmagine
+	 * @return Background con l'immagine selezionata
+	 */
 	public static Background generaBackground(String urlImmagine) {
 		Image image = new Image("file:" + urlImmagine);
 		BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
