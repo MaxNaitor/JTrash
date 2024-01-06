@@ -25,7 +25,7 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 	public static CartaSelezionataBox getInstance() {
 		if (instance == null) {
 			instance = new CartaSelezionataBox();
-			instance.setBox(GameHandler.getInstance().getCartaSelezionata().getCartaShape());
+			instance.setBox(GameHandler.getInstance().getCartaSelezionata());
 		}
 		return instance;
 	}
@@ -33,7 +33,7 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		Carta carta = (Carta) arg;
-		setBoxFill(carta.getCartaShape().getFill());
+		setBoxFill(carta.getFill());
 
 	}
 
@@ -43,7 +43,6 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 
 	@Override
 	public void setBoxFill(Rectangle box) {
-		//TODO check box in input, forse è il bug sotto la prima carta
 		this.box.setFill(box.getFill());
 		handleAnimazioneIngrandimento();
 	}

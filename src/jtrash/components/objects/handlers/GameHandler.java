@@ -94,7 +94,7 @@ public class GameHandler implements Observer {
 		if (!pescaCartaScoperta)
 			cartaSelezionata.giraCarta();
 
-		CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata.getCartaShape());
+		CartaSelezionataBox.getInstance().setBoxFill(cartaSelezionata);
 		if (pescaCartaScoperta)
 			CarteScartateBox.getInstance().update(null, mazzo);
 
@@ -327,7 +327,7 @@ public class GameHandler implements Observer {
 	public Carta getCartaSelezionata() {
 		if (this.cartaSelezionata == null) {
 			Carta nessunaCarta = new Carta();
-			nessunaCarta.getCartaShape().setFill(Color.WHITE);
+			nessunaCarta.setFill(Color.WHITE);
 			return nessunaCarta;
 		}
 		return this.cartaSelezionata;

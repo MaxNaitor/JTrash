@@ -30,7 +30,7 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 			List<Carta> carteCoperte = GameHandler.getInstance().getMazzo().getCarteCoperte();
 			instance = new CarteMazzoBox();
 			instance.cartaInCima = carteCoperte.get(carteCoperte.size() - 1);
-			instance.setBox(instance.cartaInCima.getCartaShape());
+			instance.setBox(instance.cartaInCima);
 		}
 		return instance;
 	}
@@ -40,11 +40,11 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 		Mazzo mazzo = (Mazzo) arg;
 		if (mazzo.getCarteCoperte().isEmpty()) {
 			Carta cartaDaVisualizzare = new Carta();
-			cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
-			box.setFill(cartaDaVisualizzare.getCartaShape().getFill());
+			cartaDaVisualizzare.setFill(Color.WHITE);
+			box.setFill(cartaDaVisualizzare.getFill());
 		}  else {
 			instance.cartaInCima = mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1);
-			instance.setBox(instance.cartaInCima.getCartaShape());
+			instance.setBox(instance.cartaInCima);
 		}
 		
 	}

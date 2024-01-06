@@ -27,8 +27,8 @@ public class CarteScartateBox implements IboxInterface, Observer {
 		if (instance == null) {
 			instance = new CarteScartateBox();
 			instance.cartaDaVisualizzare = new Carta();
-			instance.cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
-			instance.setBox(instance.cartaDaVisualizzare.getCartaShape());
+			instance.cartaDaVisualizzare.setFill(Color.WHITE);
+			instance.setBox(instance.cartaDaVisualizzare);
 		}
 		return instance;
 	}
@@ -44,13 +44,13 @@ public class CarteScartateBox implements IboxInterface, Observer {
 				cartaDaVisualizzare.giraCarta();
 			}
 		}
-		instance.setBoxFill(instance.cartaDaVisualizzare.getCartaShape());
+		instance.setBoxFill(instance.cartaDaVisualizzare);
 
 	}
 
 	private void resetCartaDaVisualizzare() {
 		cartaDaVisualizzare = new Carta();
-		cartaDaVisualizzare.getCartaShape().setFill(Color.WHITE);
+		cartaDaVisualizzare.setFill(Color.WHITE);
 	}
 
 	public Rectangle getBox() {

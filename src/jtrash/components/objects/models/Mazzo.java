@@ -81,7 +81,7 @@ public class Mazzo extends CartaAbstract {
 		// se la carta che ho pescato era l'ultima,aggiorno lo sfondo per segnalarne
 		// l'esaurimento
 		if (this.carteCoperte.isEmpty()) {
-			this.cartaShape.setFill(Color.WHITE);
+			this.setFill(Color.WHITE);
 			return true;
 		}
 		return false;

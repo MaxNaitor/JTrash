@@ -20,16 +20,10 @@ public class Carta extends CartaAbstract {
 		this.valore = valore;
 
 		generaCarta();
-
-		// aggiungo la carta come children di Parent per poterla visualizzare
-		getChildren().add(this.cartaShape);
 	}
 
 	public Carta() {
 		generaCarta();
-
-		// aggiungo la carta come children di Parent per poterla visualizzare
-		getChildren().add(this.cartaShape);
 	}
 
 	public Rectangle giraCarta() {
@@ -42,15 +36,15 @@ public class Carta extends CartaAbstract {
 						.generaImmagine(FOLDERS_ENUM.IMMAGINI_CARTE.getFolderLocation() + nomeImmagineCarta + ".png");
 			}
 			// se la carta è coperta, la scopro rivelando l'immagine
-			this.cartaShape.setFill(this.immagineCarta);
+			setFill(this.immagineCarta);
 		} else {
 			// se la carta è scoperta, la copro mostrando il retro
-			this.cartaShape.setFill(this.retro);
+			setFill(this.retro);
 		}
 		// aggiorno lo stato della carta
 		this.isCoperta.set(false);
 
-		return getCartaShape();
+		return this;
 	}
 
 	public SEMI_ENUM getSeme() {
