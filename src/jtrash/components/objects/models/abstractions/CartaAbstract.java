@@ -12,6 +12,10 @@ public abstract class CartaAbstract extends Rectangle implements ICarta {
 	protected ImagePattern retro;
 	protected ImagePattern immagineCarta;
 
+	/**
+	 * Costruisce la rappresentazione fisica della carta. Imposta le dimensioni e la stondatura della forma, e di default imposta
+	 * come immagine di riempimento il retro delle carte, dato che una carta parte di base coperta
+	 */
 	public void generaCarta() {
 		setHeight(HEIGHT);
 		setWidth(WIDTH);

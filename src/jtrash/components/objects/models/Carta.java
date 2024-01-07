@@ -1,7 +1,6 @@
 package jtrash.components.objects.models;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.ImagePatternFactory;
 import jtrash.components.objects.models.abstractions.CartaAbstract;
 import jtrash.enums.FOLDERS_ENUM;
@@ -26,7 +25,12 @@ public class Carta extends CartaAbstract {
 		generaCarta();
 	}
 
-	public Rectangle giraCarta() {
+	/**
+	 * Gestisce il cambio tra carta coperta e scoperta, mostrando il retro o
+	 * l'immagine specifica della carta e impostando un flag che indica logicamente
+	 * lo stato della carta.
+	 */
+	public void giraCarta() {
 		boolean cartaIsCoperta = isCoperta.get();
 
 		if (cartaIsCoperta) {
@@ -37,14 +41,32 @@ public class Carta extends CartaAbstract {
 			}
 			// se la carta è coperta, la scopro rivelando l'immagine
 			setFill(this.immagineCarta);
+			// aggiorno lo stato della carta
+			this.isCoperta.set(false);
 		} else {
 			// se la carta è scoperta, la copro mostrando il retro
 			setFill(this.retro);
+			// aggiorno lo stato della carta
+			this.isCoperta.set(true);
 		}
-		// aggiorno lo stato della carta
-		this.isCoperta.set(false);
+	}
 
-		return this;
+	/**
+	 * Restituisce true se la carta è una wildcard (Re o Jolly)
+	 * 
+	 * @return boolean
+	 */
+	public boolean isWildcard() {
+		return valore.equals(VALORI_CARTE_ENUM.RE) || valore.equals(VALORI_CARTE_ENUM.JOLLY);
+	}
+
+	/**
+	 * Restituisce true se la carta è posizionabile (diversa da Regina o Jack)
+	 * 
+	 * @return boolean
+	 */
+	public boolean isPosizionabile() {
+		return !valore.equals(VALORI_CARTE_ENUM.REGINA) && !valore.equals(VALORI_CARTE_ENUM.JACK);
 	}
 
 	public SEMI_ENUM getSeme() {
@@ -58,13 +80,4 @@ public class Carta extends CartaAbstract {
 	public boolean isCoperta() {
 		return isCoperta.get();
 	}
-	
-	public boolean isWildcard() {
-		return valore.equals(VALORI_CARTE_ENUM.RE) || valore.equals(VALORI_CARTE_ENUM.JOLLY);
-	}
-	
-	public boolean isPosizionabile() {
-		return !valore.equals(VALORI_CARTE_ENUM.REGINA) && !valore.equals(VALORI_CARTE_ENUM.JACK);
-	}
-
 }

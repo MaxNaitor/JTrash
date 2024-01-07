@@ -225,7 +225,7 @@ public class GameHandler implements Observer {
 	}
 
 	private boolean turnoBotCarteScoperte(List<Carta> carteGiocatore) {
-		if (giocatoreDiTurno.isBot()) {
+		if (giocatoreDiTurno != null && giocatoreDiTurno.isBot()) {
 			if (checkTrashGiocatore(giocatoreDiTurno)) {
 				return false;
 			}

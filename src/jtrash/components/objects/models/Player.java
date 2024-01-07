@@ -19,13 +19,11 @@ public class Player {
 
 	private List<Carta> carte;
 
+	/**
+	 * Distribuisce le carte del giocatore sul tavolo da gioco in due file (HBox) contente 5 carte ciascuna
+	 * @return List HBox
+	 */
 	public List<HBox> distribuisciCarteSulTavolo() {
-		HBox primaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(0, 5));
-		HBox secondaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(5, 10));
-		return Arrays.asList(primaFila, secondaFila);
-	}
-
-	public List<HBox> distribuisciCarteSulTavoloButton() {
 		HBox primaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(0, 5));
 		HBox secondaFila = BoxFactory.generaBoxOrizzontaleCarte(carte.subList(5, 10));
 		return Arrays.asList(primaFila, secondaFila);
