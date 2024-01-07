@@ -1,5 +1,10 @@
 package jtrash.enums;
 
+/**
+ * Rappresentazione delle immagini di base da mostrare durante la partita e nel menu principale
+ * @author tizia
+ *
+ */
 public enum IMAGES_ENUM {
 	SFONDO_PRINCIPALE("Trash.png"),
 	TAVOLO("tavolo.jpg"),

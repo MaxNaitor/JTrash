@@ -1,5 +1,10 @@
 package jtrash.enums;
 
+/**
+ * Rappresentazione delle immagini per gli avatar
+ * @author tizia
+ *
+ */
 public enum AVATAR_ENUM {
 	AVATAR_BLU("blu.jpg"),
 	AVATAR_GIALLO("giallo.jpg"),

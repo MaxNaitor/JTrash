@@ -1,8 +1,18 @@
 package jtrash.enums;
 
+/**
+ * Rappresentazione dei valori delle carte di un mazzo da poker
+ * @author tizia
+ *
+ */
 public enum VALORI_CARTE_ENUM {
 	ASSO, DUE, TRE, QUATTRO, CINQUE, SEI, SETTE, OTTO, NOVE, DIECI, JACK, REGINA, RE, JOLLY;
 
+	/**
+	 * Restituisce il valore numerico di ogni figura
+	 * @param valoreEnum
+	 * @return int
+	 */
 	public static int getValoreNumerico(VALORI_CARTE_ENUM valoreEnum) {
 		switch (valoreEnum) {
 		case ASSO:

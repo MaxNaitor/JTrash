@@ -1,5 +1,10 @@
 package jtrash.enums;
 
+/**
+ * Rappresentazione dei file musicali dell'applicazione
+ * @author tizia
+ *
+ */
 public enum MUSICA_ENUM {
 	MUSICA_PRINCIPALE("music.wav");
 
