@@ -11,6 +11,11 @@ import jtrash.components.objects.handlers.GameHandler;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
+/**
+ * Classe che rappresenta visivamente la carta selezionata dal giocatore, cioè quella appena pescata, dal mazzo o dalle carte scartate
+ * @author tizia
+ *
+ */
 @SuppressWarnings("deprecation")
 public class CartaSelezionataBox implements IboxInterface, Observer {
 
@@ -34,22 +39,15 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 	public void update(Observable o, Object arg) {
 		Carta carta = (Carta) arg;
 		setBoxFill(carta.getFill());
-
-	}
-
-	public Rectangle getBox() {
-		return box;
 	}
 
 	@Override
 	public void setBoxFill(Rectangle box) {
-		this.box.setFill(box.getFill());
-		handleAnimazioneIngrandimento();
+		setBoxFill(box.getFill());
 	}
 
 	@Override
 	public void setBox(Rectangle box) {
-		//solo il primo set nel getinstance deve inizializzare il box
 		if (this.box != null) {
 			setBoxFill(box);
 			return;
@@ -63,10 +61,18 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 		handleAnimazioneIngrandimento();
 	}
 	
+	/**
+	 * Gestice l'animazione di ingrandimento della carta nel box, mostrandola se il box non è vuoto
+	 */
 	private void handleAnimazioneIngrandimento() {
 		if (!this.box.getFill().equals(Color.WHITE)) {
 			AnimationsHandler.animazioneIngrandimento(this.box);
 		}
+	}
+	
+
+	public Rectangle getBox() {
+		return box;
 	}
 
 }

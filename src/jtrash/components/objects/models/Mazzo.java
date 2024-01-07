@@ -11,6 +11,11 @@ import jtrash.components.objects.models.abstractions.CartaAbstract;
 import jtrash.enums.SEMI_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
+/**
+ * Rappresentazione di un Mazzo di carte, diviso in carte coperte (ancora da pescare) e carte scoperte (carte scartate)
+ * @author tizia
+ *
+ */
 public class Mazzo extends CartaAbstract {
 
 	List<Carta> carteCoperte = new ArrayList<>();

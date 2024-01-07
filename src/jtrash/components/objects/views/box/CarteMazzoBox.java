@@ -12,14 +12,18 @@ import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Mazzo;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
+/**
+ * Classe che rappresenta visivamente le carte del mazzo coperto
+ * 
+ * @author tizia
+ *
+ */
 @SuppressWarnings("deprecation")
 public class CarteMazzoBox implements IboxInterface, Observer {
 
 	private static CarteMazzoBox instance;
 
 	private Rectangle box;
-	
-	private Carta cartaInCima;
 
 	private CarteMazzoBox() {
 
@@ -27,14 +31,24 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 
 	public static CarteMazzoBox getInstance() {
 		if (instance == null) {
-			List<Carta> carteCoperte = GameHandler.getInstance().getMazzo().getCarteCoperte();
 			instance = new CarteMazzoBox();
-			instance.cartaInCima = carteCoperte.get(carteCoperte.size() - 1);
-			instance.setBox(instance.cartaInCima);
+			inizializzaBox();
 		}
 		return instance;
 	}
+	
+	/**
+	 * Inizializza la box come la prima carta coperta del mazzo, in modo che sia sempre una carta coperta
+	 */
+	private static void inizializzaBox() {
+		List<Carta> carteCoperte = GameHandler.getInstance().getMazzo().getCarteCoperte();
+		instance.setBox(carteCoperte.get(carteCoperte.size() - 1));
+	}
 
+	/**
+	 * Gestisce la visualizzazione del mazzo coperto, impostando sfondo bianco se
+	 * tutte le carte del mazzo sono state pescate
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		Mazzo mazzo = (Mazzo) arg;
@@ -42,15 +56,7 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 			Carta cartaDaVisualizzare = new Carta();
 			cartaDaVisualizzare.setFill(Color.WHITE);
 			box.setFill(cartaDaVisualizzare.getFill());
-		}  else {
-			instance.cartaInCima = mazzo.getCarteCoperte().get(mazzo.getCarteCoperte().size() - 1);
-			instance.setBox(instance.cartaInCima);
 		}
-		
-	}
-
-	public Rectangle getBox() {
-		return box;
 	}
 
 	@Override
@@ -60,7 +66,6 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 
 	@Override
 	public void setBox(Rectangle box) {
-		//solo il primo set nel getinstance deve inizializzare il box
 		if (this.box != null) {
 			setBoxFill(box);
 			return;
@@ -70,8 +75,9 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 
 	@Override
 	public void setBoxFill(Paint fill) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	public Rectangle getBox() {
+		return box;
+	}
 }
