@@ -13,6 +13,11 @@ import jtrash.components.objects.models.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
+/**
+ * Classe che rappresenta il campo da gioco, dove i giocatori dispongono le carte
+ * @author tizia
+ *
+ */
 public class PlayGround {
 
 	private static PlayGround instance;
@@ -36,6 +41,12 @@ public class PlayGround {
 		return playground;
 	}
 
+	/**
+	 * Aggiorna il campo da gioco disponendo le carte in funzione dei giocatori in partita. <br>
+	 * Se invocato all'inizio della partita, il metodo genera solo carte coperte e invoca la gestione dei turni per iniziare la partita. <br>
+	 * Se invocato durante la partita, il metodo serve ad aggiornare le carte in modo da mostrare scoperte le carte che sono state posizionate
+	 * @param startGame
+	 */
 	public void updatePlayground(boolean startGame) {
 		if (!GameHandler.getInstance().getGiocatori().isEmpty()) {
 			playground.getChildren().clear();
@@ -53,6 +64,13 @@ public class PlayGround {
 		}
 	}
 
+	/**
+	 * Genera la sezione di campo di ogni giocatore, in base al numero che lo rappresenta e al fatto se stiamo iniziando una nuova partita
+	 * o è ancora in corso
+	 * @param numeroPlayer
+	 * @param startGame
+	 * @return VBox
+	 */
 	private VBox generaBoxPlayer(int numeroPlayer, boolean startGame) {
 		Player player = gameHandler.getGiocatori().get(numeroPlayer - 1);
 		if (startGame)

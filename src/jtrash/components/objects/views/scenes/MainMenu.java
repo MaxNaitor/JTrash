@@ -28,6 +28,12 @@ import jtrash.components.objects.models.Utente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
+/**
+ * Classe che rappresenta il menu principale dell'applicazione
+ * 
+ * @author tizia
+ *
+ */
 public class MainMenu {
 
 	private static MainMenu instance;
@@ -55,22 +61,103 @@ public class MainMenu {
 		HBox boxSottotitolo = BoxFactory.generaBoxOrizzontaleNodi(Arrays.asList(
 				TextFactory.generaTesto("Tiziano Massa - Matricola 2067791", Color.WHITE, FontWeight.THIN, 30)));
 
-		VBox boxVerticale = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo));
+		VBox menu = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(boxTitolo, boxSottotitolo));
 
-		aggiungiSezioneGiocatoreAttivo(boxVerticale);
+		aggiungiSezioneGiocatoreAttivo(menu);
 
-		aggiungiSezioneGiocatori(boxVerticale);
+		aggiungiSezioneGiocatori(menu);
 
+		ComboBox<Integer> selettoreAvversari = generaSelettoreAvversari(menu);
+
+		generaTastoGioca(selettoreAvversari, menu);
+
+		menu.setSpacing(20);
+
+		mainMenu.add(menu, 5, 5); // cosa aggiungere, left-margin,top margin
+
+		return mainMenu;
+	}
+
+
+	/**
+	 * Aggiunge al menu la sezione dell'utente attivo con relative statistiche, se
+	 * c'è
+	 * 
+	 * @param menu
+	 */
+	private void aggiungiSezioneGiocatoreAttivo(VBox menu) {
+		if (utentiHandler.getUtenteAttivo() != null) {
+			menu.getChildren().add(BoxFactory.getBoxUtente());
+			Text partiteGiocate = TextFactory.generaTesto(utentiHandler.getStatisticaGiocatore(false), Color.WHITE);
+
+			Text partiteVinte = TextFactory.generaTesto(utentiHandler.getStatisticaGiocatore(true), Color.WHITE);
+
+			if (utentiHandler.getUtenteAttivo() != null) {
+				VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(partiteGiocate, partiteVinte));
+
+				menu.getChildren().add(statisticheUtente);
+			}
+		}
+	}
+
+	/**
+	 * Aggiunge la sezione della selezione degli utenti già registrati
+	 * 
+	 * @param menu
+	 */
+	private void aggiungiSezioneGiocatori(VBox menu) {
+
+		Button tastoRegistraUtente = ButtonFactory.generaTasto("Registra Utente",
+				e -> ModalHandler.getInstance().mostraModaleRegistrazioneUtente());
+		menu.getChildren().add(tastoRegistraUtente);
+
+		if (!utentiHandler.getUtentiRegistrati().isEmpty()) {
+			Text utentiRegistratiText = TextFactory.generaTesto("Seleziona utente già registrato:", Color.WHITE);
+			menu.getChildren().add(utentiRegistratiText);
+
+			ObservableList<Utente> utenti = FXCollections.observableArrayList(utentiHandler.getUtentiRegistrati());
+			ComboBox<Utente> selettoreUtentiRegistrati = new ComboBox<>(utenti);
+			selettoreUtentiRegistrati.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					utentiHandler.setUtenteAttivo(selettoreUtentiRegistrati.getValue());
+					SceneFactory.getInstance()
+							.cambiaScena(SceneFactory.getInstance().creaScena(MainMenu.getInstance().getMenu()));
+				}
+			});
+			menu.getChildren().add(selettoreUtentiRegistrati);
+		}
+	}
+
+	/**
+	 * Genera e aggiunge al menu il selettore degli avversari e la sua label, impostando di default un
+	 * avversario selezionato
+	 * 
+	 * @param menu
+	 * @return ComboBox
+	 */
+	private ComboBox<Integer> generaSelettoreAvversari(VBox menu) {
 		Text numeroAvversariText = TextFactory.generaTesto("Numero avversari:", Color.WHITE);
 
-		boxVerticale.getChildren().add(numeroAvversariText);
+		menu.getChildren().add(numeroAvversariText);
 
 		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
 		selettoreAvversari.setValue(1);
-
+		menu.getChildren().add(selettoreAvversari);
+		return selettoreAvversari;
+	}
+	
+	/**
+	 * Genera e aggiunge al menu il tasto gioca, con annessa gestione dell'abilitazione del tasto
+	 * @param selettoreAvversari
+	 * @param menu
+	 * @return Button
+	 */
+	private Button generaTastoGioca(ComboBox<Integer> selettoreAvversari, VBox menu) {
 		Button tastoGioca = ButtonFactory.generaTasto("Gioca", azioneIniziaPartita(
-				SceneFactory.getInstance().creaScena(SchermataDiGioco.getInstance().getGioco()), selettoreAvversari));
+				SceneFactory.getInstance().creaScena(SchermataDiGioco.getInstance().getSchermataDiGioco()), selettoreAvversari));
 		disableTastoGioca(tastoGioca, selettoreAvversari);
 
 		selettoreAvversari.setOnAction(new EventHandler<ActionEvent>() {
@@ -80,57 +167,17 @@ public class MainMenu {
 				disableTastoGioca(tastoGioca, selettoreAvversari);
 			}
 		});
-
-		boxVerticale.getChildren().add(selettoreAvversari);
-
-		boxVerticale.getChildren().add(tastoGioca);
-		
-		boxVerticale.setSpacing(20);
-
-		mainMenu.add(boxVerticale, 5, 5); // cosa aggiungere, left-margin,top margin
-
-		return mainMenu;
+		menu.getChildren().add(tastoGioca);
+		return tastoGioca;
 	}
 
-	private void aggiungiSezioneGiocatoreAttivo(VBox boxVerticale) {
-		if (utentiHandler.getUtenteAttivo() != null) {
-			boxVerticale.getChildren().add(BoxFactory.getBoxUtente());
-		}
-	}
-
-	private void aggiungiSezioneGiocatori(VBox boxVerticale) {
-		Text partiteGiocate = TextFactory.generaTesto(utentiHandler.getStatisticaGiocatore(false), Color.WHITE);
-
-		Text partiteVinte = TextFactory.generaTesto(utentiHandler.getStatisticaGiocatore(true), Color.WHITE);
-
-		if (utentiHandler.getUtenteAttivo() != null) {
-			VBox statisticheUtente = BoxFactory.generaBoxVerticaleNodi(Arrays.asList(partiteGiocate, partiteVinte));
-
-			boxVerticale.getChildren().add(statisticheUtente);
-		}
-
-		Button tastoRegistraUtente = ButtonFactory.generaTasto("Registra Utente",
-				e -> ModalHandler.getInstance().mostraModaleRegistrazioneUtente());
-		boxVerticale.getChildren().add(tastoRegistraUtente);
-
-		if (!utentiHandler.getUtentiRegistrati().isEmpty()) {
-			Text utentiRegistratiText = TextFactory.generaTesto("Seleziona utente già registrato:", Color.WHITE);
-			boxVerticale.getChildren().add(utentiRegistratiText);
-
-			ObservableList<Utente> utenti = FXCollections.observableArrayList(utentiHandler.getUtentiRegistrati());
-			ComboBox<Utente> selettoreUtentiRegistrati = new ComboBox<>(utenti);
-			selettoreUtentiRegistrati.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					utentiHandler.setUtenteAttivo(selettoreUtentiRegistrati.getValue());
-					SceneFactory.getInstance().cambiaScena(SceneFactory.getInstance().creaScena(MainMenu.getInstance().getMenu()));
-				}
-			});
-			boxVerticale.getChildren().add(selettoreUtentiRegistrati);
-		}
-	}
-
+	/**
+	 * Disabilita il tasto gioca se non c'è un utente attivo o non è stato
+	 * selezionato il numero di avversari desiderato
+	 * 
+	 * @param tastoGioca
+	 * @param selettoreAvversari
+	 */
 	private void disableTastoGioca(Button tastoGioca, ComboBox<Integer> selettoreAvversari) {
 		if (tastoGioca == null || selettoreAvversari == null || selettoreAvversari.getValue() == null)
 			return;
@@ -140,7 +187,15 @@ public class MainMenu {
 
 		tastoGioca.setDisable(!(avversariSelezionati >= 1 && utenteSelected));
 	}
-	
+
+	/**
+	 * Genera l'azione che da inizio alla partita, impostando il gioco tramite
+	 * GameHandler e mostrando la scena di gioco
+	 * 
+	 * @param scene
+	 * @param selettoreAvversari
+	 * @return EventHandler
+	 */
 	private EventHandler<ActionEvent> azioneIniziaPartita(Scene scene, ComboBox<Integer> selettoreAvversari) {
 		return new EventHandler<ActionEvent>() {
 

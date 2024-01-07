@@ -23,6 +23,10 @@ public class SelezioneCartaObservable extends Observable {
 		return instance;
 	}
 
+	/**
+	 * Quando viene pescata una nuova carta dal mazzo coperto o dal mazzo scoperto, notifica gli Observer
+	 * @param carta
+	 */
 	public void aggiornaSelezioneCarta(Carta carta) {
 		setChanged();
 		notifyObservers(carta);

@@ -7,6 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import jtrash.components.factories.BoxFactory;
 
+/**
+ * Classe che rappresenta l'intera schermata di gioco durante la partita, divisa in PlayGround e ActionGround
+ * @author tizia
+ *
+ */
 public class SchermataDiGioco {
 
 	private static SchermataDiGioco instance;
@@ -22,7 +27,11 @@ public class SchermataDiGioco {
 		return instance;
 	}
 
-	public HBox getGioco() {
+	/**
+	 * Restituisce la schermata di gioco come una HBox composta da PlayGround e ActionGround
+	 * @return HBox
+	 */
+	public HBox getSchermataDiGioco() {
 		GridPane playground = PlayGround.getInstance().getPlayground();
 		GridPane actionground = ActionGround.getInstance().getActionground();
 

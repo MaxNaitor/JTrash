@@ -41,8 +41,13 @@ public class RegistrazioneUtente {
 		return instance;
 	}
 
+	/**
+	 * Restituisce il layout per la registrazione di un utente da mostrare in un modale. 
+	 * @param modalStage
+	 * @return StackPane
+	 */
 	public StackPane getRegistrazioneUtenteLayout(Stage modalStage) {
-		StackPane modalLayout = new StackPane();
+		StackPane layoutRegistrazione = new StackPane();
 
 		Text inserisciNomeGiocatoreText = TextFactory.generaTesto("Inserisci username:", Color.WHITE, FontWeight.BOLD,
 				30);
@@ -67,14 +72,17 @@ public class RegistrazioneUtente {
 				scegliAvatarText, avatarBox, pulsanteRegistra));
 		box.setAlignment(Pos.CENTER);
 
-		modalLayout.getChildren().add(box);
+		layoutRegistrazione.getChildren().add(box);
 
-		modalLayout.setBackground(BackgroundFactory
+		layoutRegistrazione.setBackground(BackgroundFactory
 				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 
-		return modalLayout;
+		return layoutRegistrazione;
 	}
 
+	/**
+	 * Abilita il tasto registra se lo username è stato inserito ed è stato selezionato un avatar
+	 */
 	public void enableRegistra() {
 		if (utentiHandler.getUsernameUtente() != null && !utentiHandler.getUsernameUtente().isBlank()
 				&& utentiHandler.getAvatarSelezionato() != null) {
