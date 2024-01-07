@@ -22,10 +22,11 @@ public class Mazzo extends CartaAbstract {
 	List<Carta> carteScoperte = new ArrayList<>();
 
 	/**
-	 * Genera un mazzo e la sua rappresentazione grafica come carta singola coperta.
+	 * Genera un mazzo e la sua rappresentazione grafica come carta singola coperta. <br>
 	 * Il mazzo è generato scorrendo tutti i semi e tutti i valori delle carte,
 	 * creando una nuova carta con ogni combinazione di essi e aggiungendola alla
-	 * lista delle carte coperte. Inoltre aggiunge due JOLLY rappresentati da due
+	 * lista delle carte coperte. <br>
+	 * Inoltre aggiunge due JOLLY rappresentati da due
 	 * colori, rosso e nero
 	 */
 	public Mazzo() {

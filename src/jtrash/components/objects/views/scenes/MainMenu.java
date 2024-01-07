@@ -67,6 +67,7 @@ public class MainMenu {
 
 		ObservableList<Integer> avversari = FXCollections.observableArrayList(1, 2, 3);
 		ComboBox<Integer> selettoreAvversari = new ComboBox<>(avversari);
+		selettoreAvversari.setValue(1);
 
 		Button tastoGioca = ButtonFactory.generaTasto("Gioca", azioneIniziaPartita(
 				SceneFactory.getInstance().creaScena(SchermataDiGioco.getInstance().getGioco()), selettoreAvversari));

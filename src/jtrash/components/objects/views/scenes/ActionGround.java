@@ -27,6 +27,13 @@ import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
+/**
+ * Questa classe rappresenta la sezione del campo da gioco dove sono
+ * visualizzate le azioni che si possono svolgere in base alla situazione.
+ * 
+ * @author tizia
+ *
+ */
 public class ActionGround {
 
 	private static ActionGround instance;
@@ -95,6 +102,7 @@ public class ActionGround {
 						testoCartaSelezionata, CarteScartateBox.getInstance().getBox(), testoCarteScartare,
 						CarteMazzoBox.getInstance().getBox(), testoCarteMazzo, pescaCartaMazzo, pescaCartaScartata,
 						posizionaCarta, scartaCarta, posizionaWildcard, wildcardLabel, selettorePosizioneWildcard));
+
 		actionground.setAlignment(Pos.BASELINE_CENTER);
 		actionground.add(azioniActionGround, 0, 1);
 	}
@@ -103,50 +111,87 @@ public class ActionGround {
 		return actionground;
 	}
 
+	/**
+	 * Gestisce la possibiltà di pescare una carta
+	 * @param canPescareCarta
+	 */
 	public void setEnablePescaCarta(boolean canPescareCarta) {
 		pescaCartaMazzo.setDisable(!canPescareCarta);
 	}
 
+	/**
+	 * Gestisce la possibilità di scartare una carta
+	 * @param canScartareCarta
+	 */
 	public void setEnableScartaCarta(boolean canScartareCarta) {
 		scartaCarta.setDisable(!canScartareCarta);
 	}
 
+	/**
+	 * Gestisce l'intestazione che indica il giocatore di turno
+	 * @param nomeGiocatoreDiTurno
+	 */
 	public void handleTurno(String nomeGiocatoreDiTurno) {
 		giocatoreDiTurno.setText("Turno di " + nomeGiocatoreDiTurno);
 	}
 
+	/**
+	 * Gestisce la possibilità di utilizzare le azioni di posizionamento carte, sia
+	 * wildcard che normali, in base alla carte selezionata al momento. <br>
+	 * 1) carta selezionata == null -> entrambe le azioni sono disabilitate <br>
+	 * 2) carta selezionata == wildcard -> l'azione posiziona è disabilitata,
+	 * l'azione posiziona wildcard è abilitata <br>
+	 * 3) carta selezionata == posizionabile -> l'azione posiziona è abilitata,
+	 * l'azione posiziona wildcard è disabilitata <br>
+	 * 4) carta selezionata == non posizionabile -> entrambe le azioni sono
+	 * disabilitate
+	 * 
+	 * @param cartaSelezionata
+	 */
 	public void handlePosizionaCarta(Carta cartaSelezionata) {
 		if (cartaSelezionata != null) {
-			switch (cartaSelezionata.getValore()) {
-			case JOLLY:
-			case RE:
+			if (cartaSelezionata.isWildcard()) {
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(false);
 				selettorePosizioneWildcard.setDisable(false);
-				break;
-			case REGINA:
-			case JACK:
-				posizionaCarta.setDisable(true);
-				posizionaWildcard.setDisable(true);
-				disableSelettorePosizioneWildcard();
-				break;
-			default:
+			} else if (cartaSelezionata.isPosizionabile()) {
 				posizionaCarta.setDisable(false);
 				posizionaWildcard.setDisable(true);
-				disableSelettorePosizioneWildcard();
+			} else {
+				posizionaCarta.setDisable(true);
+				posizionaWildcard.setDisable(true);
 			}
 		} else {
 			posizionaCarta.setDisable(true);
 			posizionaWildcard.setDisable(true);
-			disableSelettorePosizioneWildcard();
+		}
+
+		handleDisableSelettorePosizioneWildcard();
+	}
+
+	/**
+	 * disabilita il selettore della posizione in cui posizionare una wildcard se
+	 * l'azione posiziona wildcard è disabilitata
+	 */
+	private void handleDisableSelettorePosizioneWildcard() {
+		if (posizionaWildcard.isDisabled()) {
+			selettorePosizioneWildcard.setValue(null);
+			selettorePosizioneWildcard.setDisable(true);
 		}
 	}
 
-	private void disableSelettorePosizioneWildcard() {
-		selettorePosizioneWildcard.setValue(null);
-		selettorePosizioneWildcard.setDisable(true);
-	}
-
+	/**
+	 * Gestisce la possibilità di utilizzare l'azione pesca carta scartata in base
+	 * alla carta in cima al mazzo scoperto <br>
+	 * 1) carta scartata == null -> azione disabilitata <br>
+	 * 2) carta scartata == wildcard -> azione abilitata <br>
+	 * 3) se la carta del giocatore corrispondente alla posizione della carta
+	 * scartata è coperta oppure è una wildcard -> azione abilitata
+	 * 
+	 * @param cartaScartata
+	 * @param giocatoreDiTurno
+	 * @return true se l'azione pesca carta scartata è disabilitata
+	 */
 	public boolean handleDisablePescaCartaScartata(Carta cartaScartata, Player giocatoreDiTurno) {
 		if (cartaScartata != null) {
 			if (!cartaScartata.isPosizionabile()) {
@@ -162,7 +207,7 @@ public class ActionGround {
 			int indexCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaScartata.getValore()) - 1;
 			Carta cartaGiocatore = giocatoreDiTurno.getCarte().get(indexCarta);
 
-			if (cartaGiocatore.isCoperta() || !cartaGiocatore.isCoperta() && cartaGiocatore.isWildcard()) {
+			if (cartaGiocatore.isCoperta() || (!cartaGiocatore.isCoperta() && cartaGiocatore.isWildcard())) {
 				pescaCartaScartata.setDisable(false);
 				return false;
 			}
@@ -175,6 +220,12 @@ public class ActionGround {
 		}
 	}
 
+	/**
+	 * Ritorna l'index di un array corrispondente al valore scelto dal selettore
+	 * posizione wildcard
+	 * 
+	 * @return index per gestire il posizionamento in una Lista di carte
+	 */
 	public int getPosizioneWildcardSelezionata() {
 		return selettorePosizioneWildcard.getValue() - 1;
 	}

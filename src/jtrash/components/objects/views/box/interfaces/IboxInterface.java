@@ -17,7 +17,8 @@ public interface IboxInterface {
 	void setBoxFill(Paint fill);
 
 	/**
-	 * inizializza il box per la visualizzazione della carta. Se già inizializzato, ne modifica solo il Fill
+	 * inizializza il box per la visualizzazione della carta. <br>
+	 * Se già inizializzato, ne modifica solo il Fill
 	 */
 	void setBox(Rectangle box);
 
