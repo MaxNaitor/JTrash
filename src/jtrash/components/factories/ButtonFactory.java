@@ -12,11 +12,15 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.objects.handlers.UtentiHandler;
-import jtrash.components.objects.models.Carta;
-import jtrash.components.observables.SelezioneCartaObservable;
 
 public class ButtonFactory {
 
+	/**
+	 * Restituisce un button che svolge l'azione passata in input 
+	 * @param testo
+	 * @param azione
+	 * @return Button
+	 */
 	public static Button generaTasto(String testo, EventHandler<ActionEvent> azione) {
 		Button button = new Button(testo);
 		aggiungiEffettiMouseHover(button);
@@ -24,6 +28,13 @@ public class ButtonFactory {
 		return button;
 	}
 
+	
+	/**
+	 * Restituisce un button contentente un nodo che svolge l'azione passata in input 
+	 * @param testo
+	 * @param azione
+	 * @return Button
+	 */
 	public static Button generaTasto(String testo, Node nodo, EventHandler<ActionEvent> azione) {
 		Button button = new Button(testo, nodo);
 		aggiungiEffettiMouseHover(button);
@@ -31,14 +42,13 @@ public class ButtonFactory {
 		return button;
 	}
 
-	public static Button generaTastoSelezioneCarta(Carta carta, boolean disabilita) {
-		Button button = new Button("", carta);
-		aggiungiEffettiMouseHover(button);
-		button.setOnAction(e -> SelezioneCartaObservable.getInstance().aggiornaSelezioneCarta(carta));
-		button.setDisable(disabilita);
-		return button;
-	}
 
+	/**
+	 * Restituisce una lista di button che permettono la selezione degli avatar in fase di registrazione utente
+	 * @param testo
+	 * @param azione
+	 * @return Button
+	 */
 	public static List<Button> generaTastiSelezioneAvatar() {
 		List<Button> bottoniAvatar = new ArrayList<>();
 		for (Rectangle avatar : AvatarFactory.getAvatarSelezionabiliGiocatore()) {
@@ -47,6 +57,10 @@ public class ButtonFactory {
 		return bottoniAvatar;
 	}
 
+	/**
+	 * Aggiunge un effetto al button che cambia il cursore e l'ombreggiatura quando il mouse passa sopra
+	 * @param button
+	 */
 	private static void aggiungiEffettiMouseHover(Button button) {
 		DropShadow shadow = new DropShadow();
 

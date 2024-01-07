@@ -6,6 +6,11 @@ import javafx.scene.layout.GridPane;
 
 public class GridPaneFactory {
 
+	/**
+	 * genera un GridPane con il Background passato in input.
+	 * @param background
+	 * @return GridPane
+	 */
 	public static GridPane generaGridPane(Background background) {
 		GridPane grid = new GridPane();
 
