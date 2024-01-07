@@ -7,7 +7,7 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Mazzo;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
@@ -41,7 +41,7 @@ public class CarteMazzoBox implements IboxInterface, Observer {
 	 * Inizializza la box come la prima carta coperta del mazzo, in modo che sia sempre una carta coperta
 	 */
 	private static void inizializzaBox() {
-		List<Carta> carteCoperte = GameHandler.getInstance().getMazzo().getCarteCoperte();
+		List<Carta> carteCoperte = GameController.getInstance().getMazzo().getCarteCoperte();
 		instance.setBox(carteCoperte.get(carteCoperte.size() - 1));
 	}
 

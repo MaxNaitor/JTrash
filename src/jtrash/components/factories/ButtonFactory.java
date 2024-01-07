@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.controllers.UtentiController;
 
 public class ButtonFactory {
 
@@ -52,7 +52,7 @@ public class ButtonFactory {
 	public static List<Button> generaTastiSelezioneAvatar() {
 		List<Button> bottoniAvatar = new ArrayList<>();
 		for (Rectangle avatar : AvatarFactory.getAvatarSelezionabiliGiocatore()) {
-			bottoniAvatar.add(generaTasto("", avatar, e -> UtentiHandler.getInstance().setAvatarSelezionato(avatar)));
+			bottoniAvatar.add(generaTasto("", avatar, e -> UtentiController.getInstance().setAvatarSelezionato(avatar)));
 		}
 		return bottoniAvatar;
 	}

@@ -1,4 +1,4 @@
-package jtrash.components.objects.handlers;
+package jtrash.components.objects.controllers;
 
 import java.util.Arrays;
 
@@ -20,17 +20,17 @@ import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
-public class ModalHandler {
+public class ModalController {
 
-	private static ModalHandler instance;
+	private static ModalController instance;
 
-	private ModalHandler() {
+	private ModalController() {
 
 	}
 
-	public static ModalHandler getInstance() {
+	public static ModalController getInstance() {
 		if (instance == null) {
-			instance = new ModalHandler();
+			instance = new ModalController();
 		}
 		return instance;
 	}

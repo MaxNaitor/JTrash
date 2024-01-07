@@ -17,7 +17,7 @@ import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Player;
 import jtrash.components.objects.views.box.CartaSelezionataBox;
@@ -65,7 +65,7 @@ public class ActionGround {
 	private static VBox azioniActionGround;
 
 	private ActionGround() {
-		GameHandler gameHandler = GameHandler.getInstance();
+		GameController gameHandler = GameController.getInstance();
 
 		actionground = GridPaneFactory.generaGridPane(BackgroundFactory.generaBackground(
 				FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.SFONDO_PRINCIPALE.getNomeImmagine()));

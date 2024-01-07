@@ -2,7 +2,7 @@ package jtrash.components.observables;
 
 import java.util.Observable;
 
-import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.views.box.CartaSelezionataBox;
 
@@ -12,7 +12,7 @@ public class SelezioneCartaObservable extends Observable {
 	private static SelezioneCartaObservable instance;
 
 	private SelezioneCartaObservable() {
-		addObserver(GameHandler.getInstance());
+		addObserver(GameController.getInstance());
 		addObserver(CartaSelezionataBox.getInstance());
 	}
 

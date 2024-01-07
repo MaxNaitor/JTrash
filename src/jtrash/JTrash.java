@@ -3,7 +3,7 @@ package jtrash;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import jtrash.components.factories.SceneFactory;
-import jtrash.components.objects.handlers.AudioManager;
+import jtrash.components.objects.controllers.AudioManager;
 import jtrash.components.objects.views.scenes.MainMenu;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.MUSICA_ENUM;

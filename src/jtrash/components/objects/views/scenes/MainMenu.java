@@ -21,9 +21,9 @@ import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.objects.handlers.GameHandler;
-import jtrash.components.objects.handlers.ModalHandler;
-import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.controllers.GameController;
+import jtrash.components.objects.controllers.ModalController;
+import jtrash.components.objects.controllers.UtentiController;
 import jtrash.components.objects.models.Utente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
@@ -38,7 +38,7 @@ public class MainMenu {
 
 	private static MainMenu instance;
 
-	private static UtentiHandler utentiHandler;
+	private static UtentiController utentiHandler;
 
 	private MainMenu() {
 
@@ -47,7 +47,7 @@ public class MainMenu {
 	public static MainMenu getInstance() {
 		if (instance == null) {
 			instance = new MainMenu();
-			utentiHandler = UtentiHandler.getInstance();
+			utentiHandler = UtentiController.getInstance();
 		}
 		return instance;
 	}
@@ -108,7 +108,7 @@ public class MainMenu {
 	private void aggiungiSezioneGiocatori(VBox menu) {
 
 		Button tastoRegistraUtente = ButtonFactory.generaTasto("Registra Utente",
-				e -> ModalHandler.getInstance().mostraModaleRegistrazioneUtente());
+				e -> ModalController.getInstance().mostraModaleRegistrazioneUtente());
 		menu.getChildren().add(tastoRegistraUtente);
 
 		if (!utentiHandler.getUtentiRegistrati().isEmpty()) {
@@ -201,7 +201,7 @@ public class MainMenu {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				GameHandler.getInstance().startNewGame(UtentiHandler.getInstance().getUtenteAttivo().getUsername(),
+				GameController.getInstance().startNewGame(UtentiController.getInstance().getUtenteAttivo().getUsername(),
 						selettoreAvversari.getValue());
 				SceneFactory.getInstance().cambiaScena(scene);
 			}

@@ -1,4 +1,4 @@
-package jtrash.components.objects.handlers;
+package jtrash.components.objects.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,11 @@ import jtrash.components.objects.models.Utente;
 import jtrash.components.objects.views.scenes.MainMenu;
 import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 
-public class UtentiHandler {
+public class UtentiController {
 
-	private static UtentiHandler instance;
+	private static UtentiController instance;
 
-	private UtentiHandler() {
+	private UtentiController() {
 
 	}
 
@@ -24,9 +24,9 @@ public class UtentiHandler {
 	private String usernameUtente;
 	private Rectangle avatarSelezionato;
 
-	public static UtentiHandler getInstance() {
+	public static UtentiController getInstance() {
 		if (instance == null) {
-			instance = new UtentiHandler();
+			instance = new UtentiController();
 		}
 		return instance;
 	}

@@ -1,10 +1,10 @@
-package jtrash.components.objects.handlers;
+package jtrash.components.objects.controllers;
 
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
-public class AnimationsHandler {
+public class AnimationsController {
 
 	public static void animazioneIngrandimento(Node nodo) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.5), nodo);

@@ -1,4 +1,4 @@
-package jtrash.components.objects.handlers;
+package jtrash.components.objects.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +24,16 @@ import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
 @SuppressWarnings("deprecation")
-public class GameHandler implements Observer {
+public class GameController implements Observer {
 
-	private static GameHandler instance;
+	private static GameController instance;
 
-	private GameHandler() {
+	private GameController() {
 	}
 
-	public static GameHandler getInstance() {
+	public static GameController getInstance() {
 		if (instance == null) {
-			instance = new GameHandler();
+			instance = new GameController();
 
 		}
 		return instance;
@@ -75,7 +75,7 @@ public class GameHandler implements Observer {
 
 		PlayGround.getInstance().updatePlayground(false);
 
-		AnimationsHandler.animazioneIngrandimento(carta);
+		AnimationsController.animazioneIngrandimento(carta);
 
 		ActionGround.getInstance().setEnablePescaCarta(false);
 		ActionGround.getInstance().setEnableScartaCarta(false);
@@ -138,7 +138,7 @@ public class GameHandler implements Observer {
 		if (isBot) {
 			avatar = AvatarFactory.getAvatar(AVATAR_ENUM.AVATAR_BOT);
 		} else {
-			avatar = UtentiHandler.getInstance().getUtenteAttivo().getAvatar();
+			avatar = UtentiController.getInstance().getUtenteAttivo().getAvatar();
 		}
 
 		Player giocatore = PlayerFactory.creaPlayer(null, nome, avatar);
@@ -185,7 +185,7 @@ public class GameHandler implements Observer {
 					}
 					ActionGround.getInstance().handleTurno(giocatoreDiTurno.getNome());
 
-					ModalHandler.getInstance().mostraModaleInformativo("Cambio turno",
+					ModalController.getInstance().mostraModaleInformativo("Cambio turno",
 							"Turno di " + giocatoreDiTurno.getNome());
 
 					if (contatoreTurniDopoTrash > 0) {
@@ -359,7 +359,7 @@ public class GameHandler implements Observer {
 	private void handleTrash() {
 		if (contatoreTurniDopoTrash == 0)
 			contatoreTurniDopoTrash++;
-		ModalHandler.getInstance().mostraModaleInformativo("TRASH!!!", giocatoreDiTurno.getNome() + " ha fatto Trash!");
+		ModalController.getInstance().mostraModaleInformativo("TRASH!!!", giocatoreDiTurno.getNome() + " ha fatto Trash!");
 	}
 
 	private void handleFinePartita() {
@@ -368,16 +368,16 @@ public class GameHandler implements Observer {
 
 		if (giocatori.size() == 1) {
 			String nomeGiocatore = giocatori.get(0).getNome();
-			ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
+			ModalController.getInstance().mostraModaleInformativo("Fine Partita",
 					"Partita finita! Vince " + nomeGiocatore + "!");
 			boolean vittoriaGiocatore = nomeGiocatore
-					.equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername());
+					.equals(UtentiController.getInstance().getUtenteAttivo().getUsername());
 			giocatoreDiTurno = null;
-			UtentiHandler.getInstance().handleFineParita(vittoriaGiocatore);
+			UtentiController.getInstance().handleFineParita(vittoriaGiocatore);
 		} else {
 			boolean giocatoreEliminato = true;
 			for (Player giocatore : giocatori) {
-				if (giocatore.getNome().equals(UtentiHandler.getInstance().getUtenteAttivo().getUsername())) {
+				if (giocatore.getNome().equals(UtentiController.getInstance().getUtenteAttivo().getUsername())) {
 					giocatoreEliminato = false;
 					break;
 				}
@@ -385,10 +385,10 @@ public class GameHandler implements Observer {
 			if (!giocatoreEliminato) {
 				startNewRound();
 			} else {
-				ModalHandler.getInstance().mostraModaleInformativo("Fine Partita",
+				ModalController.getInstance().mostraModaleInformativo("Fine Partita",
 						"Partita finita, sei stato eliminato!");
 				giocatoreDiTurno = null;
-				UtentiHandler.getInstance().handleFineParita(false);
+				UtentiController.getInstance().handleFineParita(false);
 			}
 		}
 	}
@@ -415,7 +415,7 @@ public class GameHandler implements Observer {
 	public void startNewRound() {
 		StringBuilder nomiGiocatori = new StringBuilder();
 		giocatori.stream().forEach(p -> nomiGiocatori.append(p.getNome() + "; "));
-		ModalHandler.getInstance().mostraModaleInformativo("Nuovo Round",
+		ModalController.getInstance().mostraModaleInformativo("Nuovo Round",
 				"Nuovo round con i seguenti giocatori: \n" + nomiGiocatori);
 		giocatoreDiTurno = null;
 		setMazzo(new Mazzo());

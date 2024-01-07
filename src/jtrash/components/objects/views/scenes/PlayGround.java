@@ -8,7 +8,7 @@ import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.GridPaneFactory;
 import jtrash.components.factories.PlayerFactory;
-import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Player;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
@@ -21,7 +21,7 @@ import jtrash.enums.IMAGES_ENUM;
 public class PlayGround {
 
 	private static PlayGround instance;
-	private static GameHandler gameHandler = GameHandler.getInstance();
+	private static GameController gameHandler = GameController.getInstance();
 
 	private static GridPane playground = GridPaneFactory.generaGridPane(BackgroundFactory
 			.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
@@ -48,9 +48,9 @@ public class PlayGround {
 	 * @param startGame
 	 */
 	public void updatePlayground(boolean startGame) {
-		if (!GameHandler.getInstance().getGiocatori().isEmpty()) {
+		if (!GameController.getInstance().getGiocatori().isEmpty()) {
 			playground.getChildren().clear();
-			switch (GameHandler.getInstance().getGiocatori().size()) {
+			switch (GameController.getInstance().getGiocatori().size()) {
 			case 4:
 				playground.add(generaBoxPlayer(4, startGame), 25, 10); // cosa aggiungere, left-margin,top margin
 			case 3:

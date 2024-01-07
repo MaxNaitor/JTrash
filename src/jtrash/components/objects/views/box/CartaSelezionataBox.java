@@ -6,8 +6,8 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.objects.handlers.AnimationsHandler;
-import jtrash.components.objects.handlers.GameHandler;
+import jtrash.components.objects.controllers.AnimationsController;
+import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
@@ -30,7 +30,7 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 	public static CartaSelezionataBox getInstance() {
 		if (instance == null) {
 			instance = new CartaSelezionataBox();
-			instance.setBox(GameHandler.getInstance().getCartaSelezionata());
+			instance.setBox(GameController.getInstance().getCartaSelezionata());
 		}
 		return instance;
 	}
@@ -66,7 +66,7 @@ public class CartaSelezionataBox implements IboxInterface, Observer {
 	 */
 	private void handleAnimazioneIngrandimento() {
 		if (!this.box.getFill().equals(Color.WHITE)) {
-			AnimationsHandler.animazioneIngrandimento(this.box);
+			AnimationsController.animazioneIngrandimento(this.box);
 		}
 	}
 	

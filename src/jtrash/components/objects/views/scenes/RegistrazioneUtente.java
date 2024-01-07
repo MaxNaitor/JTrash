@@ -16,7 +16,7 @@ import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
 import jtrash.components.factories.TextFactory;
-import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.controllers.UtentiController;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
@@ -24,7 +24,7 @@ public class RegistrazioneUtente {
 
 	private static RegistrazioneUtente instance;
 
-	private static UtentiHandler utentiHandler;
+	private static UtentiController utentiHandler;
 
 	Button pulsanteRegistra;
 
@@ -35,7 +35,7 @@ public class RegistrazioneUtente {
 	public static RegistrazioneUtente getInstance() {
 		if (instance == null) {
 			instance = new RegistrazioneUtente();
-			utentiHandler = UtentiHandler.getInstance();
+			utentiHandler = UtentiController.getInstance();
 		}
 
 		return instance;

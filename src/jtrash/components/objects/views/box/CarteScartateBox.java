@@ -6,7 +6,7 @@ import java.util.Observer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import jtrash.components.objects.handlers.AnimationsHandler;
+import jtrash.components.objects.controllers.AnimationsController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Mazzo;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
@@ -107,7 +107,7 @@ public class CarteScartateBox implements IboxInterface, Observer {
 
 	private void handleAnimazioneIngrandimento() {
 		if (!this.box.getFill().equals(Color.WHITE)) {
-			AnimationsHandler.animazioneIngrandimento(this.box);
+			AnimationsController.animazioneIngrandimento(this.box);
 		}
 	}
 

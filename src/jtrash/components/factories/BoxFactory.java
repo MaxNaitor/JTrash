@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
-import jtrash.components.objects.handlers.UtentiHandler;
+import jtrash.components.objects.controllers.UtentiController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Player;
 
@@ -83,9 +83,9 @@ public class BoxFactory {
 	 */
 	public static HBox getBoxUtente() {
 		HBox boxUtenteAttivo = generaBoxOrizzontaleNodi(Arrays.asList(
-				TextFactory.generaTesto("Ciao " + UtentiHandler.getInstance().getUtenteAttivo().getUsername() + "!",
+				TextFactory.generaTesto("Ciao " + UtentiController.getInstance().getUtenteAttivo().getUsername() + "!",
 						Color.WHITE, FontWeight.BOLD, 30)));
-		boxUtenteAttivo.getChildren().add(UtentiHandler.getInstance().getUtenteAttivo().getAvatar());
+		boxUtenteAttivo.getChildren().add(UtentiController.getInstance().getUtenteAttivo().getAvatar());
 
 		boxUtenteAttivo.setAlignment(Pos.CENTER_LEFT);
 		return boxUtenteAttivo;
