@@ -1,0 +1,12 @@
+module:JTrash
+jtrash
+jtrash.components.factories
+jtrash.components.objects.controllers
+jtrash.components.objects.models
+jtrash.components.objects.models.abstractions
+jtrash.components.objects.models.interfaces
+jtrash.components.objects.views.box
+jtrash.components.objects.views.box.interfaces
+jtrash.components.objects.views.scenes
+jtrash.components.observables
+jtrash.enums

@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 public interface IboxInterface {
 	/**
 	 * Imposta il Fill del box con il Fill del Rectangle in input
-	 * @param fill
+	 * @param box
 	 */
 	void setBoxFill(Rectangle box);
 	

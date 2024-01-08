@@ -65,7 +65,7 @@ public class BoxFactory {
 	/**
 	 * Crea una nuova HBox contenenti la lista di bottoni passati in input.
 	 * 
-	 * @param carte
+	 * @param bottoni
 	 * @return HBox
 	 */
 	public static HBox generaBoxOrizzontaleBottoni(List<Button> bottoni) {
@@ -78,7 +78,6 @@ public class BoxFactory {
 	 * Crea una nuova HBox contenente il nome e l'avatar dell'utente per la
 	 * visualizzazione nel menu principale.
 	 * 
-	 * @param carte
 	 * @return HBox
 	 */
 	public static HBox getBoxUtente() {
@@ -95,7 +94,8 @@ public class BoxFactory {
 	 * Crea una nuova HBox contenente il nome e l'avatar del giocatore per la
 	 * visualizzazione durante le partite.
 	 * 
-	 * @param carte
+	 * @param giocatore
+	 * @param dimensioneNome
 	 * @return HBox
 	 */
 	public static HBox getBoxGiocatore(Player giocatore, int dimensioneNome) {
@@ -122,7 +122,7 @@ public class BoxFactory {
 	/**
 	 * Crea una nuova VBox contenente la lista di HBox passati in input.
 	 * 
-	 * @param HBox da inserire nella VBox
+	 * @param boxList da inserire nella VBox
 	 * @return VBox
 	 */
 	public static VBox generaBoxVerticaleHbox(List<HBox> boxList) {

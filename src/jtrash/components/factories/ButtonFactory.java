@@ -45,9 +45,7 @@ public class ButtonFactory {
 
 	/**
 	 * Restituisce una lista di button che permettono la selezione degli avatar in fase di registrazione utente
-	 * @param testo
-	 * @param azione
-	 * @return Button
+	 * @return List button
 	 */
 	public static List<Button> generaTastiSelezioneAvatar() {
 		List<Button> bottoniAvatar = new ArrayList<>();

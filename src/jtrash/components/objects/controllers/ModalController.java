@@ -3,7 +3,6 @@ package jtrash.components.objects.controllers;
 import java.util.Arrays;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,6 +20,11 @@ import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
+/**
+ * Controller per gestire la visualizzazione di modali
+ * @author tizia
+ *
+ */
 public class ModalController {
 
 	private static ModalController instance;
@@ -39,8 +43,8 @@ public class ModalController {
 	/**
 	 * Mostra un modale che informa l'utente di un evento specificato in input come testo. <br>
 	 * Contiene un tasto "continua" che chiude il modale
-	 * @param titolo
-	 * @param testo
+	 * @param titolo del modale
+	 * @param testo del modale
 	 */
 	public void mostraModaleInformativo(String titolo, String testo) {
 		Stage modalStage = getModalStage(titolo);
