@@ -60,7 +60,7 @@ public class UtentiController {
 	/**
 	 * Ritorna la statistica di partite vinte o partite giocate dell'utente attivo, in base al valore booleano passato in input.
 	 * @param isPartiteVinte
-	 * @return String
+	 * @return la statistica richiesta.
 	 */
 	public String getStatisticaGiocatore(boolean isPartiteVinte) {
 		if (utenteAttivo == null)

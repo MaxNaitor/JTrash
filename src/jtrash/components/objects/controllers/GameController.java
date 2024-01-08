@@ -120,7 +120,7 @@ public class GameController implements Observer {
 	 * Aggiorna lo stato delle azioni che possono essere svolte.
 	 * 
 	 * @param pescaCartaScoperta
-	 * @return
+	 * @return la carta pescata
 	 */
 	private Carta pescaCarta(boolean pescaCartaScoperta) {
 		Carta cartaPescata = mazzo.pesca(pescaCartaScoperta);
@@ -167,7 +167,7 @@ public class GameController implements Observer {
 	 * 
 	 * @param nome
 	 * @param isBot
-	 * @return
+	 * @return il giocatore aggiunto
 	 */
 	public Player aggiungiGiocatore(String nome, boolean isBot) {
 
@@ -380,7 +380,7 @@ public class GameController implements Observer {
 
 	/**
 	 * Restituisce l'indice della prima carta coperta che può essere sostituita da una wildcard
-	 * @return index
+	 * @return l'indice per il posizionamento della wildcard
 	 */
 	private int getIndexPosizionamentoWildcard() {
 		for (int i = 0; i < giocatoreDiTurno.getCarte().size(); i++) {
@@ -394,7 +394,7 @@ public class GameController implements Observer {
 
 	/**
 	 * Restituisce la carta selezionata al momento, può restituire null
-	 * @return Carta
+	 * @return la carta selezionata
 	 */
 	public Carta getCartaSelezionata() {
 		if (this.cartaSelezionata == null) {

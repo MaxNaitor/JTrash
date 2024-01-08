@@ -135,7 +135,7 @@ public class MainMenu {
 	 * avversario selezionato
 	 * 
 	 * @param menu
-	 * @return ComboBox
+	 * @return ComboBox di selezione degli avversari
 	 */
 	private ComboBox<Integer> generaSelettoreAvversari(VBox menu) {
 		Text numeroAvversariText = TextFactory.generaTesto("Numero avversari:", Color.WHITE);

@@ -64,7 +64,7 @@ public class Mazzo extends CartaAbstract {
 	 * scoperto, in funzione del valore booleano passato in input
 	 * 
 	 * @param pescaCartaScoperta
-	 * @return
+	 * @return la carta pescata
 	 */
 	public Carta pesca(boolean pescaCartaScoperta) {
 		Carta cartaPescata;
@@ -84,7 +84,7 @@ public class Mazzo extends CartaAbstract {
 	 * true, la carta viene rimossa dalla lista delle carte scoperte
 	 * 
 	 * @param rimuoviCarta
-	 * @return Carta
+	 * @return la prima carta scoperta
 	 */
 	public Carta getPrimaCartaScoperta(boolean rimuoviCarta) {
 		if (!this.carteScoperte.isEmpty()) {

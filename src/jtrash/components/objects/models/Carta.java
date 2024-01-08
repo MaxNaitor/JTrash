@@ -54,7 +54,7 @@ public class Carta extends CartaAbstract {
 	/**
 	 * Restituisce true se la carta è una wildcard (Re o Jolly)
 	 * 
-	 * @return boolean
+	 * @return true se la carta è una wildcard
 	 */
 	public boolean isWildcard() {
 		return valore.equals(VALORI_CARTE_ENUM.RE) || valore.equals(VALORI_CARTE_ENUM.JOLLY);
@@ -63,7 +63,7 @@ public class Carta extends CartaAbstract {
 	/**
 	 * Restituisce true se la carta è posizionabile (diversa da Regina o Jack)
 	 * 
-	 * @return boolean
+	 * @return true se la carta è posizionabile
 	 */
 	public boolean isPosizionabile() {
 		return !valore.equals(VALORI_CARTE_ENUM.REGINA) && !valore.equals(VALORI_CARTE_ENUM.JACK);

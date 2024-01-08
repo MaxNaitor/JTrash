@@ -12,7 +12,9 @@ import jtrash.components.objects.models.Mazzo;
 import jtrash.components.objects.views.box.interfaces.IboxInterface;
 
 /**
- * Classe che rappresenta visivamente la carta in cima alla lista di carte scartate
+ * Classe che rappresenta visivamente la carta in cima alla lista di carte
+ * scartate
+ * 
  * @author tizia
  *
  */
@@ -37,7 +39,8 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	}
 
 	/**
-	 * Inizializza il box come una carta dallo sfondo bianco, non essendoci carte scartate all'inizio della partita
+	 * Inizializza il box come una carta dallo sfondo bianco, non essendoci carte
+	 * scartate all'inizio della partita
 	 */
 	private static void inizializzaBox() {
 		instance.cartaDaVisualizzare = new Carta();
@@ -46,7 +49,8 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	}
 
 	/**
-	 * Aggiorna la carta da visualizzare quando viene aggiunta una nuova carta alla lista delle carte scartate
+	 * Aggiorna la carta da visualizzare quando viene aggiunta una nuova carta alla
+	 * lista delle carte scartate
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
@@ -64,16 +68,18 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	}
 
 	/**
-	 * Resetta il box come una carta dallo sfondo bianco quando tutte le carte scartate vengono ripescate
+	 * Resetta il box come una carta dallo sfondo bianco quando tutte le carte
+	 * scartate vengono ripescate
 	 */
 	private void resetCartaDaVisualizzare() {
 		cartaDaVisualizzare = new Carta();
 		cartaDaVisualizzare.setFill(Color.WHITE);
 	}
-	
+
 	/**
 	 * Ritorna la carta visualizzata, resettandola se fosse null
-	 * @return Carta
+	 * 
+	 * @return la carta da visualizzare
 	 */
 	public Carta getCartaDaVisualizzare() {
 		if (instance.cartaDaVisualizzare == null) {
@@ -82,8 +88,14 @@ public class CarteScartateBox implements IboxInterface, Observer {
 		return instance.cartaDaVisualizzare;
 	}
 
-	public Rectangle getBox() {
-		return box;
+	/**
+	 * Gestice l'animazione di ingrandimento della carta nel box, mostrandola se il
+	 * box non è vuoto
+	 */
+	private void handleAnimazioneIngrandimento() {
+		if (!this.box.getFill().equals(Color.WHITE)) {
+			AnimationsController.animazioneIngrandimento(this.box);
+		}
 	}
 
 	@Override
@@ -105,10 +117,8 @@ public class CarteScartateBox implements IboxInterface, Observer {
 	public void setBoxFill(Paint fill) {
 	}
 
-	private void handleAnimazioneIngrandimento() {
-		if (!this.box.getFill().equals(Color.WHITE)) {
-			AnimationsController.animazioneIngrandimento(this.box);
-		}
+	public Rectangle getBox() {
+		return box;
 	}
 
 }
