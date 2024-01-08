@@ -25,22 +25,32 @@ public class SceneFactory {
 	 * Lo stage principale utilizzato dall'applicazione
 	 */
 	private Stage stagePrimario;
-	
-	
+
 	/**
-	 * Crea una Scene contenete il Parent in input delle dimensioni dello schermo
+	 * Crea una scene contenente il parent in input, dimensioni non specificate
+	 * 
+	 * @param parent
+	 * @return
+	 */
+	public Scene creaScenaSemplice(Parent parent) {
+		return new Scene(parent);
+	}
+
+	/**
+	 * Crea una Scene contenente il Parent in input delle dimensioni dello schermo
+	 * 
 	 * @param parent
 	 * @return Scene
 	 */
 	public Scene creaScena(Parent parent) {
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
-		return new Scene(parent,bounds.getWidth(),bounds.getHeight());
+		return new Scene(parent, bounds.getWidth(), bounds.getHeight());
 	}
-	
-	
+
 	/**
 	 * Cambia la scena contenuta nello stage primario
+	 * 
 	 * @param scena
 	 */
 	public void cambiaScena(Scene scena) {

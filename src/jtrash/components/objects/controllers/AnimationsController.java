@@ -6,6 +6,10 @@ import javafx.util.Duration;
 
 public class AnimationsController {
 
+	/**
+	 * Riproduce l'animazione di ingrandimento e rimpicciolimento del nodo selezionato
+	 * @param nodo
+	 */
 	public static void animazioneIngrandimento(Node nodo) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.5), nodo);
 

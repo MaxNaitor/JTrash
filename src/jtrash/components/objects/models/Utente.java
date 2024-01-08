@@ -21,7 +21,7 @@ public class Utente {
 	 * Incrementa il numero di partite giocate dall'utente e, nel caso abbia vinto (parametro = true), incrementa anche le partite vinte
 	 * @param vittoria
 	 */
-	public void handleFineParita(boolean vittoria) {
+	public void handleFinePartita(boolean vittoria) {
 		partiteGiocate++;
 		if (vittoria)
 			partiteVinte++;

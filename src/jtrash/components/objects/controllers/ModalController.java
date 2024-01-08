@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import jtrash.components.factories.BackgroundFactory;
 import jtrash.components.factories.BoxFactory;
 import jtrash.components.factories.ButtonFactory;
+import jtrash.components.factories.SceneFactory;
 import jtrash.components.factories.TextFactory;
 import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 import jtrash.enums.FOLDERS_ENUM;
@@ -35,6 +36,12 @@ public class ModalController {
 		return instance;
 	}
 
+	/**
+	 * Mostra un modale che informa l'utente di un evento specificato in input come testo. <br>
+	 * Contiene un tasto "continua" che chiude il modale
+	 * @param titolo
+	 * @param testo
+	 */
 	public void mostraModaleInformativo(String titolo, String testo) {
 		Stage modalStage = getModalStage(titolo);
 
@@ -50,19 +57,29 @@ public class ModalController {
 		modalLayout.setBackground(BackgroundFactory
 				.generaBackground(FOLDERS_ENUM.IMMAGINI.getFolderLocation() + IMAGES_ENUM.TAVOLO.getNomeImmagine()));
 
-		modalStage.setScene(new Scene(modalLayout));
+		modalStage.setScene(SceneFactory.getInstance().creaScenaSemplice(modalLayout));
 
 		modalStage.showAndWait();
 	}
 
+	/**
+	 * Mostra un modale contenente la vista per la registrazione degli utenti
+	 */
 	public void mostraModaleRegistrazioneUtente() {
 		Stage modalStage = getModalStage("Registrazione Utente");
 
-		modalStage.setScene(new Scene(RegistrazioneUtente.getInstance().getRegistrazioneUtenteLayout(modalStage)));
+		modalStage.setScene(SceneFactory.getInstance()
+				.creaScenaSemplice(RegistrazioneUtente.getInstance().getRegistrazioneUtenteLayout(modalStage)));
 
 		modalStage.showAndWait();
 	}
 
+	/**
+	 * Restituisce lo Stage di base da mostrare in un modale, con titolo in input
+	 * 
+	 * @param titolo
+	 * @return Stage
+	 */
 	private Stage getModalStage(String titolo) {
 		Stage modalStage = new Stage();
 		modalStage.initModality(Modality.APPLICATION_MODAL);

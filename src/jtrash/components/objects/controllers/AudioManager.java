@@ -26,6 +26,10 @@ public class AudioManager {
 
 	}
 
+	/**
+	 * Riproduce in loop l'audio del file passato in input
+	 * @param filename
+	 */
 	public void play(String filename) {
 
 		try {

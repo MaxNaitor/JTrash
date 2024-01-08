@@ -9,6 +9,11 @@ import jtrash.components.objects.models.Utente;
 import jtrash.components.objects.views.scenes.MainMenu;
 import jtrash.components.objects.views.scenes.RegistrazioneUtente;
 
+/**
+ * Controller di gestione degli utenti. Tiene traccia dell'utente attivo, dell'utente che si sta registrando e degli utenti già registrati
+ * @author tizia
+ *
+ */
 public class UtentiController {
 
 	private static UtentiController instance;
@@ -31,11 +36,19 @@ public class UtentiController {
 		return instance;
 	}
 
-	public void handleFineParita(boolean vittoria) {
-		utenteAttivo.handleFineParita(vittoria);
+	/**
+	 * Gestisce la fine della partita per l'utente attivo e ritorna al menu principale
+	 * @param vittoria
+	 */
+	public void handleFinePartita(boolean vittoria) {
+		utenteAttivo.handleFinePartita(vittoria);
 		SceneFactory.getInstance().cambiaScena(SceneFactory.getInstance().creaScena(MainMenu.getInstance().getMenu()));
 	}
 
+	/**
+	 * Registra l'utente creando una nuova istanza, impostandola come utente attivo e aggiungendolo alla lista degli utenti registrati. <br>
+	 * Ritorna al menu principale aggiornandone lo stato.
+	 */
 	public void registraUtente() {
 		utenteAttivo = new Utente(usernameUtente, avatarSelezionato);
 		utentiRegistrati.add(utenteAttivo);
@@ -44,10 +57,11 @@ public class UtentiController {
 		SceneFactory.getInstance().cambiaScena(SceneFactory.getInstance().creaScena(MainMenu.getInstance().getMenu()));
 	}
 
-	public Utente getUtenteAttivo() {
-		return utenteAttivo;
-	}
-
+	/**
+	 * Ritorna la statistica di partite vinte o partite giocate dell'utente attivo, in base al valore booleano passato in input.
+	 * @param isPartiteVinte
+	 * @return String
+	 */
 	public String getStatisticaGiocatore(boolean isPartiteVinte) {
 		if (utenteAttivo == null)
 			return "";
@@ -73,6 +87,10 @@ public class UtentiController {
 		return avatarSelezionato;
 	}
 
+	/**
+	 * Imposta l'avatar selezionato dall'utente in registrazione e verifica la possibilità di cliccare il tasto registra sulla view
+	 * @param avatarSelezionato
+	 */
 	public void setAvatarSelezionato(Rectangle avatarSelezionato) {
 		this.avatarSelezionato = avatarSelezionato;
 		RegistrazioneUtente.getInstance().enableRegistra();
@@ -89,5 +107,10 @@ public class UtentiController {
 	public void setUsernameUtente(String usernameUtente) {
 		this.usernameUtente = usernameUtente;
 	}
+	
+	public Utente getUtenteAttivo() {
+		return utenteAttivo;
+	}
+
 
 }
