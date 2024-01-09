@@ -4,6 +4,11 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Factory per la creazione di oggetti GridPane
+ * @author tizia
+ *
+ */
 public class GridPaneFactory {
 
 	/**

@@ -7,6 +7,11 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 
+/**
+ * Factory per la creazione di oggetti Background
+ * @author tizia
+ *
+ */
 public class BackgroundFactory {
 
 	/**

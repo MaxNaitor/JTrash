@@ -7,6 +7,11 @@ import javafx.scene.shape.Rectangle;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Player;
 
+/**
+ * Factory per la creazione di oggetti Player
+ * @author tizia
+ *
+ */
 public class PlayerFactory {
 
 	/**

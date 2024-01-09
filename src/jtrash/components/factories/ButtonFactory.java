@@ -13,6 +13,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.objects.controllers.UtentiController;
 
+/**
+ * Factory per la creazione di oggetti Button
+ * @author tizia
+ *
+ */
 public class ButtonFactory {
 
 	/**

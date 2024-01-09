@@ -12,6 +12,11 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Controller che gestisce la riproduzione di tracce audio
+ * @author tizia
+ *
+ */
 public class AudioManager {
 
 	private static AudioManager instance;

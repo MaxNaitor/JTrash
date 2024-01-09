@@ -7,6 +7,11 @@ import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.SEMI_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
+/**
+ * Model principale dell'applicazione che rappresenra la carta da gioco.
+ * @author tizia
+ *
+ */
 public class Carta extends CartaAbstract {
 
 	private SEMI_ENUM seme;

@@ -23,6 +23,11 @@ import jtrash.components.objects.views.scenes.PlayGround;
 import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.VALORI_CARTE_ENUM;
 
+/**
+ * Controller che si occupa della gestione della partita.
+ * @author tizia
+ *
+ */
 @SuppressWarnings("deprecation")
 public class GameController implements Observer {
 

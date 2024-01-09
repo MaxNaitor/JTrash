@@ -5,6 +5,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * Factory per la creazione di oggetti Text
+ * @author tizia
+ *
+ */
 public class TextFactory {
 
 	/**

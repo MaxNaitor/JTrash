@@ -8,6 +8,11 @@ import jtrash.components.objects.views.scenes.MainMenu;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.MUSICA_ENUM;
 
+/**
+ * Classe principale dell'applicazione contenente il metodo main
+ * @author tizia
+ *
+ */
 public class JTrash extends Application {
 
 	public static void main(String[] args) {

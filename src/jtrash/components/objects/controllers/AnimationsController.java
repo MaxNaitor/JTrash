@@ -4,6 +4,11 @@ import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
+/**
+ * Controller che gestisce le animazioni
+ * @author tizia
+ *
+ */
 public class AnimationsController {
 
 	/**

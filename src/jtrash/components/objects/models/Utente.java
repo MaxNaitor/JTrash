@@ -2,6 +2,11 @@ package jtrash.components.objects.models;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Model di rappresentazione dell'utente che utilizza l'applicazione.
+ * @author tizia
+ *
+ */
 public class Utente {
 	private String username;
 

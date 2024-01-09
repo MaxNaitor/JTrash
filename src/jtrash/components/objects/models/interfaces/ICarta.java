@@ -1,5 +1,10 @@
 package jtrash.components.objects.models.interfaces;
 
+/**
+ * Interfaccia contente le informazioni di base per sagomare la forma delle carte
+ * @author tizia
+ *
+ */
 public interface ICarta {
 
 	/**

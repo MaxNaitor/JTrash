@@ -3,6 +3,11 @@ package jtrash.components.factories;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
+/**
+ * Factory per la creazione di oggetti ImagePattern
+ * @author tizia
+ *
+ */
 public class ImagePatternFactory {
 
 	

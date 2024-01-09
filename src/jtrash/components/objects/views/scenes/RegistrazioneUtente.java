@@ -20,6 +20,11 @@ import jtrash.components.objects.controllers.UtentiController;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
+/**
+ * View contentente il form per la registrazione dell'utente
+ * @author tizia
+ *
+ */
 public class RegistrazioneUtente {
 
 	private static RegistrazioneUtente instance;

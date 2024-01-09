@@ -3,6 +3,11 @@ package jtrash.components.objects.views.box.interfaces;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Interfaccia per le box di visualizzazione delle carte nell'actionground
+ * @author tizia
+ *
+ */
 public interface IboxInterface {
 	/**
 	 * Imposta il Fill del box con il Fill del Rectangle in input

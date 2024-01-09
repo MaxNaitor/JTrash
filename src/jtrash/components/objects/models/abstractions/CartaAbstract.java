@@ -7,6 +7,11 @@ import jtrash.components.objects.models.interfaces.ICarta;
 import jtrash.enums.FOLDERS_ENUM;
 import jtrash.enums.IMAGES_ENUM;
 
+/**
+ * Astrazione di una carta da gioco, con forma e riempimento
+ * @author tizia
+ *
+ */
 public abstract class CartaAbstract extends Rectangle implements ICarta {
 
 	protected ImagePattern retro;

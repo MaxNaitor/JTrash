@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * Factory per la creazione di oggetti Scene. Contiene lo stage primario dell'applicazione
+ * @author tizia
+ *
+ */
 public class SceneFactory {
 
 	private static SceneFactory instance;

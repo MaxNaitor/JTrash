@@ -14,6 +14,11 @@ import jtrash.components.objects.controllers.UtentiController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.models.Player;
 
+/**
+ * Factory per la creazione di oggetti HBox e VBox
+ * @author tizia
+ *
+ */
 public class BoxFactory {
 
 	/**

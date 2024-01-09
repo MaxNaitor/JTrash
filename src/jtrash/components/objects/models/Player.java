@@ -7,6 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import jtrash.components.factories.BoxFactory;
 
+/**
+ * Model di rappresentazione dei giocatori durante la partita
+ * @author tizia
+ *
+ */
 public class Player {
 
 	private String nome;

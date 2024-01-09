@@ -7,6 +7,11 @@ import javafx.scene.shape.Rectangle;
 import jtrash.enums.AVATAR_ENUM;
 import jtrash.enums.FOLDERS_ENUM;
 
+/**
+ * Factory per la creazione di Rectangle relativi agli avatar utente
+ * @author tizia
+ *
+ */
 public class AvatarFactory {
 
 	/**

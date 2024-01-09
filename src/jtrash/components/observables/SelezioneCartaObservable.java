@@ -6,6 +6,11 @@ import jtrash.components.objects.controllers.GameController;
 import jtrash.components.objects.models.Carta;
 import jtrash.components.objects.views.box.CartaSelezionataBox;
 
+/**
+ * Observable per l'aggiornamento del campo da gioco quando viene pescata una carta
+ * @author tizia
+ *
+ */
 @SuppressWarnings("deprecation")
 public class SelezioneCartaObservable extends Observable {
 
