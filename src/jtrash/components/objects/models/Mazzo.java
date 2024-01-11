@@ -18,8 +18,8 @@ import jtrash.enums.VALORI_CARTE_ENUM;
  */
 public class Mazzo extends CartaAbstract {
 
-	List<Carta> carteCoperte = new ArrayList<>();
-	List<Carta> carteScoperte = new ArrayList<>();
+	private List<Carta> carteCoperte = new ArrayList<>();
+	private List<Carta> carteScoperte = new ArrayList<>();
 
 	/**
 	 * Genera un mazzo e la sua rappresentazione grafica come carta singola coperta. <br>
