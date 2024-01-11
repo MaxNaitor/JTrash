@@ -74,7 +74,7 @@ public class PlayGround {
 	private VBox generaBoxPlayer(int numeroPlayer, boolean startGame) {
 		Player player = gameHandler.getGiocatori().get(numeroPlayer - 1);
 		if (startGame)
-			player.setCarte(gameHandler.getMazzo().distribuisciMano());
+			player.setCarte(gameHandler.getMazzo().distribuisciMano(player.getNumeroCarteTurno()));
 		VBox boxCampoPlayer = PlayerFactory.generaCampoPlayer(player);
 		
 		HBox boxInfoGiocatore = BoxFactory.getBoxGiocatore(player, 15);

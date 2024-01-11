@@ -99,12 +99,12 @@ public class Mazzo extends CartaAbstract {
 
 	
 	/**
-	 * Pesca le prime 10 carte dal mazzo coperto e le restituisce, per assegnarle a un giocatore
+	 * Pesca le prime n carte dal mazzo coperto e le restituisce, per assegnarle a un giocatore
 	 * @return List di carte
 	 */
-	public List<Carta> distribuisciMano() {
+	public List<Carta> distribuisciMano(int numeroCarte) {
 		List<Carta> mano = new ArrayList<>();
-		while (mano.size() < 10) {
+		while (mano.size() < numeroCarte) {
 			mano.add(pesca(false));
 		}
 		return mano;

@@ -25,6 +25,7 @@ import jtrash.enums.VALORI_CARTE_ENUM;
 
 /**
  * Controller che si occupa della gestione della partita.
+ * 
  * @author tizia
  *
  */
@@ -60,10 +61,12 @@ public class GameController implements Observer {
 	 * @param carta
 	 */
 	private void posizionaCarta(Carta carta) {
-		int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(carta.getValore());
-		int indexDaSostituire = valoreCarta - 1;
+		if (carta != null) {
+			int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(carta.getValore());
+			int indexDaSostituire = valoreCarta - 1;
 
-		posizionaCartaGenerica(carta, indexDaSostituire);
+			posizionaCartaGenerica(carta, indexDaSostituire);
+		}
 	}
 
 	/**
@@ -74,9 +77,12 @@ public class GameController implements Observer {
 	 * @param carta
 	 */
 	private void posizionaWildCard(Carta carta, Integer index) {
-		int indexDaSostituire = index != null ? index : ActionGround.getInstance().getPosizioneWildcardSelezionata();
+		if (carta != null) {
+			int indexDaSostituire = index != null ? index
+					: ActionGround.getInstance().getPosizioneWildcardSelezionata();
 
-		posizionaCartaGenerica(carta, indexDaSostituire);
+			posizionaCartaGenerica(carta, indexDaSostituire);
+		}
 	}
 
 	/**
@@ -107,7 +113,7 @@ public class GameController implements Observer {
 
 		ActionGround.getInstance().setEnablePescaCarta(false);
 		ActionGround.getInstance().setEnableScartaCarta(false);
-		ActionGround.getInstance().handlePosizionaCarta(cartaSelezionata);
+		ActionGround.getInstance().handlePosizionaCarta(cartaSelezionata, giocatoreDiTurno);
 		boolean disablePescaCartaScartata = ActionGround.getInstance()
 				.handleDisablePescaCartaScartata(cartaDaSostituire, giocatoreDiTurno);
 
@@ -137,7 +143,7 @@ public class GameController implements Observer {
 		if (pescaCartaScoperta)
 			CarteScartateBox.getInstance().update(null, mazzo);
 
-		ActionGround.getInstance().handlePosizionaCarta(cartaPescata);
+		ActionGround.getInstance().handlePosizionaCarta(cartaPescata, giocatoreDiTurno);
 		ActionGround.getInstance().handleDisablePescaCartaScartata(null, giocatoreDiTurno);
 		ActionGround.getInstance().setEnablePescaCarta(false);
 		ActionGround.getInstance().setEnableScartaCarta(true);
@@ -200,10 +206,16 @@ public class GameController implements Observer {
 
 	/**
 	 * Gestisce il passaggio del turno da un giocatore al successivo. <br>
-	 * Al passaggio del turno, verifica se il giocatore ancora in turno ha fatto trash e se il round è finito o meno. <br>
-	 * Se un giocaore ha fatto trash, aggiorna il counter dei turni successivi al trash. <br>
-	 * Se il round è finito, la partita termina. <br>
-	 * Se il round non è ancora finito, il giocatore successivo diventa quello attivo e svolge il suo turno. <br>
+	 * Al passaggio del turno, verifica se il giocatore ancora in turno ha fatto
+	 * trash. <br>
+	 * Se il giocatore ha fatto trash e gioca con una sola carta, vince la partita.
+	 * <br>
+	 * Altrimenti, si controlla se il round è finito o meno. <br>
+	 * Se il round è finito, ne inizia uno nuovo. <br>
+	 * Se il round non è ancora finito, se un giocatore ha fatto trash, aggiorna il
+	 * counter dei turni successivi al trash. <br>
+	 * Successivamente il giocatore successivo diventa quello attivo e svolge il suo
+	 * turno. <br>
 	 */
 	public void handleTurno() {
 
@@ -213,7 +225,15 @@ public class GameController implements Observer {
 				ActionGround.getInstance().handleTurno(giocatoreDiTurno.getNome());
 			} else {
 				checkTrash(giocatoreDiTurno);
-				if (!checkFineRound()) {
+				boolean partitaFinita = checkFinePartita(giocatoreDiTurno);
+
+				if (partitaFinita) {
+					handleFinePartita(giocatoreDiTurno);
+					return;
+				}
+
+				boolean roundFinito = checkFineRound();
+				if (!roundFinito) {
 					boolean giocatoreDiTurnoSuperato = false;
 					boolean giocatoreDiTurnoCambiato = false;
 					for (Player giocatore : getGiocatori()) {
@@ -249,7 +269,7 @@ public class GameController implements Observer {
 					}
 
 				} else {
-					handleFinePartita();
+					handleFineRound();
 				}
 			}
 		}
@@ -258,9 +278,10 @@ public class GameController implements Observer {
 
 	/**
 	 * Svolge il turno dei bot. <br>
-	 * Vengono prima controllate le carte scoperte: se il bot può giocare una carta scoperta, lo fa,
-	 * altrimenti, il bot pesca una carta dal mazzo. <br>
-	 * Finchè il bot può giocare carte dal mazzo scartato, lo fa, successivamente il turno passa al giocatore successivo
+	 * Vengono prima controllate le carte scoperte: se il bot può giocare una carta
+	 * scoperta, lo fa, altrimenti, il bot pesca una carta dal mazzo. <br>
+	 * Finchè il bot può giocare carte dal mazzo scartato, lo fa, successivamente il
+	 * turno passa al giocatore successivo
 	 */
 	private void turnoBot() {
 
@@ -282,8 +303,13 @@ public class GameController implements Observer {
 	/**
 	 * Esegue il turno del bot giocando dalle carte scoperte. <br>
 	 * Se il bot ha fatto trash, il turno viene saltato. <br>
-	 * Se la prima carta scartata è giocabile, questa viene posizionata e il turno viene ripetuto ricorsivamente
-	 * finchè il bot non ha più possibilità di posizionare altre carte.
+	 * Se la prima carta scartata è giocabile, questa viene posizionata e il turno
+	 * viene ripetuto ricorsivamente finchè il bot non ha più possibilità di
+	 * posizionare altre carte. <br>
+	 * Viene eseguito un controllo sul numero di carte con cui il giocatore sta
+	 * giocando il round catturando una IndexOutOfBoundsException, nel caso in cui
+	 * la posizione in cui si deve posizionare la carta non sia disponibile
+	 * 
 	 * @param carteGiocatore
 	 * @return true se è stata posizionata una carta
 	 */
@@ -298,30 +324,33 @@ public class GameController implements Observer {
 			int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(primaCartaScoperta.getValore());
 			int indexDaSostituire = valoreCarta - 1;
 
-			Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+			try {
+				boolean cartaPosizionata = false;
 
-			boolean cartaPosizionata = false;
-
-			if (primaCartaScoperta.isPosizionabile()) {
-				if (!primaCartaScoperta.isWildcard()) {
-					if (cartaDaSostituire.isCoperta()
-							|| !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-						posizionaCarta(pescaCarta(true));
-						cartaPosizionata = true;
-					}
-				} else {
-					int indexPosizionamentoWildcard = getIndexPosizionamentoWildcard();
-					if (indexPosizionamentoWildcard >= 0) {
-						posizionaWildCard(pescaCarta(true), indexPosizionamentoWildcard);
-						cartaPosizionata = true;
+				if (primaCartaScoperta.isPosizionabile()) {
+					if (!primaCartaScoperta.isWildcard()) {
+						Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+						if (cartaDaSostituire.isCoperta()
+								|| !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
+							posizionaCarta(pescaCarta(true));
+							cartaPosizionata = true;
+						}
+					} else {
+						int indexPosizionamentoWildcard = getIndexPosizionamentoWildcard();
+						if (indexPosizionamentoWildcard >= 0) {
+							posizionaWildCard(pescaCarta(true), indexPosizionamentoWildcard);
+							cartaPosizionata = true;
+						}
 					}
 				}
-			}
 
-			if (cartaPosizionata) {
-				turnoBotCarteScoperte(carteGiocatore);
+				if (cartaPosizionata) {
+					turnoBotCarteScoperte(carteGiocatore);
+				}
+				return cartaPosizionata;
+			} catch (IndexOutOfBoundsException e) {
+				return false;
 			}
-			return cartaPosizionata;
 		}
 
 		return false;
@@ -330,9 +359,14 @@ public class GameController implements Observer {
 	/**
 	 * Esegue il turno del bot giocando dalle carte coperte. <br>
 	 * Se il bot ha fatto trash, il turno viene saltato. <br>
-	 * Se la carta pescata è giocabile, questa viene posizionata e il turno viene ripetuto giocando dalle carte scoperte 
-	 * ricorsivamente finchè il bot non ha più possibilità di posizionare altre carte. <br>
-	 * Se la carta pescata non è giocabile, questa viene scartata.
+	 * Se la carta pescata è giocabile, questa viene posizionata e il turno viene
+	 * ripetuto giocando dalle carte scoperte ricorsivamente finchè il bot non ha
+	 * più possibilità di posizionare altre carte. <br>
+	 * Se la carta pescata non è giocabile, questa viene scartata. <br>
+	 * Viene eseguito un controllo sul numero di carte con cui il giocatore sta
+	 * giocando il round catturando una IndexOutOfBoundsException, nel caso in cui
+	 * la posizione in cui si deve posizionare la carta non sia disponibile
+	 * 
 	 * @param carteGiocatore
 	 * @return true se è stata posizionata una carta
 	 */
@@ -346,37 +380,41 @@ public class GameController implements Observer {
 			Carta cartaPescata = pescaCarta(false);
 			int valoreCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaPescata.getValore());
 			int indexDaSostituire = valoreCarta - 1;
-			Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
 
-			cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+			try {
+				boolean cartaPosizionata = false;
 
-			boolean cartaPosizionata = false;
-
-			if (cartaPescata.isPosizionabile()) {
-				if (!cartaPescata.isWildcard()) {
-					if (cartaDaSostituire.isCoperta()
-							|| !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
-						// se la carta è ancora coperta o è una wildcard,allora la sostituisco
-						posizionaCarta(cartaPescata);
-						cartaPosizionata = true;
-					}
-				} else {
-					int indexPosizionamentoWildcard = getIndexPosizionamentoWildcard();
-					if (indexPosizionamentoWildcard >= 0) {
-						posizionaWildCard(cartaPescata, indexPosizionamentoWildcard);
-						cartaPosizionata = true;
+				if (cartaPescata.isPosizionabile()) {
+					if (!cartaPescata.isWildcard()) {
+						Carta cartaDaSostituire = carteGiocatore.get(indexDaSostituire);
+						if (cartaDaSostituire.isCoperta()
+								|| !cartaDaSostituire.isCoperta() && cartaDaSostituire.isWildcard()) {
+							// se la carta è ancora coperta o è una wildcard,allora la sostituisco
+							posizionaCarta(cartaPescata);
+							cartaPosizionata = true;
+						}
+					} else {
+						int indexPosizionamentoWildcard = getIndexPosizionamentoWildcard();
+						if (indexPosizionamentoWildcard >= 0) {
+							posizionaWildCard(cartaPescata, indexPosizionamentoWildcard);
+							cartaPosizionata = true;
+						}
 					}
 				}
-			}
 
-			// se ho posizionato, continuo a giocare finchè posso posizionare dalle carte
-			// scoperte
-			if (cartaPosizionata) {
-				turnoBotCarteScoperte(carteGiocatore);
-			} else {
+				// se ho posizionato, continuo a giocare finchè posso posizionare dalle carte
+				// scoperte
+				if (cartaPosizionata) {
+					turnoBotCarteScoperte(carteGiocatore);
+				} else {
+					scartaCarta(cartaPescata);
+				}
+
+				return cartaPosizionata;
+			} catch (IndexOutOfBoundsException e) {
 				scartaCarta(cartaPescata);
+				return false;
 			}
-			return cartaPosizionata;
 		}
 
 		return false;
@@ -384,7 +422,9 @@ public class GameController implements Observer {
 	}
 
 	/**
-	 * Restituisce l'indice della prima carta coperta che può essere sostituita da una wildcard
+	 * Restituisce l'indice della prima carta coperta che può essere sostituita da
+	 * una wildcard
+	 * 
 	 * @return l'indice per il posizionamento della wildcard
 	 */
 	private int getIndexPosizionamentoWildcard() {
@@ -399,6 +439,7 @@ public class GameController implements Observer {
 
 	/**
 	 * Restituisce la carta selezionata al momento, può restituire null
+	 * 
 	 * @return la carta selezionata
 	 */
 	public Carta getCartaSelezionata() {
@@ -411,7 +452,9 @@ public class GameController implements Observer {
 	}
 
 	/**
-	 * Se un giocatore ha fatto trash, viene aggiornato il suo stato e viene notificato all'utente.
+	 * Se un giocatore ha fatto trash, viene aggiornato il suo stato e viene
+	 * notificato all'utente.
+	 * 
 	 * @param giocatore
 	 * @return true se il giocatore ha fatto trash
 	 */
@@ -426,6 +469,7 @@ public class GameController implements Observer {
 
 	/**
 	 * Restituisce true se il giocatore ha fatto trash
+	 * 
 	 * @param giocatore
 	 * @return true se il giocatore ha fatto trash
 	 */
@@ -444,7 +488,8 @@ public class GameController implements Observer {
 	}
 
 	/**
-	 * Mostra un modale che informa che il giocatore di turno ha fatto trash, aggiornando il contatore dei turni dopo il trash.
+	 * Mostra un modale che informa che il giocatore di turno ha fatto trash,
+	 * aggiornando il contatore dei turni dopo il trash.
 	 */
 	private void handleTrash() {
 		if (contatoreTurniDopoTrash == 0)
@@ -454,46 +499,30 @@ public class GameController implements Observer {
 	}
 
 	/**
-	 * Gestisce la fine della partita. <br>
-	 * Se un solo giocatore ha fatto trash, la partita si conclude. Si controlla se il vincitore è l'utente e si gestiscono
-	 * le sue statistiche. <br>
-	 * Se invece ci sono più giocatori che hanno fatto trash, si controlla che l'utente sia tra questi. <br>
-	 * Se l'utente è tra i giocatori che hanno fatto trash, inizia un nuovo round con tali giocatori, altrimenti la partita finisce
-	 * e si torna al menù principale.
+	 * Mostra un modale che informa la fine di un round e inizia il round successivo
 	 */
-	private void handleFinePartita() {
-		giocatori = giocatori.stream().filter(p -> p.isHasTrash()).collect(Collectors.toList());
-		giocatori.stream().forEach(g -> g.setHasTrash(false));
-
-		if (giocatori.size() == 1) {
-			String nomeGiocatore = giocatori.get(0).getNome();
-			ModalController.getInstance().mostraModaleInformativo("Fine Partita",
-					"Partita finita! Vince " + nomeGiocatore + "!");
-			boolean vittoriaGiocatore = nomeGiocatore
-					.equals(UtentiController.getInstance().getUtenteAttivo().getUsername());
-			giocatoreDiTurno = null;
-			UtentiController.getInstance().handleFinePartita(vittoriaGiocatore);
-		} else {
-			boolean giocatoreEliminato = true;
-			for (Player giocatore : giocatori) {
-				if (giocatore.getNome().equals(UtentiController.getInstance().getUtenteAttivo().getUsername())) {
-					giocatoreEliminato = false;
-					break;
-				}
-			}
-			if (!giocatoreEliminato) {
-				startNewRound();
-			} else {
-				ModalController.getInstance().mostraModaleInformativo("Fine Partita",
-						"Partita finita, sei stato eliminato!");
-				giocatoreDiTurno = null;
-				UtentiController.getInstance().handleFinePartita(false);
-			}
-		}
+	private void handleFineRound() {
+		ModalController.getInstance().mostraModaleInformativo("Fine Round", "Round finito!");
+		startNewRound();
 	}
 
 	/**
-	 * Restituisce true se tutti i giocatori hanno svolto il proprio turno dopo che un giocatore ha fatto trash.
+	 * Gestisce la fine della partita. <br>
+	 * Se a vincere è stato l'utente, gli vengono aggiornate le statistiche di
+	 * vittoria, altrimenti viene aggiornata solo quella di partite giocate
+	 */
+	private void handleFinePartita(Player giocatore) {
+		ModalController.getInstance().mostraModaleInformativo("Fine Partita",
+				"Partita finita! Vince " + giocatore.getNome() + "!");
+		boolean vittoriaGiocatore = !giocatore.isBot();
+		giocatoreDiTurno = null;
+		UtentiController.getInstance().handleFinePartita(vittoriaGiocatore);
+	}
+
+	/**
+	 * Restituisce true se tutti i giocatori hanno svolto il proprio turno dopo che
+	 * un giocatore ha fatto trash.
+	 * 
 	 * @return true se il round è finito
 	 */
 	private boolean checkFineRound() {
@@ -505,8 +534,20 @@ public class GameController implements Observer {
 	}
 
 	/**
+	 * Ritorna true se il giocatore ha fatto trash ed ha solo una carta
+	 * 
+	 * @param giocatore
+	 * @return boolean
+	 */
+	private boolean checkFinePartita(Player giocatore) {
+		return giocatore.isHasTrash() && giocatore.getNumeroCarteTurno() == 1;
+	}
+
+	/**
 	 * Inizia una nuova partita. <br>
-	 * Inizializza la lista dei giocatori in funzione al numero di avverari (bot) scelti, oltre all'utente.
+	 * Inizializza la lista dei giocatori in funzione al numero di avverari (bot)
+	 * scelti, oltre all'utente.
+	 * 
 	 * @param nomeGiocatore
 	 * @param numeroAvversari
 	 */
@@ -522,15 +563,24 @@ public class GameController implements Observer {
 	}
 
 	/**
-	 * Inizia un nuovo round se il primo si è concluso con più giocatori che hanno fatto trash.
+	 * Inizia un nuovo round e aggiorna il numero di carte per i giocatori che hanno
+	 * fatto trash.
 	 */
 	public void startNewRound() {
-		StringBuilder nomiGiocatori = new StringBuilder();
-		giocatori.stream().forEach(p -> nomiGiocatori.append(p.getNome() + "; "));
+		StringBuilder nomiGiocatoriConTrash = new StringBuilder();
+		List<Player> giocatoriConTrash = giocatori.stream().filter(p -> p.isHasTrash()).collect(Collectors.toList());
+
+		for (Player giocatore : giocatoriConTrash) {
+			nomiGiocatoriConTrash.append("-> " + giocatore.getNome() + "\n");
+			giocatore.handleTrashFineRound();
+		}
+
 		ModalController.getInstance().mostraModaleInformativo("Nuovo Round",
-				"Nuovo round con i seguenti giocatori: \n" + nomiGiocatori);
+				"Inizio nuovo round.\nI seguenti giocatori hanno fatto Trash: \n" + nomiGiocatoriConTrash);
 		giocatoreDiTurno = null;
 		setMazzo(new Mazzo());
+
+		giocatori.forEach(g -> g.setHasTrash(false));
 		resetCampo();
 	}
 
@@ -549,6 +599,9 @@ public class GameController implements Observer {
 	 * Reimposta allo stato iniziale le azioni dell' ActionGround
 	 */
 	private void resetActionGround() {
+		Player utente = giocatori.stream().filter(g -> !g.isBot()).collect(Collectors.toList()).get(0);
+		ActionGround.getInstance().initSelettorePosizioniWildcard(utente.getNumeroCarteTurno());
+
 		ActionGround.getInstance().setEnablePescaCarta(true);
 		ActionGround.getInstance().setEnableScartaCarta(false);
 		ActionGround.getInstance().handleDisablePescaCartaScartata(mazzo.getPrimaCartaScoperta(false),
@@ -557,6 +610,7 @@ public class GameController implements Observer {
 
 	/**
 	 * Imposta la carta attualmente selezionata
+	 * 
 	 * @param cartaSelezionata
 	 */
 	public void setCartaSelezionata(Carta cartaSelezionata) {

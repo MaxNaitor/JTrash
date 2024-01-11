@@ -90,8 +90,7 @@ public class ActionGround {
 		posizionaWildcard.setDisable(true);
 
 		Text wildcardLabel = TextFactory.generaTesto("Seleziona posizione wildcard:", Color.WHITE);
-		ObservableList<Integer> posizioni = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-		selettorePosizioneWildcard = new ComboBox<>(posizioni);
+		initSelettorePosizioniWildcard(10);
 		selettorePosizioneWildcard.setDisable(true);
 
 		scartaCarta = ButtonFactory.generaTasto("Scarta carta", gameHandler.getScartaCartaPescataEventHandler());
@@ -113,6 +112,7 @@ public class ActionGround {
 
 	/**
 	 * Gestisce la possibiltà di pescare una carta
+	 * 
 	 * @param canPescareCarta
 	 */
 	public void setEnablePescaCarta(boolean canPescareCarta) {
@@ -121,6 +121,7 @@ public class ActionGround {
 
 	/**
 	 * Gestisce la possibilità di scartare una carta
+	 * 
 	 * @param canScartareCarta
 	 */
 	public void setEnableScartaCarta(boolean canScartareCarta) {
@@ -129,6 +130,7 @@ public class ActionGround {
 
 	/**
 	 * Gestisce l'intestazione che indica il giocatore di turno
+	 * 
 	 * @param nomeGiocatoreDiTurno
 	 */
 	public void handleTurno(String nomeGiocatoreDiTurno) {
@@ -146,10 +148,17 @@ public class ActionGround {
 	 * 4) carta selezionata == non posizionabile -> entrambe le azioni sono
 	 * disabilitate
 	 * 
+	 * 5) se il giocatore gioca con meno di 10 carte e la posizione della carta
+	 * selezionata non è disponibile -> azione disabilitata <br>
+	 * Viene eseguito un controllo sul numero di carte con cui il giocatore sta
+	 * giocando il round catturando una IndexOutOfBoundsException, nel caso in cui
+	 * la posizione in cui si deve posizionare la carta non sia disponibile
+	 * 
 	 * @param cartaSelezionata
 	 */
-	public void handlePosizionaCarta(Carta cartaSelezionata) {
+	public void handlePosizionaCarta(Carta cartaSelezionata, Player giocatore) {
 		if (cartaSelezionata != null) {
+
 			if (cartaSelezionata.isWildcard()) {
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(false);
@@ -157,10 +166,19 @@ public class ActionGround {
 			} else if (cartaSelezionata.isPosizionabile()) {
 				posizionaCarta.setDisable(false);
 				posizionaWildcard.setDisable(true);
+
+				try {
+					int indexCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaSelezionata.getValore()) - 1;
+					giocatore.getCarte().get(indexCarta);
+				} catch (IndexOutOfBoundsException e) {
+					posizionaCarta.setDisable(true);
+				}
+
 			} else {
 				posizionaCarta.setDisable(true);
 				posizionaWildcard.setDisable(true);
 			}
+
 		} else {
 			posizionaCarta.setDisable(true);
 			posizionaWildcard.setDisable(true);
@@ -177,6 +195,8 @@ public class ActionGround {
 		if (posizionaWildcard.isDisabled()) {
 			selettorePosizioneWildcard.setValue(null);
 			selettorePosizioneWildcard.setDisable(true);
+		} else {
+			selettorePosizioneWildcard.setDisable(false);
 		}
 	}
 
@@ -186,7 +206,12 @@ public class ActionGround {
 	 * 1) carta scartata == null -> azione disabilitata <br>
 	 * 2) carta scartata == wildcard -> azione abilitata <br>
 	 * 3) se la carta del giocatore corrispondente alla posizione della carta
-	 * scartata è coperta oppure è una wildcard -> azione abilitata
+	 * scartata è coperta oppure è una wildcard -> azione abilitata 4) se il
+	 * giocatore gioca con meno di 10 carte e la posizione della carta scartata non
+	 * è disponibile -> azione disabilitata <br>
+	 * Viene eseguito un controllo sul numero di carte con cui il giocatore sta
+	 * giocando il round catturando una IndexOutOfBoundsException, nel caso in cui
+	 * la posizione in cui si deve posizionare la carta non sia disponibile
 	 * 
 	 * @param cartaScartata
 	 * @param giocatoreDiTurno
@@ -205,14 +230,21 @@ public class ActionGround {
 			}
 
 			int indexCarta = VALORI_CARTE_ENUM.getValoreNumerico(cartaScartata.getValore()) - 1;
-			Carta cartaGiocatore = giocatoreDiTurno.getCarte().get(indexCarta);
 
-			if (cartaGiocatore.isCoperta() || (!cartaGiocatore.isCoperta() && cartaGiocatore.isWildcard())) {
-				pescaCartaScartata.setDisable(false);
-				return false;
+			try {
+				Carta cartaGiocatore = giocatoreDiTurno.getCarte().get(indexCarta);
+
+				if (cartaGiocatore.isCoperta() || (!cartaGiocatore.isCoperta() && cartaGiocatore.isWildcard())) {
+					pescaCartaScartata.setDisable(false);
+					return false;
+				}
+				pescaCartaScartata.setDisable(true);
+				return true;
+
+			} catch (IndexOutOfBoundsException e) {
+				pescaCartaScartata.setDisable(true);
+				return true;
 			}
-			pescaCartaScartata.setDisable(true);
-			return true;
 
 		} else {
 			pescaCartaScartata.setDisable(true);
@@ -228,6 +260,23 @@ public class ActionGround {
 	 */
 	public int getPosizioneWildcardSelezionata() {
 		return selettorePosizioneWildcard.getValue() - 1;
+	}
+
+	/**
+	 * Inizializza il selettore di posizioni selezionabili per le wildcard in base alle carte disponibili all'utente
+	 * @param numeroPosizioni
+	 */
+	public void initSelettorePosizioniWildcard(int numeroPosizioni) {
+		
+		if (selettorePosizioneWildcard == null) selettorePosizioneWildcard = new ComboBox<>();
+		
+		ObservableList<Integer> posizioni = FXCollections.observableArrayList();
+
+		for (int i = 1; i <= numeroPosizioni; i++) {
+			posizioni.add(i);
+		}
+
+		selettorePosizioneWildcard.setItems(posizioni);
 	}
 
 }
