@@ -31,7 +31,7 @@ public class RegistrazioneUtente {
 
 	private static UtentiController utentiHandler;
 
-	Button pulsanteRegistra;
+	private Button pulsanteRegistra;
 
 	private RegistrazioneUtente() {
 
